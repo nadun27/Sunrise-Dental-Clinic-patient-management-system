@@ -1,0 +1,11 @@
+app.name=Sunrise Dental Clinic
+app.environment=development
+app.timezone=Asia/Colombo
+
+db.url=jdbc:mysql://localhost:3306/sunrise_dental?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Colombo
+db.username=sunrise_app
+db.password=CHANGE_ME
+
+db.pool.maximumSize=10
+db.pool.minimumIdle=2
+db.pool.connectionTimeout=10000
