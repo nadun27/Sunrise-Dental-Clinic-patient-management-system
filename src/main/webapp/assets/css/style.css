@@ -99,3 +99,86 @@ button:disabled {
     color: #16877d;
     font-weight: bold;
 }
+.auth-card,
+.dashboard-card {
+    width: 100%;
+    max-width: 550px;
+    padding: 45px;
+
+    background-color: white;
+    border-radius: 20px;
+
+    box-shadow:
+            0 20px 60px rgba(23, 50, 77, 0.15);
+}
+
+form {
+    margin-top: 25px;
+}
+
+label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 12px;
+
+    border: 1px solid #cbd9df;
+    border-radius: 8px;
+
+    font: inherit;
+}
+
+input:focus {
+    border-color: #176b87;
+    outline: 3px solid rgba(23, 107, 135, 0.12);
+}
+
+.error {
+    display: block;
+    min-height: 18px;
+    margin-top: 4px;
+
+    color: #b42318;
+}
+
+.message {
+    min-height: 22px;
+    margin-top: 15px;
+
+    color: #b42318;
+    font-weight: bold;
+}
+
+form button {
+    width: 100%;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.secondary-button {
+    margin-top: 0;
+    background-color: #647885;
+}
+
+.success-box {
+    margin-top: 30px;
+    padding: 18px;
+
+    color: #11665f;
+    background-color: #e8f8f4;
+
+    border-radius: 10px;
+}

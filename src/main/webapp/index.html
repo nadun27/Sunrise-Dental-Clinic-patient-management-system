@@ -2,36 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="refresh"
+          content="0; url=login.html">
 
     <title>Sunrise Dental Clinic</title>
-
-    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
+<p>
+    Opening
+    <a href="login.html">staff login</a>...
+</p>
 
-<main class="container">
-
-    <div class="logo">S</div>
-
-    <p class="label">System Foundation</p>
-
-    <h1>Sunrise Dental Clinic</h1>
-
-    <p class="description">
-        Patient, appointment, treatment and billing management system.
-    </p>
-
-    <button id="checkServerButton" type="button">
-        Check Java Server
-    </button>
-
-    <p id="serverResult" class="result"></p>
-
-</main>
-
-<script src="assets/js/app.js"></script>
-
+<script>
+    window.location.replace("login.html");
+</script>
 </body>
 </html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Login | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+</head>
+
+<body>
+
+<main class="auth-card">
+
+    <div class="logo">S</div>
+
+    <p class="label">Authorized staff only</p>
+
+    <h1>Welcome back</h1>
+
+    <p class="description">
+        Sign in to access the clinic management system.
+    </p>
+
+    <div id="loginMessage"
+         class="message"
+         role="alert"></div>
+
+    <form id="loginForm" novalidate>
+
+        <label for="username">
+            Username
+        </label>
+
+        <input
+                id="username"
+                name="username"
+                type="text"
+                minlength="4"
+                maxlength="50"
+                autocomplete="username"
+                required>
+
+        <small id="usernameError"
+               class="error"></small>
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required>
+
+        <small id="passwordError"
+               class="error"></small>
+
+        <button id="loginButton" type="submit">
+            Sign in
+        </button>
+
+    </form>
+
+</main>
+
+<script src="assets/js/login.js"></script>
+</body>
+</html>
