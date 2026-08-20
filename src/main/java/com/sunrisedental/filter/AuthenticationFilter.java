@@ -15,7 +15,8 @@ import java.io.IOException;
 @WebFilter(
         urlPatterns = {
                 "/api/v1/*",
-                "/dashboard.html"
+                "/dashboard.html",
+                "/patients.html"
         }
 )
 public class AuthenticationFilter implements Filter {
