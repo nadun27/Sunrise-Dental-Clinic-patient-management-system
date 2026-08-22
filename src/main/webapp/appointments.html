@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments | Sunrise Dental Clinic</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="application-page">
+<header class="app-header">
+    <div>
+        <p class="label">Sunrise Dental Clinic</p>
+        <h1>Appointment Management</h1>
+        <p class="description">Create appointments and prevent scheduling conflicts.</p>
+    </div>
+    <a class="navigation-link" href="dashboard.html">Dashboard</a>
+</header>
+
+<main class="appointment-layout">
+    <section id="appointmentFormPanel" class="panel">
+        <p class="label">Appointment information</p>
+        <h2 id="appointmentFormTitle">Register Appointment</h2>
+
+        <form id="appointmentForm">
+            <input type="hidden" id="appointmentId">
+            <input type="hidden" id="versionNumber">
+
+            <label for="patientId">Patient *</label>
+            <select id="patientId" name="patientId" required>
+                <option value="">Select patient</option>
+            </select>
+
+            <label for="dentistId">Dentist *</label>
+            <select id="dentistId" name="dentistId" required>
+                <option value="">Select dentist</option>
+            </select>
+
+            <label for="treatmentTypeId">Treatment *</label>
+            <select id="treatmentTypeId" name="treatmentTypeId" required>
+                <option value="">Select treatment</option>
+            </select>
+            <p id="treatmentSummary" class="field-help"></p>
+
+            <label for="startAt">Appointment date and time *</label>
+            <input id="startAt" name="startAt" type="datetime-local"
+                   step="900" required>
+            <p class="field-help">Monday–Saturday, 08:00–18:00, in 15-minute intervals.</p>
+
+            <label for="patientReason">Patient reason</label>
+            <textarea id="patientReason" name="patientReason"
+                      maxlength="500" rows="3"></textarea>
+
+            <label for="internalNotes">Internal notes</label>
+            <textarea id="internalNotes" name="internalNotes"
+                      maxlength="500" rows="3"></textarea>
+
+            <div class="form-actions">
+                <button id="saveAppointmentButton" type="submit">
+                    Register Appointment
+                </button>
+                <button id="cancelAppointmentEditButton" type="button"
+                        class="secondary-button" hidden>Cancel Edit</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="panel appointment-list-panel">
+        <p class="label">Appointment directory</p>
+        <h2>Search Appointments</h2>
+
+        <form id="appointmentSearchForm" class="appointment-search-form">
+            <input id="appointmentSearch" type="search" maxlength="100"
+                   placeholder="Number, patient, code or contact">
+            <input id="appointmentDate" type="date">
+            <select id="appointmentStatus">
+                <option value="">All statuses</option>
+                <option value="SCHEDULED">Scheduled</option>
+                <option value="CONFIRMED">Confirmed</option>
+                <option value="CHECKED_IN">Checked in</option>
+                <option value="IN_TREATMENT">In treatment</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+                <option value="NO_SHOW">No show</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+
+        <p id="appointmentMessage" class="ui-message" role="status"></p>
+
+        <div class="table-container">
+            <table class="patient-table appointment-table">
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Patient</th>
+                    <th>Dentist</th>
+                    <th>Date and time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="appointmentRows">
+                <tr><td colspan="6">Loading appointments...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<dialog id="appointmentDialog" class="patient-dialog">
+    <div class="dialog-header">
+        <div>
+            <p class="label">Complete information</p>
+            <h2 id="detailAppointmentNumber">Appointment</h2>
+        </div>
+        <button id="closeAppointmentDialog" type="button"
+                class="icon-button" aria-label="Close">×</button>
+    </div>
+    <dl class="patient-details">
+        <dt>Patient</dt><dd id="detailAppointmentPatient">-</dd>
+        <dt>Contact</dt><dd id="detailAppointmentContact">-</dd>
+        <dt>Dentist</dt><dd id="detailAppointmentDentist">-</dd>
+        <dt>Treatment</dt><dd id="detailAppointmentTreatment">-</dd>
+        <dt>Start</dt><dd id="detailAppointmentStart">-</dd>
+        <dt>End</dt><dd id="detailAppointmentEnd">-</dd>
+        <dt>Fees</dt><dd id="detailAppointmentFees">-</dd>
+        <dt>Status</dt><dd id="detailAppointmentStatus">-</dd>
+        <dt>Patient reason</dt><dd id="detailAppointmentReason">-</dd>
+        <dt>Internal notes</dt><dd id="detailAppointmentNotes">-</dd>
+        <dt>Cancellation reason</dt><dd id="detailCancellationReason">-</dd>
+    </dl>
+</dialog>
+
+<script src="assets/js/appointments.js"></script>
+</body>
+</html>
