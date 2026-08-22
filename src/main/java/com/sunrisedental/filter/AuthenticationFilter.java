@@ -16,7 +16,8 @@ import java.io.IOException;
         urlPatterns = {
                 "/api/v1/*",
                 "/dashboard.html",
-                "/patients.html"
+                "/patients.html",
+                "/appointments.html"
         }
 )
 public class AuthenticationFilter implements Filter {
