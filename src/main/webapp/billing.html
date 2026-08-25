@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Billing | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+</head>
+
+<body class="application-page">
+
+<header class="app-header">
+    <div>
+        <p class="label">
+            Sunrise Dental Clinic
+        </p>
+
+        <h1>Billing Management</h1>
+
+        <p class="description">
+            Calculate treatment charges and print patient bills.
+        </p>
+    </div>
+
+    <a class="navigation-link"
+       href="dashboard.html">
+        Dashboard
+    </a>
+</header>
+
+<main class="billing-layout">
+
+    <section id="billingFormPanel"
+             class="panel">
+
+        <p class="label">
+            Bill information
+        </p>
+
+        <h2>Create Patient Bill</h2>
+
+        <form id="billingForm">
+
+            <label for="billAppointmentId">
+                Completed appointment *
+            </label>
+
+            <select id="billAppointmentId"
+                    name="appointmentId"
+                    required>
+
+                <option value="">
+                    Select completed appointment
+                </option>
+            </select>
+
+            <div id="selectedAppointmentSummary"
+                 class="billing-summary"
+                 hidden>
+
+                <p>
+                    <span>Patient</span>
+                    <strong id="summaryPatient">-</strong>
+                </p>
+
+                <p>
+                    <span>Treatment</span>
+                    <strong id="summaryTreatment">-</strong>
+                </p>
+
+                <p>
+                    <span>Consultation fee</span>
+                    <strong id="summaryConsultationFee">
+                        LKR 0.00
+                    </strong>
+                </p>
+
+                <p>
+                    <span>Treatment fee</span>
+                    <strong id="summaryTreatmentFee">
+                        LKR 0.00
+                    </strong>
+                </p>
+            </div>
+
+            <label for="discountAmount">
+                Discount amount
+            </label>
+
+            <input id="discountAmount"
+                   name="discountAmount"
+                   type="number"
+                   min="0"
+                   step="0.01"
+                   value="0.00"
+                   required>
+
+            <label for="discountReason">
+                Discount reason
+            </label>
+
+            <textarea id="discountReason"
+                      name="discountReason"
+                      maxlength="255"
+                      rows="3"
+                      placeholder="Required when a discount is applied"></textarea>
+
+            <div class="bill-preview">
+                <p>
+                    <span>Subtotal</span>
+                    <strong id="previewSubtotal">
+                        LKR 0.00
+                    </strong>
+                </p>
+
+                <p>
+                    <span>Discount</span>
+                    <strong id="previewDiscount">
+                        LKR 0.00
+                    </strong>
+                </p>
+
+                <p>
+                    <span>Tax</span>
+                    <strong id="previewTax">
+                        LKR 0.00
+                    </strong>
+                </p>
+
+                <p class="bill-total-row">
+                    <span>Estimated total</span>
+                    <strong id="previewTotal">
+                        LKR 0.00
+                    </strong>
+                </p>
+            </div>
+
+            <button id="createBillButton"
+                    type="submit">
+                Create Bill
+            </button>
+        </form>
+    </section>
+
+    <section class="panel billing-list-panel">
+
+        <p class="label">
+            Billing directory
+        </p>
+
+        <h2>Search Bills</h2>
+
+        <form id="billSearchForm"
+              class="billing-search-form">
+
+            <input id="billSearch"
+                   type="search"
+                   maxlength="100"
+                   placeholder="Invoice, appointment or patient">
+
+            <select id="billStatus">
+                <option value="">
+                    All payment statuses
+                </option>
+
+                <option value="UNPAID">
+                    Unpaid
+                </option>
+
+                <option value="PARTIALLY_PAID">
+                    Partially paid
+                </option>
+
+                <option value="PAID">
+                    Paid
+                </option>
+
+                <option value="VOID">
+                    Void
+                </option>
+            </select>
+
+            <button type="submit">
+                Search
+            </button>
+        </form>
+
+        <p id="billingMessage"
+           class="ui-message"
+           role="status">
+        </p>
+
+        <div class="table-container">
+            <table class="patient-table billing-table">
+                <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Patient</th>
+                    <th>Appointment</th>
+                    <th>Total</th>
+                    <th>Payment status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="billRows">
+                <tr>
+                    <td colspan="6">
+                        Loading bills...
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<dialog id="billDialog"
+        class="patient-dialog bill-dialog">
+
+    <div id="printableBill"
+         class="printable-bill">
+
+        <div class="receipt-header">
+            <p class="label">
+                Sunrise Dental Clinic
+            </p>
+
+            <h2>Patient Bill</h2>
+
+            <p>
+                Colombo, Sri Lanka
+            </p>
+        </div>
+
+        <div class="receipt-information">
+            <p>
+                <span>Invoice number</span>
+                <strong id="detailInvoiceNumber">-</strong>
+            </p>
+
+            <p>
+                <span>Appointment number</span>
+                <strong id="detailBillAppointment">-</strong>
+            </p>
+
+            <p>
+                <span>Patient</span>
+                <strong id="detailBillPatient">-</strong>
+            </p>
+
+            <p>
+                <span>Created at</span>
+                <strong id="detailBillCreatedAt">-</strong>
+            </p>
+        </div>
+
+        <table class="receipt-table">
+            <tbody>
+            <tr>
+                <th>Consultation fee</th>
+                <td id="detailConsultationFee">
+                    LKR 0.00
+                </td>
+            </tr>
+
+            <tr>
+                <th>Treatment fee</th>
+                <td id="detailTreatmentFee">
+                    LKR 0.00
+                </td>
+            </tr>
+
+            <tr>
+                <th>Discount</th>
+                <td id="detailDiscountAmount">
+                    LKR 0.00
+                </td>
+            </tr>
+
+            <tr>
+                <th>Tax</th>
+                <td id="detailTaxAmount">
+                    LKR 0.00
+                </td>
+            </tr>
+
+            <tr class="receipt-total">
+                <th>Total amount</th>
+                <td id="detailTotalAmount">
+                    LKR 0.00
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="receipt-footer">
+            <p>
+                Payment status:
+                <strong id="detailPaymentStatus">-</strong>
+            </p>
+
+            <p>
+                Discount reason:
+                <span id="detailDiscountReason">
+                    Not provided
+                </span>
+            </p>
+
+            <p class="receipt-thank-you">
+                Thank you for choosing Sunrise Dental Clinic.
+            </p>
+        </div>
+    </div>
+
+    <div class="dialog-actions no-print">
+        <button id="printBillButton"
+                type="button">
+            Print Bill
+        </button>
+
+        <button id="closeBillDialog"
+                type="button"
+                class="secondary-button">
+            Close
+        </button>
+    </div>
+</dialog>
+
+<script src="assets/js/billing.js"></script>
+
+</body>
+</html>

@@ -17,7 +17,8 @@ import java.io.IOException;
                 "/api/v1/*",
                 "/dashboard.html",
                 "/patients.html",
-                "/appointments.html"
+                "/appointments.html",
+                "/billing.html"
         }
 )
 public class AuthenticationFilter implements Filter {
