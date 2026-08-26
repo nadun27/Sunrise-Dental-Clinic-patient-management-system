@@ -25,8 +25,39 @@ const billRows =
 const billDialog =
     document.getElementById("billDialog");
 
+const paymentDialog =
+    document.getElementById("paymentDialog");
+
+const paymentReceiptDialog =
+    document.getElementById(
+        "paymentReceiptDialog"
+    );
+
+const paymentForm =
+    document.getElementById("paymentForm");
+
+const paymentMethod =
+    document.getElementById("paymentMethod");
+
+const paymentReferenceNumber =
+    document.getElementById(
+        "paymentReferenceNumber"
+    );
+
+const paymentAmount =
+    document.getElementById("paymentAmount");
+
+const paymentMessage =
+    document.getElementById("paymentMessage");
+
+const recordPaymentButton =
+    document.getElementById(
+        "recordPaymentButton"
+    );
+
 let completedAppointments = [];
 let canCreateBills = false;
+let selectedPaymentBill = null;
 
 async function apiRequest(url, options = {}) {
     const response = await fetch(url, {
@@ -253,6 +284,22 @@ function renderBills(bills) {
                 () => showBill(bill)
             )
         );
+
+        if (
+            canCreateBills &&
+            (
+                bill.paymentStatus === "UNPAID" ||
+                bill.paymentStatus ===
+                    "PARTIALLY_PAID"
+            )
+        ) {
+            actions.appendChild(
+                actionButton(
+                    "Record Payment",
+                    () => openPaymentDialog(bill)
+                )
+            );
+        }
 
         row.appendChild(actions);
         billRows.appendChild(row);
@@ -577,6 +624,248 @@ function showBill(bill) {
     billDialog.showModal();
 }
 
+async function openPaymentDialog(bill) {
+    selectedPaymentBill = bill;
+
+    paymentForm.reset();
+    paymentMethod.value = "CASH";
+    updateReferenceRequirement();
+
+    setText(
+        "paymentInvoiceNumber",
+        bill.invoiceNumber
+    );
+
+    setText(
+        "paymentPatientName",
+        bill.patientName
+    );
+
+    setText(
+        "paymentBillTotal",
+        currency(bill.totalAmount)
+    );
+
+    document.getElementById(
+        "paymentBillId"
+    ).value = bill.billId;
+
+    paymentMessage.textContent =
+        "Loading payment information...";
+
+    paymentMessage.className =
+        "ui-message information";
+
+    paymentDialog.showModal();
+
+    try {
+        const result = await apiRequest(
+            `api/v1/payments/?billId=${bill.billId}`
+        );
+
+        setText(
+            "paymentAlreadyPaid",
+            currency(result.totalPaid)
+        );
+
+        setText(
+            "paymentRemaining",
+            currency(result.remainingBalance)
+        );
+
+        paymentAmount.max =
+            Number(result.remainingBalance)
+                .toFixed(2);
+
+        paymentAmount.value =
+            Number(result.remainingBalance)
+                .toFixed(2);
+
+        renderPaymentHistory(
+            result.payments
+        );
+
+        paymentMessage.textContent = "";
+        paymentMessage.className = "ui-message";
+
+    } catch (error) {
+        paymentMessage.textContent =
+            error.message;
+
+        paymentMessage.className =
+            "ui-message error";
+    }
+}
+
+function renderPaymentHistory(payments) {
+    const rows = document.getElementById(
+        "paymentHistoryRows"
+    );
+
+    rows.replaceChildren();
+
+    if (payments.length === 0) {
+        const row = document.createElement("tr");
+        const tableCell =
+            document.createElement("td");
+
+        tableCell.colSpan = 4;
+        tableCell.textContent =
+            "No payments recorded.";
+
+        row.appendChild(tableCell);
+        rows.appendChild(row);
+        return;
+    }
+
+    payments.forEach(payment => {
+        const row = document.createElement("tr");
+
+        row.appendChild(
+            cell(payment.receiptNumber)
+        );
+
+        row.appendChild(
+            cell(formatStatus(
+                payment.paymentMethod
+            ))
+        );
+
+        row.appendChild(
+            cell(currency(payment.amount))
+        );
+
+        row.appendChild(
+            cell(formatDateTime(payment.paidAt))
+        );
+
+        rows.appendChild(row);
+    });
+}
+
+function updateReferenceRequirement() {
+    const nonCash =
+        paymentMethod.value !== "CASH";
+
+    paymentReferenceNumber.required = nonCash;
+
+    paymentReferenceNumber.placeholder = nonCash
+        ? "Enter transaction reference"
+        : "Optional for cash payments";
+}
+
+paymentForm.addEventListener(
+    "submit",
+    async event => {
+        event.preventDefault();
+
+        if (!paymentForm.reportValidity()) {
+            return;
+        }
+
+        const amount = Number(
+            paymentAmount.value
+        );
+
+        const maximum = Number(
+            paymentAmount.max
+        );
+
+        if (amount <= 0 || amount > maximum) {
+            paymentMessage.textContent =
+                "Enter an amount within the " +
+                "remaining balance";
+
+            paymentMessage.className =
+                "ui-message error";
+
+            return;
+        }
+
+        recordPaymentButton.disabled = true;
+
+        try {
+            const result = await apiRequest(
+                "api/v1/payments/",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/" +
+                            "x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams(
+                        new FormData(paymentForm)
+                    )
+                }
+            );
+
+            paymentDialog.close();
+
+            await loadBills();
+
+            showMessage(
+                result.message,
+                "success"
+            );
+
+            showPaymentReceipt(
+                result.payment
+            );
+
+        } catch (error) {
+            paymentMessage.textContent =
+                error.message;
+
+            paymentMessage.className =
+                "ui-message error";
+
+        } finally {
+            recordPaymentButton.disabled = false;
+        }
+    }
+);
+
+function showPaymentReceipt(payment) {
+    setText(
+        "receiptPaymentNumber",
+        payment.receiptNumber
+    );
+
+    setText(
+        "receiptInvoiceNumber",
+        payment.invoiceNumber
+    );
+
+    setText(
+        "receiptPatientName",
+        payment.patientName
+    );
+
+    setText(
+        "receiptPaidAt",
+        formatDateTime(payment.paidAt)
+    );
+
+    setText(
+        "receiptPaymentMethod",
+        formatStatus(payment.paymentMethod)
+    );
+
+    setText(
+        "receiptReferenceNumber",
+        payment.referenceNumber ||
+        "Not applicable"
+    );
+
+    setText(
+        "receiptPaymentAmount",
+        currency(payment.amount)
+    );
+
+    paymentReceiptDialog.showModal();
+}
+
 function setText(id, value) {
     document.getElementById(id)
         .textContent = value ?? "-";
@@ -658,6 +947,45 @@ document
         "click",
         () => window.print()
     );
+
+paymentMethod.addEventListener(
+    "change",
+    updateReferenceRequirement
+);
+
+document
+    .getElementById("closePaymentDialog")
+    .addEventListener(
+        "click",
+        () => paymentDialog.close()
+    );
+
+document
+    .getElementById("closePaymentReceipt")
+    .addEventListener(
+        "click",
+        () => paymentReceiptDialog.close()
+    );
+
+document
+    .getElementById("printPaymentReceipt")
+    .addEventListener(
+        "click",
+        () => {
+            document.body.classList.add(
+                "printing-payment"
+            );
+
+            window.print();
+        }
+    );
+
+window.addEventListener(
+    "afterprint",
+    () => document.body.classList.remove(
+        "printing-payment"
+    )
+);
 
 async function initialize() {
     await loadSession();

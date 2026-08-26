@@ -332,6 +332,192 @@
     </div>
 </dialog>
 
+<dialog id="paymentDialog"
+        class="patient-dialog payment-dialog">
+
+    <p class="label">Payment information</p>
+    <h2>Record Payment</h2>
+
+    <div class="payment-balance-summary">
+        <p>
+            <span>Invoice</span>
+            <strong id="paymentInvoiceNumber">-</strong>
+        </p>
+
+        <p>
+            <span>Patient</span>
+            <strong id="paymentPatientName">-</strong>
+        </p>
+
+        <p>
+            <span>Bill total</span>
+            <strong id="paymentBillTotal">LKR 0.00</strong>
+        </p>
+
+        <p>
+            <span>Already paid</span>
+            <strong id="paymentAlreadyPaid">LKR 0.00</strong>
+        </p>
+
+        <p class="bill-total-row">
+            <span>Remaining balance</span>
+            <strong id="paymentRemaining">LKR 0.00</strong>
+        </p>
+    </div>
+
+    <form id="paymentForm">
+        <input id="paymentBillId"
+               name="billId"
+               type="hidden">
+
+        <label for="paymentAmount">
+            Payment amount *
+        </label>
+
+        <input id="paymentAmount"
+               name="amount"
+               type="number"
+               min="0.01"
+               step="0.01"
+               required>
+
+        <label for="paymentMethod">
+            Payment method *
+        </label>
+
+        <select id="paymentMethod"
+                name="paymentMethod"
+                required>
+            <option value="CASH">Cash</option>
+            <option value="CARD">Card</option>
+            <option value="BANK_TRANSFER">Bank transfer</option>
+            <option value="ONLINE">Online</option>
+        </select>
+
+        <label for="paymentReferenceNumber">
+            Reference number
+        </label>
+
+        <input id="paymentReferenceNumber"
+               name="referenceNumber"
+               type="text"
+               maxlength="100"
+               placeholder="Required for non-cash payments">
+
+        <p id="paymentMessage"
+           class="ui-message"
+           role="status"></p>
+
+        <div class="dialog-actions">
+            <button id="recordPaymentButton"
+                    type="submit">
+                Record Payment
+            </button>
+
+            <button id="closePaymentDialog"
+                    type="button"
+                    class="secondary-button">
+                Cancel
+            </button>
+        </div>
+    </form>
+
+    <section class="payment-history-section">
+        <h3>Payment History</h3>
+
+        <div class="table-container">
+            <table class="patient-table">
+                <thead>
+                <tr>
+                    <th>Receipt</th>
+                    <th>Method</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+
+                <tbody id="paymentHistoryRows">
+                <tr>
+                    <td colspan="4">No payments recorded.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</dialog>
+
+<dialog id="paymentReceiptDialog"
+        class="patient-dialog bill-dialog">
+
+    <div class="printable-bill">
+        <div class="receipt-header">
+            <p class="label">Sunrise Dental Clinic</p>
+            <h2>Payment Receipt</h2>
+            <p>Colombo, Sri Lanka</p>
+        </div>
+
+        <div class="receipt-information">
+            <p>
+                <span>Receipt number</span>
+                <strong id="receiptPaymentNumber">-</strong>
+            </p>
+
+            <p>
+                <span>Invoice number</span>
+                <strong id="receiptInvoiceNumber">-</strong>
+            </p>
+
+            <p>
+                <span>Patient</span>
+                <strong id="receiptPatientName">-</strong>
+            </p>
+
+            <p>
+                <span>Paid at</span>
+                <strong id="receiptPaidAt">-</strong>
+            </p>
+
+            <p>
+                <span>Payment method</span>
+                <strong id="receiptPaymentMethod">-</strong>
+            </p>
+
+            <p>
+                <span>Reference</span>
+                <strong id="receiptReferenceNumber">-</strong>
+            </p>
+        </div>
+
+        <table class="receipt-table">
+            <tbody>
+            <tr class="receipt-total">
+                <th>Amount received</th>
+                <td id="receiptPaymentAmount">LKR 0.00</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="receipt-footer">
+            <p class="receipt-thank-you">
+                Thank you for your payment.
+            </p>
+        </div>
+    </div>
+
+    <div class="dialog-actions no-print">
+        <button id="printPaymentReceipt"
+                type="button">
+            Print Receipt
+        </button>
+
+        <button id="closePaymentReceipt"
+                type="button"
+                class="secondary-button">
+            Close
+        </button>
+    </div>
+</dialog>
+
 <script src="assets/js/billing.js"></script>
 
 </body>

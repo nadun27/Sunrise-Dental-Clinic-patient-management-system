@@ -1362,6 +1362,46 @@ body.application-page {
     margin: 0;
 }
 
+.payment-dialog {
+    width: min(760px, calc(100% - 30px));
+}
+
+.payment-balance-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+
+    margin: 20px 0;
+    padding: 16px;
+
+    background-color: #f3f8f9;
+    border: 1px solid #e0eaed;
+    border-radius: 10px;
+}
+
+.payment-balance-summary p {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+
+    margin: 5px 0;
+}
+
+.payment-balance-summary span {
+    color: #637784;
+}
+
+.payment-history-section {
+    margin-top: 28px;
+    padding-top: 20px;
+
+    border-top: 1px solid #dce6e9;
+}
+
+.payment-history-section h3 {
+    margin-top: 0;
+}
+
 @media (max-width: 950px) {
     .billing-layout {
         grid-template-columns: 1fr;
@@ -1382,6 +1422,10 @@ body.application-page {
     }
 
     .receipt-information {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-balance-summary {
         grid-template-columns: 1fr;
     }
 
@@ -1413,11 +1457,18 @@ body.application-page {
         background-color: white;
     }
 
-    body.application-page > :not(#billDialog) {
+    body.application-page:not(.printing-payment)
+    > :not(#billDialog) {
         display: none !important;
     }
 
-    #billDialog {
+    body.application-page.printing-payment
+    > :not(#paymentReceiptDialog) {
+        display: none !important;
+    }
+
+    #billDialog,
+    #paymentReceiptDialog {
         display: block;
         position: static;
 
@@ -1434,7 +1485,8 @@ body.application-page {
         box-shadow: none;
     }
 
-    #billDialog::backdrop {
+    #billDialog::backdrop,
+    #paymentReceiptDialog::backdrop {
         display: none;
     }
 
