@@ -1509,3 +1509,109 @@ body.application-page {
         color: black;
     }
 }
+
+/* Treatment sessions and clinical records */
+
+.treatment-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    width: min(1500px, 100%);
+}
+
+.active-session-panel,
+.treatment-record-panel {
+    min-width: 0;
+}
+
+.section-heading-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-heading-row .label,
+.section-heading-row h2 {
+    margin-top: 0;
+}
+
+.treatment-search-form {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.treatment-search-form input,
+.treatment-search-form button {
+    margin: 0;
+}
+
+.treatment-session-table,
+.treatment-record-table {
+    min-width: 980px;
+}
+
+.treatment-dialog {
+    width: min(760px, calc(100% - 32px));
+}
+
+.treatment-dialog form {
+    display: grid;
+}
+
+.session-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+    padding: 16px;
+    border: 1px solid #dbe8e4;
+    border-radius: 12px;
+    background: #f5faf8;
+}
+
+.session-summary p {
+    display: grid;
+    gap: 4px;
+    margin: 0;
+}
+
+.session-summary span {
+    color: #63736d;
+    font-size: 0.82rem;
+}
+
+.session-summary strong {
+    color: #153d32;
+}
+
+.clinical-warning {
+    margin: 18px 0 0;
+    padding: 12px 14px;
+    border-left: 4px solid #d99b2b;
+    border-radius: 6px;
+    color: #6b4b13;
+    background: #fff8e8;
+}
+
+.treatment-details dd {
+    white-space: pre-wrap;
+}
+
+@media (max-width: 760px) {
+    .section-heading-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .treatment-search-form,
+    .session-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .treatment-search-form button {
+        width: 100%;
+    }
+}

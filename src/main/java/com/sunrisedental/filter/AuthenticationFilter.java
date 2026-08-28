@@ -18,7 +18,8 @@ import java.io.IOException;
                 "/dashboard.html",
                 "/patients.html",
                 "/appointments.html",
-                "/billing.html"
+                "/billing.html",
+                "/treatments.html"
         }
 )
 public class AuthenticationFilter implements Filter {

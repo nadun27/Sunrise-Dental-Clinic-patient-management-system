@@ -21,6 +21,17 @@ async function loadSession() {
     fullName.textContent = result.user.fullName;
     username.textContent = result.user.username;
     role.textContent = result.user.role;
+
+    const treatmentLink = document.getElementById(
+        "treatmentLink"
+    );
+
+    if (treatmentLink) {
+        treatmentLink.hidden = ![
+            "ADMIN",
+            "DENTIST"
+        ].includes(result.user.role);
+    }
 }
 
 logoutButton.addEventListener("click", async () => {

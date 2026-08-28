@@ -14,7 +14,8 @@ const cancelEditButton = document.getElementById(
 const formTitle = document.getElementById("appointmentFormTitle");
 
 let treatments = [];
-let canManage = false;
+let canManageAppointments = false;
+let canManageTreatments = false;
 
 async function apiRequest(url, options = {}) {
     const response = await fetch(url, {
@@ -39,11 +40,16 @@ async function apiRequest(url, options = {}) {
 async function loadSession() {
     const result = await apiRequest("api/v1/auth/session");
 
-    canManage =
+    canManageAppointments =
         result.user.role === "ADMIN" ||
         result.user.role === "RECEPTIONIST";
 
-    document.getElementById("appointmentFormPanel").hidden = !canManage;
+    canManageTreatments =
+        result.user.role === "ADMIN" ||
+        result.user.role === "DENTIST";
+
+    document.getElementById("appointmentFormPanel").hidden =
+        !canManageAppointments;
 }
 
 async function loadOptions() {
@@ -190,7 +196,7 @@ function renderAppointments(appointments) {
             )
         );
 
-        if (canManage) {
+        if (canManageAppointments) {
             if (
                 ["SCHEDULED", "CONFIRMED"]
                     .includes(appointment.status)
@@ -205,8 +211,9 @@ function renderAppointments(appointments) {
                 );
             }
 
-            addStatusButtons(actions, appointment);
         }
+
+        addStatusButtons(actions, appointment);
 
         row.appendChild(actions);
         appointmentRows.appendChild(row);
@@ -214,7 +221,7 @@ function renderAppointments(appointments) {
 }
 
 function addStatusButtons(container, appointment) {
-    const transitions = {
+    const administrativeTransitions = {
         SCHEDULED: [
             ["Confirm", "CONFIRMED"],
             ["Cancel", "CANCELLED"]
@@ -227,27 +234,54 @@ function addStatusButtons(container, appointment) {
         ],
 
         CHECKED_IN: [
-            ["Start treatment", "IN_TREATMENT"],
             ["Cancel", "CANCELLED"]
-        ],
-
-        IN_TREATMENT: [
-            ["Complete", "COMPLETED"]
         ]
     };
 
-    (transitions[appointment.status] || [])
-        .forEach(([label, status]) => {
-            container.appendChild(
-                actionButton(
-                    label,
-                    () => changeStatus(appointment, status),
-                    status === "CANCELLED"
-                        ? "danger-button"
-                        : ""
-                )
-            );
-        });
+    if (canManageAppointments) {
+        (administrativeTransitions[appointment.status] || [])
+            .forEach(([label, status]) => {
+                container.appendChild(
+                    actionButton(
+                        label,
+                        () => changeStatus(appointment, status),
+                        status === "CANCELLED"
+                            ? "danger-button"
+                            : ""
+                    )
+                );
+            });
+    }
+
+    if (
+        canManageTreatments &&
+        appointment.status === "CHECKED_IN"
+    ) {
+        container.appendChild(
+            actionButton(
+                "Open Session",
+                () => openTreatmentSession(appointment)
+            )
+        );
+    }
+
+    if (
+        canManageTreatments &&
+        appointment.status === "IN_TREATMENT"
+    ) {
+        container.appendChild(
+            actionButton(
+                "Complete Record",
+                () => openTreatmentSession(appointment)
+            )
+        );
+    }
+}
+
+function openTreatmentSession(appointment) {
+    window.location.href =
+        "treatments.html?appointmentId=" +
+        encodeURIComponent(appointment.appointmentId);
 }
 
 function cell(value) {

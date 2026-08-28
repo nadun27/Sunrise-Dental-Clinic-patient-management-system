@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Treatments | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+</head>
+
+<body class="application-page">
+
+<header class="app-header">
+    <div>
+        <p class="label">Sunrise Dental Clinic</p>
+        <h1>Treatment Sessions</h1>
+        <p class="description">
+            Start dental sessions, document clinical care and
+            complete appointments safely.
+        </p>
+    </div>
+
+    <a class="navigation-link"
+       href="dashboard.html">
+        Dashboard
+    </a>
+</header>
+
+<main class="treatment-layout">
+
+    <section class="panel active-session-panel">
+        <div class="section-heading-row">
+            <div>
+                <p class="label">Live workflow</p>
+                <h2>Active Treatment Sessions</h2>
+            </div>
+
+            <button id="refreshSessionsButton"
+                    type="button"
+                    class="secondary-button">
+                Refresh
+            </button>
+        </div>
+
+        <p class="field-help">
+            Patients must be checked in before a dentist can start
+            treatment. Completing a session requires a clinical record.
+        </p>
+
+        <p id="sessionMessage"
+           class="ui-message"
+           role="status"></p>
+
+        <div class="table-container">
+            <table class="patient-table treatment-session-table">
+                <thead>
+                <tr>
+                    <th>Appointment</th>
+                    <th>Patient</th>
+                    <th>Dentist</th>
+                    <th>Treatment</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody id="activeSessionRows">
+                <tr>
+                    <td colspan="6">
+                        Loading active sessions...
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel treatment-record-panel">
+        <p class="label">Clinical history</p>
+        <h2>Treatment Records</h2>
+
+        <form id="recordSearchForm"
+              class="treatment-search-form">
+            <input id="recordSearch"
+                   type="search"
+                   maxlength="100"
+                   placeholder="Appointment, patient, dentist or diagnosis">
+
+            <button type="submit">Search</button>
+        </form>
+
+        <p id="recordMessage"
+           class="ui-message"
+           role="status"></p>
+
+        <div class="table-container">
+            <table class="patient-table treatment-record-table">
+                <thead>
+                <tr>
+                    <th>Appointment</th>
+                    <th>Patient</th>
+                    <th>Treatment</th>
+                    <th>Diagnosis</th>
+                    <th>Follow-up</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody id="treatmentRecordRows">
+                <tr>
+                    <td colspan="6">
+                        Loading treatment records...
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<dialog id="completeSessionDialog"
+        class="patient-dialog treatment-dialog">
+
+    <div class="dialog-header">
+        <div>
+            <p class="label">Clinical documentation</p>
+            <h2>Complete Treatment Session</h2>
+        </div>
+
+        <button id="closeCompleteSessionDialog"
+                type="button"
+                class="icon-button"
+                aria-label="Close">×</button>
+    </div>
+
+    <div class="session-summary">
+        <p>
+            <span>Appointment</span>
+            <strong id="completeAppointmentNumber">-</strong>
+        </p>
+
+        <p>
+            <span>Patient</span>
+            <strong id="completePatientName">-</strong>
+        </p>
+
+        <p>
+            <span>Treatment</span>
+            <strong id="completeTreatmentName">-</strong>
+        </p>
+
+        <p>
+            <span>Dentist</span>
+            <strong id="completeDentistName">-</strong>
+        </p>
+    </div>
+
+    <form id="completeSessionForm">
+        <input id="completeAppointmentId"
+               name="appointmentId"
+               type="hidden">
+
+        <input id="completeVersionNumber"
+               name="versionNumber"
+               type="hidden">
+
+        <label for="diagnosis">Diagnosis *</label>
+        <textarea id="diagnosis"
+                  name="diagnosis"
+                  maxlength="1000"
+                  rows="3"
+                  required></textarea>
+
+        <label for="treatmentPerformed">
+            Treatment performed *
+        </label>
+        <textarea id="treatmentPerformed"
+                  name="treatmentPerformed"
+                  maxlength="1000"
+                  rows="3"
+                  required></textarea>
+
+        <label for="clinicalNotes">Clinical notes</label>
+        <textarea id="clinicalNotes"
+                  name="clinicalNotes"
+                  maxlength="10000"
+                  rows="4"></textarea>
+
+        <label for="prescription">Prescription</label>
+        <textarea id="prescription"
+                  name="prescription"
+                  maxlength="10000"
+                  rows="3"></textarea>
+
+        <label for="followUpDate">Follow-up date</label>
+        <input id="followUpDate"
+               name="followUpDate"
+               type="date">
+
+        <p class="clinical-warning">
+            Saving this record will mark the appointment as completed.
+            The record cannot be duplicated for the same appointment.
+        </p>
+
+        <div class="dialog-actions">
+            <button id="completeSessionButton"
+                    type="submit">
+                Save Record and Complete
+            </button>
+
+            <button id="cancelCompleteSessionButton"
+                    type="button"
+                    class="secondary-button">
+                Cancel
+            </button>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="recordDialog"
+        class="patient-dialog treatment-dialog">
+    <div class="dialog-header">
+        <div>
+            <p class="label">Clinical record</p>
+            <h2 id="detailRecordAppointment">Treatment Record</h2>
+        </div>
+
+        <button id="closeRecordDialog"
+                type="button"
+                class="icon-button"
+                aria-label="Close">×</button>
+    </div>
+
+    <dl class="patient-details treatment-details">
+        <dt>Patient</dt>
+        <dd id="detailRecordPatient">-</dd>
+
+        <dt>Dentist</dt>
+        <dd id="detailRecordDentist">-</dd>
+
+        <dt>Treatment</dt>
+        <dd id="detailRecordTreatment">-</dd>
+
+        <dt>Diagnosis</dt>
+        <dd id="detailRecordDiagnosis">-</dd>
+
+        <dt>Treatment performed</dt>
+        <dd id="detailRecordPerformed">-</dd>
+
+        <dt>Clinical notes</dt>
+        <dd id="detailRecordNotes">-</dd>
+
+        <dt>Prescription</dt>
+        <dd id="detailRecordPrescription">-</dd>
+
+        <dt>Follow-up date</dt>
+        <dd id="detailRecordFollowUp">-</dd>
+
+        <dt>Recorded at</dt>
+        <dd id="detailRecordCreatedAt">-</dd>
+    </dl>
+</dialog>
+
+<script src="assets/js/treatments.js"></script>
+</body>
+</html>

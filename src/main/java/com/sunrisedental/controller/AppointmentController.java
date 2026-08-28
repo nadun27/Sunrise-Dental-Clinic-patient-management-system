@@ -94,8 +94,22 @@ public class AppointmentController extends HttpServlet {
                 writeAppointmentResponse(response, HttpServletResponse.SC_OK,
                         "Appointment updated successfully", appointment);
             } else if (path.matches("/\\d+/status")) {
+                String requestedStatus =
+                        request.getParameter("status");
+
+                if (isClinicalStatus(requestedStatus)) {
+                    writeError(
+                            response,
+                            HttpServletResponse.SC_FORBIDDEN,
+                            "Start and complete treatment through " +
+                                    "the treatment session workflow"
+                    );
+
+                    return;
+                }
+
                 Appointment appointment = service.changeStatus(
-                        extractId(path), request.getParameter("status"),
+                        extractId(path), requestedStatus,
                         request.getParameter("cancellationReason"),
                         parsePositiveInt(request.getParameter("versionNumber"),
                                 "Appointment version"));
@@ -274,6 +288,17 @@ public class AppointmentController extends HttpServlet {
         if (session == null) return false;
         Object role = session.getAttribute("role");
         return "ADMIN".equals(role) || "RECEPTIONIST".equals(role);
+    }
+
+    private boolean isClinicalStatus(String status) {
+        if (status == null) {
+            return false;
+        }
+
+        String normalized = status.trim().toUpperCase();
+
+        return "IN_TREATMENT".equals(normalized)
+                || "COMPLETED".equals(normalized);
     }
 
     private void writeError(HttpServletResponse response, int status, String message)

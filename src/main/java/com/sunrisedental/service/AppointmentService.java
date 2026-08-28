@@ -51,12 +51,11 @@ public class AppointmentService {
 
             AppointmentStatus.CHECKED_IN,
             Set.of(
-                    AppointmentStatus.IN_TREATMENT,
                     AppointmentStatus.CANCELLED
             ),
 
             AppointmentStatus.IN_TREATMENT,
-            Set.of(AppointmentStatus.COMPLETED),
+            Set.of(),
 
             AppointmentStatus.COMPLETED,
             Set.of(),
