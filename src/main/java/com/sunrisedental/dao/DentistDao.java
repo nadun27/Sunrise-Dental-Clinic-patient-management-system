@@ -13,4 +13,10 @@ public interface DentistDao {
 
     Optional<Dentist> findById(long dentistId)
             throws SQLException;
+
+    default Optional<Dentist> findByUserId(long userId)
+            throws SQLException {
+
+        return Optional.empty();
+    }
 }
