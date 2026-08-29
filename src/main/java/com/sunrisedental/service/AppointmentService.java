@@ -5,6 +5,9 @@ import com.sunrisedental.dao.DentistDao;
 import com.sunrisedental.dao.PatientDao;
 import com.sunrisedental.dao.TreatmentDao;
 import com.sunrisedental.dto.request.AppointmentRequest;
+import com.sunrisedental.event.ClinicEvent;
+import com.sunrisedental.event.ClinicEventPublisher;
+import com.sunrisedental.event.ClinicEventType;
 import com.sunrisedental.exception.NotFoundException;
 import com.sunrisedental.exception.ValidationException;
 import com.sunrisedental.model.Appointment;
@@ -144,7 +147,18 @@ public class AppointmentService {
                 1
         );
 
-        return appointmentDao.create(appointment);
+        Appointment created =
+                appointmentDao.create(appointment);
+
+        ClinicEventPublisher.getInstance().publish(
+                new ClinicEvent(
+                        ClinicEventType.APPOINTMENT_CREATED,
+                        created.appointmentId(),
+                        Map.of()
+                )
+        );
+
+        return created;
     }
 
     public Appointment getById(long appointmentId)
@@ -316,7 +330,17 @@ public class AppointmentService {
             );
         }
 
-        return getById(appointmentId);
+        Appointment rescheduled = getById(appointmentId);
+
+        ClinicEventPublisher.getInstance().publish(
+                new ClinicEvent(
+                        ClinicEventType.APPOINTMENT_RESCHEDULED,
+                        rescheduled.appointmentId(),
+                        Map.of()
+                )
+        );
+
+        return rescheduled;
     }
 
     public Appointment changeStatus(
@@ -399,7 +423,24 @@ public class AppointmentService {
             );
         }
 
-        return getById(appointmentId);
+        Appointment changed = getById(appointmentId);
+
+        if (changed.status() ==
+                AppointmentStatus.CANCELLED) {
+
+            ClinicEventPublisher.getInstance().publish(
+                    new ClinicEvent(
+                            ClinicEventType.APPOINTMENT_CANCELLED,
+                            changed.appointmentId(),
+                            Map.of(
+                                    "cancellationReason",
+                                    changed.cancellationReason()
+                            )
+                    )
+            );
+        }
+
+        return changed;
     }
 
     public List<Dentist> getActiveDentists()
