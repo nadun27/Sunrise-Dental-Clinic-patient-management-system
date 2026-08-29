@@ -4,6 +4,9 @@ import com.sunrisedental.dao.AppointmentDao;
 import com.sunrisedental.dao.DentistDao;
 import com.sunrisedental.dao.TreatmentRecordDao;
 import com.sunrisedental.dto.request.TreatmentRecordRequest;
+import com.sunrisedental.event.ClinicEvent;
+import com.sunrisedental.event.ClinicEventPublisher;
+import com.sunrisedental.event.ClinicEventType;
 import com.sunrisedental.exception.NotFoundException;
 import com.sunrisedental.exception.ValidationException;
 import com.sunrisedental.model.Appointment;
@@ -15,6 +18,8 @@ import com.sunrisedental.model.TreatmentRecord;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TreatmentRecordService {
 
@@ -161,10 +166,30 @@ public class TreatmentRecordService {
                         null
                 );
 
-        return treatmentRecordDao.completeSession(
+        TreatmentRecord completed =
+                treatmentRecordDao.completeSession(
                 treatmentRecord,
                 request.versionNumber()
         );
+
+        Map<String, String> values = new HashMap<>();
+
+        if (completed.followUpDate() != null) {
+            values.put(
+                    "followUpDate",
+                    completed.followUpDate().toString()
+            );
+        }
+
+        ClinicEventPublisher.getInstance().publish(
+                new ClinicEvent(
+                        ClinicEventType.TREATMENT_COMPLETED,
+                        completed.appointmentId(),
+                        values
+                )
+        );
+
+        return completed;
     }
 
     public TreatmentRecord getById(

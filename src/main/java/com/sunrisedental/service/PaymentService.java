@@ -3,6 +3,9 @@ package com.sunrisedental.service;
 import com.sunrisedental.dao.BillDao;
 import com.sunrisedental.dao.PaymentDao;
 import com.sunrisedental.dto.request.PaymentRequest;
+import com.sunrisedental.event.ClinicEvent;
+import com.sunrisedental.event.ClinicEventPublisher;
+import com.sunrisedental.event.ClinicEventType;
 import com.sunrisedental.exception.NotFoundException;
 import com.sunrisedental.exception.ValidationException;
 import com.sunrisedental.model.Bill;
@@ -15,6 +18,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentService {
 
@@ -110,7 +114,31 @@ public class PaymentService {
                 receivedBy
         );
 
-        return paymentDao.create(payment);
+        Payment recorded = paymentDao.create(payment);
+
+        BigDecimal remainingAfterPayment =
+                remaining.subtract(amount);
+
+        ClinicEventPublisher.getInstance().publish(
+                new ClinicEvent(
+                        ClinicEventType.PAYMENT_RECEIVED,
+                        bill.appointmentId(),
+                        Map.of(
+                                "receiptNumber",
+                                recorded.receiptNumber(),
+                                "invoiceNumber",
+                                bill.invoiceNumber(),
+                                "amount",
+                                recorded.amount().toPlainString(),
+                                "paymentMethod",
+                                recorded.paymentMethod().name(),
+                                "remainingBalance",
+                                remainingAfterPayment.toPlainString()
+                        )
+                )
+        );
+
+        return recorded;
     }
 
     public Payment getById(long paymentId)

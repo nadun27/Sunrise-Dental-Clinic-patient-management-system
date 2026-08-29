@@ -3,6 +3,9 @@ package com.sunrisedental.service;
 import com.sunrisedental.dao.AppointmentDao;
 import com.sunrisedental.dao.BillDao;
 import com.sunrisedental.dto.request.BillRequest;
+import com.sunrisedental.event.ClinicEvent;
+import com.sunrisedental.event.ClinicEventPublisher;
+import com.sunrisedental.event.ClinicEventType;
 import com.sunrisedental.exception.NotFoundException;
 import com.sunrisedental.exception.ValidationException;
 import com.sunrisedental.model.Appointment;
@@ -16,6 +19,7 @@ import com.sunrisedental.util.InvoiceNumberGenerator;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class BillingService {
 
@@ -121,7 +125,22 @@ public class BillingService {
                 null
         );
 
-        return billDao.create(bill);
+        Bill created = billDao.create(bill);
+
+        ClinicEventPublisher.getInstance().publish(
+                new ClinicEvent(
+                        ClinicEventType.BILL_CREATED,
+                        created.appointmentId(),
+                        Map.of(
+                                "invoiceNumber",
+                                created.invoiceNumber(),
+                                "totalAmount",
+                                created.totalAmount().toPlainString()
+                        )
+                )
+        );
+
+        return created;
     }
 
     public Bill getById(
