@@ -9,3 +9,16 @@ db.password=CHANGE_ME
 db.pool.maximumSize=10
 db.pool.minimumIdle=2
 db.pool.connectionTimeout=10000
+
+# Automatic patient email notifications
+# Keep disabled until valid SMTP credentials are added to application.properties.
+mail.enabled=false
+mail.host=smtp.gmail.com
+mail.port=587
+mail.username=YOUR_GMAIL_ADDRESS
+mail.password=YOUR_GMAIL_APP_PASSWORD
+mail.from.address=YOUR_GMAIL_ADDRESS
+mail.from.name=Sunrise Dental Clinic
+mail.starttls=true
+mail.batchSize=10
+mail.intervalSeconds=30
