@@ -20,7 +20,8 @@ import java.io.IOException;
                 "/appointments.html",
                 "/billing.html",
                 "/treatments.html",
-                "/reports.html"
+                "/reports.html",
+                "/help.html"
         }
 )
 public class AuthenticationFilter implements Filter {
