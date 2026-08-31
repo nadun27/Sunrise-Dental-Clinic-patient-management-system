@@ -19,7 +19,8 @@ import java.io.IOException;
                 "/patients.html",
                 "/appointments.html",
                 "/billing.html",
-                "/treatments.html"
+                "/treatments.html",
+                "/reports.html"
         }
 )
 public class AuthenticationFilter implements Filter {
@@ -67,6 +68,7 @@ public class AuthenticationFilter implements Filter {
             response.sendRedirect(
                     contextPath + "/login.html"
             );
+
             return;
         }
 

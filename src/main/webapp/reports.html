@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+</head>
+
+<body class="application-page report-page">
+
+<header class="app-header no-print">
+    <div>
+        <p class="label">
+            Sunrise Dental Clinic
+        </p>
+
+        <h1>Management Reports</h1>
+
+        <p class="description">
+            Review appointments, patients, treatments and revenue.
+        </p>
+    </div>
+
+    <div class="report-header-actions">
+        <button id="printReportButton"
+                type="button">
+            Print Report
+        </button>
+
+        <a class="navigation-link"
+           href="dashboard.html">
+            Dashboard
+        </a>
+    </div>
+</header>
+
+<main id="reportPageContent"
+      class="report-layout">
+
+    <section class="panel report-filter-panel no-print">
+
+        <p class="label">Report period</p>
+        <h2>Generate Report</h2>
+
+        <form id="reportForm"
+              class="report-filter-form">
+
+            <div>
+                <label for="fromDate">
+                    From date
+                </label>
+
+                <input id="fromDate"
+                       name="from"
+                       type="date"
+                       required>
+            </div>
+
+            <div>
+                <label for="toDate">
+                    To date
+                </label>
+
+                <input id="toDate"
+                       name="to"
+                       type="date"
+                       required>
+            </div>
+
+            <button id="generateReportButton"
+                    type="submit">
+                Generate Report
+            </button>
+        </form>
+
+        <p id="reportMessage"
+           class="ui-message"
+           role="status">
+        </p>
+    </section>
+
+    <section id="printableReport"
+             class="panel printable-report">
+
+        <div class="report-document-header">
+            <p class="label">
+                Sunrise Dental Clinic
+            </p>
+
+            <h2>Clinic Management Report</h2>
+
+            <p>
+                Colombo, Sri Lanka
+            </p>
+
+            <p id="reportPeriod"
+               class="report-period">
+                Select a report period
+            </p>
+        </div>
+
+        <div class="report-summary-grid">
+
+            <article class="report-stat-card">
+                <span>Total appointments</span>
+                <strong id="totalAppointments">0</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>Completed</span>
+                <strong id="completedAppointments">0</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>Cancelled</span>
+                <strong id="cancelledAppointments">0</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>New patients</span>
+                <strong id="newPatients">0</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>Bills generated</span>
+                <strong id="generatedBills">0</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>Amount billed</span>
+                <strong id="billedAmount">LKR 0.00</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>Payments received</span>
+                <strong id="collectedAmount">LKR 0.00</strong>
+            </article>
+
+            <article class="report-stat-card">
+                <span>Outstanding on period bills</span>
+                <strong id="outstandingAmount">LKR 0.00</strong>
+            </article>
+
+        </div>
+
+        <div class="report-table-grid">
+
+            <section class="report-section">
+                <h3>Appointment Status Summary</h3>
+
+                <div class="table-container">
+                    <table class="patient-table report-table">
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Appointments</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="appointmentStatusRows">
+                        <tr>
+                            <td colspan="2">
+                                Loading report...
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="report-section">
+                <h3>Dentist Workload</h3>
+
+                <div class="table-container">
+                    <table class="patient-table report-table">
+                        <thead>
+                        <tr>
+                            <th>Dentist</th>
+                            <th>Appointments</th>
+                            <th>Completed</th>
+                            <th>Completion rate</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="dentistRows">
+                        <tr>
+                            <td colspan="4">
+                                Loading report...
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+
+        <section class="report-section">
+            <h3>Treatment Performance</h3>
+
+            <div class="table-container">
+                <table class="patient-table report-table">
+                    <thead>
+                    <tr>
+                        <th>Treatment</th>
+                        <th>Appointments</th>
+                        <th>Amount billed</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="treatmentRows">
+                    <tr>
+                        <td colspan="3">
+                            Loading report...
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="report-document-footer">
+            <p>
+                Generated by Sunrise Dental Clinic
+                Patient Management System
+            </p>
+
+            <p id="reportGeneratedAt"></p>
+        </footer>
+
+    </section>
+</main>
+
+<script src="assets/js/reports.js"></script>
+</body>
+</html>
