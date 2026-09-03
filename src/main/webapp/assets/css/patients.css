@@ -1,0 +1,7 @@
+/* ==========================================================================
+   Patients page.
+   Layout, panels, forms, table and dialog all come from components.css;
+   nothing on this page needs to override them.
+   ========================================================================== */
+
+@import "components.css";

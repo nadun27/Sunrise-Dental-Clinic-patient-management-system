@@ -1,0 +1,127 @@
+/* ==========================================================================
+   Dashboard - quick access cards.
+   Shell chrome (sidebar, profile, page head) comes from app-shell.css.
+   ========================================================================== */
+
+/* Must stay at the top of the file: @import rules precede all other rules. */
+@import "app-shell.css";
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: 18px;
+}
+
+.module-card {
+    display: flex;
+    flex-direction: column;
+
+    padding: 22px;
+
+    color: inherit;
+    text-decoration: none;
+
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-3px);
+    border-color: #c3dbe3;
+    box-shadow: var(--shadow-md);
+}
+
+.module-card:focus-visible {
+    outline: 3px solid var(--teal-600);
+    outline-offset: 2px;
+}
+
+.module-card[hidden] {
+    display: none;
+}
+
+.module-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    margin-bottom: 15px;
+
+    border-radius: 13px;
+}
+
+.module-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* One accent per module so the cards are distinguishable at a glance */
+.module-icon.patients  { color: #176b87; background-color: #e3f1f6; }
+.module-icon.calendar  { color: #16877d; background-color: #e2f4f0; }
+.module-icon.clinical  { color: #7a4fb5; background-color: #efe8f9; }
+.module-icon.billing   { color: #b5752a; background-color: #fbf0e0; }
+.module-icon.reports   { color: #2f6bbf; background-color: #e6eefb; }
+.module-icon.help      { color: #5c7080; background-color: #eaeff2; }
+
+.module-card h3 {
+    margin: 0 0 6px;
+    font-size: 16.5px;
+    font-weight: 700;
+}
+
+.module-card p {
+    margin: 0 0 16px;
+    color: var(--ink-500);
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+.module-open {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: auto;
+
+    color: var(--teal-700);
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.module-open svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.15s ease;
+}
+
+.module-card:hover .module-open svg {
+    transform: translateX(3px);
+}
+
+@media (max-width: 560px) {
+    .module-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .module-card,
+    .module-open svg {
+        transition: none;
+    }
+
+    .module-card:hover {
+        transform: none;
+    }
+
+    .module-card:hover .module-open svg {
+        transform: none;
+    }
+}

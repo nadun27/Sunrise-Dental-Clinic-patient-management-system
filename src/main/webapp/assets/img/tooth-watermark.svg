@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+    <!--
+        Decorative watermark used as a background layer on the sign-in page.
+        Colour and opacity are baked in because a CSS background-image has no
+        currentColor context and cannot be given an opacity of its own.
+    -->
+    <path d="M12 3.6c-1.5-.9-3-1.3-4.3-1.3C5 2.3 3.2 4.2 3.2 7.2c0 2 .5 3.7 1 5.5.5 1.7.8 3.4 1 5.1.2 1.7.9 2.6 1.9 2.6 1.1 0 1.6-1 1.9-2.7l.5-3c.2-1.1.7-1.7 1.5-1.7s1.3.6 1.5 1.7l.5 3c.3 1.7.8 2.7 1.9 2.7 1 0 1.7-.9 1.9-2.6.2-1.7.5-3.4 1-5.1.5-1.8 1-3.5 1-5.5 0-3-1.8-4.9-4.5-4.9-1.3 0-2.8.4-4.3 1.3Z"
+          stroke="#176b87"
+          stroke-opacity="0.16"
+          stroke-width="0.9"
+          stroke-linejoin="round"/>
+</svg>

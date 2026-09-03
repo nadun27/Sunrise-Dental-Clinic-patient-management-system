@@ -38,15 +38,20 @@ async function apiRequest(url, options = {}) {
 }
 
 async function loadSession() {
-    const result = await apiRequest("api/v1/auth/session");
+    /*
+       shell.js has already fetched the session to build the sidebar, so reuse
+       its promise instead of calling api/v1/auth/session a second time. The
+       signed-in user is shown in the sidebar profile block, not on this page.
+    */
+    const user = await window.clinicShell.session;
 
     canManageAppointments =
-        result.user.role === "ADMIN" ||
-        result.user.role === "RECEPTIONIST";
+        user.role === "ADMIN" ||
+        user.role === "RECEPTIONIST";
 
     canManageTreatments =
-        result.user.role === "ADMIN" ||
-        result.user.role === "DENTIST";
+        user.role === "ADMIN" ||
+        user.role === "DENTIST";
 
     document.getElementById("appointmentFormPanel").hidden =
         !canManageAppointments;

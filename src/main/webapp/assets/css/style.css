@@ -1,3 +1,6 @@
+/* Must stay at the top of the file: @import rules precede all other rules. */
+@import "fonts.css";
+
 * {
     box-sizing: border-box;
 }
@@ -11,7 +14,7 @@ body {
     margin: 0;
     padding: 20px;
 
-    font-family: Arial, sans-serif;
+    font-family: var(--font-sans);
     color: #17324d;
 
     background-color: #eef7f7;
@@ -545,7 +548,7 @@ body {
     margin: 0;
     padding: 20px;
 
-    font-family: Arial, sans-serif;
+    font-family: var(--font-sans);
     color: #17324d;
 
     background-color: #eef7f7;
@@ -1964,4 +1967,15 @@ body.application-page {
     .help-module-grid {
         grid-template-columns: 1fr;
     }
+}
+/* --------------------------------------------------------------------------
+   Form controls do not inherit font-family from the page by default, so
+   buttons and textareas would otherwise fall back to the browser's UI font.
+   -------------------------------------------------------------------------- */
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }

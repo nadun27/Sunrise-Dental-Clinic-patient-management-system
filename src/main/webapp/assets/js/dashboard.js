@@ -1,77 +1,69 @@
-const fullName =
-    document.getElementById("fullName");
+/* ==========================================================================
+   Dashboard - greeting, date and role-filtered quick-access cards.
+   The sidebar, profile block, sign-out and menu filtering are handled by
+   shell.js, which must be loaded first.
+   ========================================================================== */
 
-const username =
-    document.getElementById("username");
+const greeting = document.getElementById("greeting");
+const subtitle = document.getElementById("subtitle");
+const todayDate = document.getElementById("todayDate");
 
-const role =
-    document.getElementById("role");
+/* Same permission matrix the shell uses, applied to the cards. */
+const CARD_ACCESS = {
+    Patients: ["ADMIN", "RECEPTIONIST"],
+    Appointments: ["ADMIN", "RECEPTIONIST"],
+    Treatments: ["ADMIN", "DENTIST"],
+    Billing: ["ADMIN", "CASHIER"],
+    Reports: ["ADMIN"]
+};
 
-const logoutButton =
-    document.getElementById("logoutButton");
+const ROLE_SUBTITLE = {
+    ADMIN: "You have full access to every module in the clinic system.",
+    RECEPTIONIST: "Register patients and manage the appointment diary.",
+    DENTIST: "Review your sessions and record clinical treatment details.",
+    CASHIER: "Generate invoices, record payments and issue receipts."
+};
 
-async function loadSession() {
-    const response = await fetch(
-        "api/v1/auth/session",
-        {
-            credentials: "same-origin"
-        }
-    );
-
-    if (!response.ok) {
-        window.location.replace("login.html");
-        return;
+function greetingFor(hour) {
+    if (hour < 12) {
+        return "Good morning";
     }
 
-    const result = await response.json();
-
-    fullName.textContent =
-        result.user.fullName;
-
-    username.textContent =
-        result.user.username;
-
-    role.textContent =
-        result.user.role;
-
-    const treatmentLink =
-        document.getElementById(
-            "treatmentLink"
-        );
-
-    const reportLink =
-        document.getElementById(
-            "reportLink"
-        );
-
-    if (treatmentLink) {
-        treatmentLink.hidden = ![
-            "ADMIN",
-            "DENTIST"
-        ].includes(result.user.role);
+    if (hour < 17) {
+        return "Good afternoon";
     }
 
-    if (reportLink) {
-        reportLink.hidden =
-            result.user.role !== "ADMIN";
-    }
+    return "Good evening";
 }
 
-logoutButton.addEventListener(
-    "click",
-    async () => {
-        await fetch(
-            "api/v1/auth/logout",
-            {
-                method: "POST",
-                credentials: "same-origin"
-            }
-        );
+function firstName(name) {
+    return String(name || "")
+        .replace(/\b(dr|mr|mrs|ms|prof)\.?\s+/gi, "")
+        .trim()
+        .split(/\s+/)[0] || "";
+}
 
-        window.location.replace("login.html");
-    }
-);
+const now = new Date();
 
-loadSession().catch(() => {
-    window.location.replace("login.html");
+todayDate.textContent = now.toLocaleDateString(undefined, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+});
+
+window.clinicShell.session.then(user => {
+    greeting.textContent =
+        `${greetingFor(now.getHours())}, ${firstName(user.fullName)}`;
+
+    subtitle.textContent =
+        ROLE_SUBTITLE[user.role] || "Here is everything you have access to.";
+
+    Object.entries(CARD_ACCESS).forEach(([key, allowedRoles]) => {
+        const card = document.getElementById("card" + key);
+
+        if (card) {
+            card.hidden = !allowedRoles.includes(user.role);
+        }
+    });
 });
