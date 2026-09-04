@@ -85,14 +85,17 @@ async function apiRequest(url, options = {}) {
 }
 
 async function loadSession() {
-    const result =
-        await apiRequest(
-            "api/v1/auth/session"
-        );
+
+    /*
+       shell.js has already fetched the session to build the sidebar, so reuse
+       its promise instead of calling api/v1/auth/session a second time. The
+       signed-in user is shown in the sidebar profile block, not on this page.
+    */
+    const user = await window.clinicShell.session;
 
     canCreateBills =
-        result.user.role === "ADMIN" ||
-        result.user.role === "CASHIER";
+        user.role === "ADMIN" ||
+        user.role === "CASHIER";
 
     billingFormPanel.hidden =
         !canCreateBills;
@@ -201,18 +204,38 @@ async function loadBills() {
         );
 
     } catch (error) {
-        billRows.replaceChildren();
-
         showMessage(
             error.message,
             "error"
         );
+
+        setBillRows(
+            document.createDocumentFragment()
+        );
     }
 }
 
-function renderBills(bills) {
-    billRows.replaceChildren();
+/*
+   Every write to the table goes through here, so a page that is missing the
+   table body reports it instead of failing on a null reference.
+*/
+function setBillRows(content) {
+    if (!billRows) {
+        showMessage(
+            "The bills table is missing from this page. " +
+            "Reload to get the latest version.",
+            "error"
+        );
 
+        return false;
+    }
+
+    billRows.replaceChildren(content);
+
+    return true;
+}
+
+function renderBills(bills) {
     if (bills.length === 0) {
         const row =
             document.createElement("tr");
@@ -220,15 +243,17 @@ function renderBills(bills) {
         const tableCell =
             document.createElement("td");
 
-        tableCell.colSpan = 6;
+        tableCell.colSpan = 5;
         tableCell.textContent =
             "No bills were found.";
 
         row.appendChild(tableCell);
-        billRows.appendChild(row);
 
-        return;
+        return setBillRows(row);
     }
+
+    const rows =
+        document.createDocumentFragment();
 
     bills.forEach(bill => {
         const row =
@@ -238,16 +263,20 @@ function renderBills(bills) {
             cell(bill.invoiceNumber)
         );
 
+        /* Patient name over the appointment it was billed for */
         row.appendChild(
-            cell(bill.patientName)
+            cell(
+                `${bill.patientName}\n` +
+                `${bill.appointmentNumber}`,
+                "stacked-cell"
+            )
         );
 
         row.appendChild(
-            cell(bill.appointmentNumber)
-        );
-
-        row.appendChild(
-            cell(currency(bill.totalAmount))
+            cell(
+                currency(bill.totalAmount),
+                "amount-cell"
+            )
         );
 
         const statusCell =
@@ -302,16 +331,22 @@ function renderBills(bills) {
         }
 
         row.appendChild(actions);
-        billRows.appendChild(row);
+        rows.appendChild(row);
     });
+
+    return setBillRows(rows);
 }
 
-function cell(value) {
+function cell(value, className = "") {
     const element =
         document.createElement("td");
 
     element.textContent =
         value ?? "-";
+
+    if (className) {
+        element.className = className;
+    }
 
     return element;
 }
@@ -732,7 +767,10 @@ function renderPaymentHistory(payments) {
         );
 
         row.appendChild(
-            cell(currency(payment.amount))
+            cell(
+                currency(payment.amount),
+                "amount-cell"
+            )
         );
 
         row.appendChild(
@@ -872,6 +910,12 @@ function setText(id, value) {
 }
 
 function showMessage(message, type) {
+
+    /* Guarded so reporting a problem can never itself throw */
+    if (!billingMessage) {
+        return;
+    }
+
     billingMessage.textContent =
         message;
 
@@ -953,12 +997,18 @@ paymentMethod.addEventListener(
     updateReferenceRequirement
 );
 
-document
-    .getElementById("closePaymentDialog")
-    .addEventListener(
-        "click",
-        () => paymentDialog.close()
-    );
+/* The header close button and the form's Cancel button both dismiss it */
+[
+    "closePaymentDialog",
+    "cancelPaymentButton"
+].forEach(id =>
+    document
+        .getElementById(id)
+        .addEventListener(
+            "click",
+            () => paymentDialog.close()
+        )
+);
 
 document
     .getElementById("closePaymentReceipt")

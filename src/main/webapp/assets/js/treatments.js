@@ -1,36 +1,35 @@
-const activeSessionRows = document.getElementById(
-    "activeSessionRows"
-);
+const activeSessions =
+    document.getElementById("activeSessions");
 
-const treatmentRecordRows = document.getElementById(
-    "treatmentRecordRows"
-);
+const treatmentRecordRows =
+    document.getElementById("treatmentRecordRows");
 
-const sessionMessage = document.getElementById(
-    "sessionMessage"
-);
+const sessionMessage =
+    document.getElementById("sessionMessage");
 
-const recordMessage = document.getElementById(
-    "recordMessage"
-);
+const recordMessage =
+    document.getElementById("recordMessage");
 
-const completeSessionDialog = document.getElementById(
-    "completeSessionDialog"
-);
+const completeSessionDialog =
+    document.getElementById("completeSessionDialog");
 
-const completeSessionForm = document.getElementById(
-    "completeSessionForm"
-);
+const completeSessionForm =
+    document.getElementById("completeSessionForm");
 
-const recordDialog = document.getElementById(
-    "recordDialog"
-);
+const completeSessionButton =
+    document.getElementById("completeSessionButton");
 
-const completeSessionButton = document.getElementById(
-    "completeSessionButton"
-);
+const recordDialog =
+    document.getElementById("recordDialog");
+
+const recordSearch =
+    document.getElementById("recordSearch");
+
+const refreshSessionsButton =
+    document.getElementById("refreshSessionsButton");
 
 async function apiRequest(url, options = {}) {
+
     const response = await fetch(url, {
         credentials: "same-origin",
         ...options
@@ -44,17 +43,24 @@ async function apiRequest(url, options = {}) {
     const result = await response.json();
 
     if (!response.ok) {
-        throw new Error(result.message || "Request failed");
+        throw new Error(
+            result.message || "Request failed"
+        );
     }
 
     return result;
 }
 
 async function loadSession() {
-    const result = await apiRequest("api/v1/auth/session");
-    const role = result.user.role;
 
-    if (!["ADMIN", "DENTIST"].includes(role)) {
+    /*
+       shell.js has already fetched the session to build the sidebar, so reuse
+       its promise instead of calling api/v1/auth/session a second time. The
+       controller enforces the same rule server side.
+    */
+    const user = await window.clinicShell.session;
+
+    if (!["ADMIN", "DENTIST"].includes(user.role)) {
         throw new Error(
             "Only an administrator or dentist can access " +
             "clinical treatment records"
@@ -62,10 +68,13 @@ async function loadSession() {
     }
 }
 
+/* ============================================================ live queue = */
+
 async function loadActiveSessions() {
+
     showMessage(
         sessionMessage,
-        "Loading active treatment sessions...",
+        "Loading active sessions...",
         "information"
     );
 
@@ -74,18 +83,31 @@ async function loadActiveSessions() {
             "api/v1/treatment-records/active"
         );
 
-        renderActiveSessions(result.appointments);
-
-        showMessage(
-            sessionMessage,
-            `${result.count} active session(s) found`,
-            "success"
+        const rendered = displayActiveSessions(
+            result.appointments
         );
+
+        /*
+           An empty queue already explains itself in the panel, so the status
+           line stays quiet rather than repeating it as "0 active session(s)".
+           If the queue could not be drawn at all, its message stands.
+        */
+        if (rendered) {
+            showMessage(
+                sessionMessage,
+                result.count === 0
+                    ? ""
+                    : `${result.count} active session(s)`,
+                "success"
+            );
+        }
 
         openRequestedAppointment(result.appointments);
 
     } catch (error) {
-        activeSessionRows.replaceChildren();
+        showEmptyQueue(
+            "Active sessions could not be loaded."
+        );
 
         showMessage(
             sessionMessage,
@@ -95,79 +117,200 @@ async function loadActiveSessions() {
     }
 }
 
-function renderActiveSessions(appointments) {
-    activeSessionRows.replaceChildren();
+function displayActiveSessions(appointments) {
 
     if (appointments.length === 0) {
-        appendEmptyRow(
-            activeSessionRows,
-            "No checked-in or active treatment sessions were found."
+        return showEmptyQueue(
+            "There are no active sessions available.",
+            "Patients appear here once reception has " +
+            "checked them in."
         );
-
-        return;
     }
 
+    /* Built off-document so the queue is replaced in one step */
+    const cards = document.createDocumentFragment();
+
     appointments.forEach(appointment => {
-        const row = document.createElement("tr");
-
-        row.dataset.appointmentId =
-            appointment.appointmentId.toString();
-
-        row.appendChild(
-            cell(
-                `${appointment.appointmentNumber}\n` +
-                formatDateTime(appointment.startAt)
-            )
+        cards.appendChild(
+            createSessionCard(appointment)
         );
-
-        row.appendChild(
-            cell(
-                `${appointment.patientName}\n` +
-                appointment.patientCode
-            )
-        );
-
-        row.appendChild(cell(appointment.dentistName));
-        row.appendChild(cell(appointment.treatmentName));
-
-        const statusCell = document.createElement("td");
-        const badge = document.createElement("span");
-
-        badge.className =
-            `status-badge status-${appointment.status.toLowerCase()}`;
-
-        badge.textContent = formatStatus(appointment.status);
-
-        statusCell.appendChild(badge);
-        row.appendChild(statusCell);
-
-        const actionCell = document.createElement("td");
-        actionCell.className = "table-actions";
-
-        if (appointment.status === "CHECKED_IN") {
-            actionCell.appendChild(
-                actionButton(
-                    "Start Session",
-                    () => startSession(appointment)
-                )
-            );
-        }
-
-        if (appointment.status === "IN_TREATMENT") {
-            actionCell.appendChild(
-                actionButton(
-                    "Complete Session",
-                    () => openCompleteDialog(appointment)
-                )
-            );
-        }
-
-        row.appendChild(actionCell);
-        activeSessionRows.appendChild(row);
     });
+
+    return setQueueContent(cards);
+}
+
+function createSessionCard(appointment) {
+
+    const card = document.createElement("article");
+
+    card.className = "session-card";
+    card.dataset.status = appointment.status;
+
+    const head = document.createElement("div");
+    head.className = "session-card-head";
+
+    const reference = document.createElement("div");
+
+    reference.appendChild(
+        createElement(
+            "p",
+            "session-number",
+            appointment.appointmentNumber
+        )
+    );
+
+    reference.appendChild(
+        createElement(
+            "p",
+            "session-time",
+            formatDateTime(appointment.startAt)
+        )
+    );
+
+    head.appendChild(reference);
+
+    head.appendChild(
+        createElement(
+            "span",
+            `status-badge status-${appointment.status.toLowerCase()}`,
+            formatStatus(appointment.status)
+        )
+    );
+
+    card.appendChild(head);
+
+    card.appendChild(
+        createElement(
+            "p",
+            "session-patient",
+            appointment.patientName
+        )
+    );
+
+    card.appendChild(
+        createElement(
+            "p",
+            "session-patient-code",
+            appointment.patientCode
+        )
+    );
+
+    const facts = document.createElement("dl");
+    facts.className = "session-facts";
+
+    facts.appendChild(
+        createFact("Dentist", appointment.dentistName)
+    );
+
+    facts.appendChild(
+        createFact("Treatment", appointment.treatmentName)
+    );
+
+    card.appendChild(facts);
+
+    if (appointment.status === "CHECKED_IN") {
+        card.appendChild(
+            createCardButton(
+                "Start Session",
+                () => startSession(appointment)
+            )
+        );
+    }
+
+    if (appointment.status === "IN_TREATMENT") {
+        card.appendChild(
+            createCardButton(
+                "Complete Session",
+                () => openCompleteDialog(appointment)
+            )
+        );
+    }
+
+    return card;
+}
+
+function createFact(label, value) {
+
+    const row = document.createElement("div");
+
+    row.appendChild(
+        createElement("dt", "", label)
+    );
+
+    row.appendChild(
+        createElement("dd", "", value || "-")
+    );
+
+    return row;
+}
+
+function createCardButton(text, action) {
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "button";
+    button.textContent = text;
+
+    button.addEventListener("click", action);
+
+    return button;
+}
+
+/*
+   Every queue render goes through here. If the container is missing - an
+   out-of-date copy of treatments.html left in the browser cache, for example -
+   the page says so in the status line instead of failing on a null reference.
+*/
+function setQueueContent(content) {
+
+    if (!activeSessions) {
+        showMessage(
+            sessionMessage,
+            "The active sessions panel is missing from this " +
+            "page. Reload to get the latest version.",
+            "error"
+        );
+
+        return false;
+    }
+
+    activeSessions.replaceChildren(content);
+
+    return true;
+}
+
+/* Returns false when the queue could not be drawn, so the caller leaves the
+   explanation from setQueueContent in place instead of overwriting it. */
+function showEmptyQueue(message, hint = "") {
+
+    const empty = document.createElement("div");
+    empty.className = "queue-empty";
+
+    /* Static markup only - the text is set with textContent below. */
+    empty.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor"
+                    stroke-width="1.7"/>
+            <path d="M12 7v5.2l3.2 2" stroke="currentColor"
+                  stroke-width="1.7" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+        </svg>
+        <p></p>`;
+
+    empty.querySelector("p").textContent = message;
+
+    if (hint) {
+        empty.appendChild(
+            createElement("p", "queue-empty-hint", hint)
+        );
+    }
+
+    return setQueueContent(empty);
 }
 
 async function startSession(appointment) {
+
     const confirmed = window.confirm(
         `Start treatment for ${appointment.patientName}?`
     );
@@ -177,19 +320,22 @@ async function startSession(appointment) {
     }
 
     const body = new URLSearchParams({
-        versionNumber: appointment.versionNumber.toString()
+        versionNumber:
+            appointment.versionNumber.toString()
     });
 
     try {
         const result = await apiRequest(
-            `api/v1/treatment-records/` +
+            "api/v1/treatment-records/" +
             `${appointment.appointmentId}/start`,
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type":
                         "application/x-www-form-urlencoded"
                 },
+
                 body
             }
         );
@@ -211,7 +357,10 @@ async function startSession(appointment) {
     }
 }
 
+/* ====================================================== completion dialog = */
+
 function openCompleteDialog(appointment) {
+
     completeSessionForm.reset();
 
     setValue(
@@ -231,7 +380,8 @@ function openCompleteDialog(appointment) {
 
     setText(
         "completePatientName",
-        `${appointment.patientName} (${appointment.patientCode})`
+        `${appointment.patientName} ` +
+        `(${appointment.patientCode})`
     );
 
     setText(
@@ -250,15 +400,19 @@ function openCompleteDialog(appointment) {
 completeSessionForm.addEventListener(
     "submit",
     async event => {
+
         event.preventDefault();
 
         if (!completeSessionForm.reportValidity()) {
             return;
         }
 
-        if (!window.confirm(
-            "Save this clinical record and complete the appointment?"
-        )) {
+        const confirmed = window.confirm(
+            "Save this clinical record and complete " +
+            "the appointment?"
+        );
+
+        if (!confirmed) {
             return;
         }
 
@@ -278,10 +432,12 @@ completeSessionForm.addEventListener(
                 "api/v1/treatment-records/complete",
                 {
                     method: "POST",
+
                     headers: {
                         "Content-Type":
                             "application/x-www-form-urlencoded"
                     },
+
                     body
                 }
             );
@@ -314,7 +470,10 @@ completeSessionForm.addEventListener(
     }
 );
 
+/* ====================================================== clinical history = */
+
 async function loadTreatmentRecords() {
+
     showMessage(
         recordMessage,
         "Loading treatment records...",
@@ -322,9 +481,7 @@ async function loadTreatmentRecords() {
     );
 
     const parameters = new URLSearchParams({
-        search: document.getElementById(
-            "recordSearch"
-        ).value.trim()
+        search: recordSearch.value.trim()
     });
 
     try {
@@ -332,7 +489,7 @@ async function loadTreatmentRecords() {
             `api/v1/treatment-records?${parameters}`
         );
 
-        renderTreatmentRecords(result.records);
+        displayTreatmentRecords(result.records);
 
         showMessage(
             recordMessage,
@@ -341,79 +498,144 @@ async function loadTreatmentRecords() {
         );
 
     } catch (error) {
-        treatmentRecordRows.replaceChildren();
-
         showMessage(
             recordMessage,
             error.message,
             "error"
         );
+
+        setRecordRows(document.createDocumentFragment());
     }
 }
 
-function renderTreatmentRecords(records) {
-    treatmentRecordRows.replaceChildren();
+/* The table counterpart of setQueueContent */
+function setRecordRows(content) {
 
-    if (records.length === 0) {
-        appendEmptyRow(
-            treatmentRecordRows,
-            "No treatment records were found."
+    if (!treatmentRecordRows) {
+        showMessage(
+            recordMessage,
+            "The treatment records table is missing from " +
+            "this page. Reload to get the latest version.",
+            "error"
         );
 
         return;
     }
 
+    treatmentRecordRows.replaceChildren(content);
+}
+
+function displayTreatmentRecords(records) {
+
+    if (records.length === 0) {
+        const row = document.createElement("tr");
+        const tableCell = document.createElement("td");
+
+        tableCell.colSpan = 6;
+        tableCell.textContent =
+            "No treatment records were found.";
+
+        row.appendChild(tableCell);
+        setRecordRows(row);
+
+        return;
+    }
+
+    const rows = document.createDocumentFragment();
+
     records.forEach(record => {
+
         const row = document.createElement("tr");
 
-        row.appendChild(cell(record.appointmentNumber));
+        row.appendChild(
+            createCell(record.appointmentNumber)
+        );
 
         row.appendChild(
-            cell(
-                `${record.patientName}\n${record.patientCode}`
+            createCell(
+                `${record.patientName}\n` +
+                `${record.patientCode}`,
+                "stacked-cell"
             )
         );
 
-        row.appendChild(cell(record.treatmentName));
-        row.appendChild(cell(record.diagnosis));
+        row.appendChild(
+            createCell(
+                record.treatmentName,
+                "treatment-cell"
+            )
+        );
 
         row.appendChild(
-            cell(formatDate(record.followUpDate))
+            createDiagnosisCell(record.diagnosis)
+        );
+
+        row.appendChild(
+            createCell(
+                formatDate(record.followUpDate)
+            )
         );
 
         const actionCell = document.createElement("td");
         actionCell.className = "table-actions";
 
         actionCell.appendChild(
-            actionButton(
+            createActionButton(
                 "View Record",
                 () => showRecord(record)
             )
         );
 
         row.appendChild(actionCell);
-        treatmentRecordRows.appendChild(row);
+        rows.appendChild(row);
     });
+
+    setRecordRows(rows);
 }
 
-async function loadRecord(recordId) {
-    try {
-        const result = await apiRequest(
-            `api/v1/treatment-records/${recordId}`
-        );
+function createCell(value, className = "") {
 
-        showRecord(result.record);
+    const cell = document.createElement("td");
 
-    } catch (error) {
-        showMessage(
-            recordMessage,
-            error.message,
-            "error"
-        );
+    cell.textContent = value || "-";
+
+    if (className) {
+        cell.className = className;
     }
+
+    return cell;
+}
+
+/* The span carries the two-line clamp; the cell itself must stay a table cell */
+function createDiagnosisCell(diagnosis) {
+
+    const cell = document.createElement("td");
+    cell.className = "diagnosis-cell";
+
+    cell.appendChild(
+        createElement("span", "", diagnosis || "-")
+    );
+
+    cell.title = diagnosis || "";
+
+    return cell;
+}
+
+function createActionButton(text, action) {
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "small-button";
+    button.textContent = text;
+
+    button.addEventListener("click", action);
+
+    return button;
 }
 
 function showRecord(record) {
+
     setText(
         "detailRecordAppointment",
         record.appointmentNumber
@@ -467,7 +689,12 @@ function showRecord(record) {
     recordDialog.showModal();
 }
 
+/*
+   appointments.html links here as treatments.html?appointmentId=... so the
+   dentist lands straight on the record form for that visit.
+*/
 function openRequestedAppointment(appointments) {
+
     const appointmentId = new URLSearchParams(
         window.location.search
     ).get("appointmentId");
@@ -485,51 +712,46 @@ function openRequestedAppointment(appointments) {
     }
 }
 
-function actionButton(label, action) {
-    const button = document.createElement("button");
+/* ================================================================ helpers = */
 
-    button.type = "button";
-    button.textContent = label;
-    button.className = "small-button";
-    button.addEventListener("click", action);
+function createElement(tag, className, text) {
 
-    return button;
+    const element = document.createElement(tag);
+
+    if (className) {
+        element.className = className;
+    }
+
+    element.textContent = text;
+
+    return element;
 }
 
-function cell(value) {
-    const tableCell = document.createElement("td");
+function setText(elementId, value) {
 
-    tableCell.textContent = value || "-";
-    tableCell.style.whiteSpace = "pre-line";
-
-    return tableCell;
+    document.getElementById(elementId)
+        .textContent = value || "-";
 }
 
-function appendEmptyRow(container, message) {
-    const row = document.createElement("tr");
-    const tableCell = document.createElement("td");
+function setValue(elementId, value) {
 
-    tableCell.colSpan = 6;
-    tableCell.textContent = message;
-
-    row.appendChild(tableCell);
-    container.appendChild(row);
-}
-
-function setText(id, value) {
-    document.getElementById(id).textContent = value || "-";
-}
-
-function setValue(id, value) {
-    document.getElementById(id).value = value ?? "";
+    document.getElementById(elementId)
+        .value = value ?? "";
 }
 
 function showMessage(element, message, type) {
+
+    /* Guarded so reporting a problem can never itself throw */
+    if (!element) {
+        return;
+    }
+
     element.textContent = message;
     element.className = `ui-message ${type}`;
 }
 
 function formatStatus(value) {
+
     return value
         .toLowerCase()
         .split("_")
@@ -540,6 +762,7 @@ function formatStatus(value) {
 }
 
 function formatDate(value) {
+
     if (!value) {
         return "Not scheduled";
     }
@@ -550,6 +773,7 @@ function formatDate(value) {
 }
 
 function formatDateTime(value) {
+
     if (!value) {
         return "-";
     }
@@ -560,18 +784,12 @@ function formatDateTime(value) {
     }).format(new Date(value));
 }
 
-const localToday = new Date();
+/* ================================================================= events = */
 
-localToday.setMinutes(
-    localToday.getMinutes() -
-    localToday.getTimezoneOffset()
+refreshSessionsButton.addEventListener(
+    "click",
+    loadActiveSessions
 );
-
-document.getElementById("followUpDate").min =
-    localToday.toISOString().slice(0, 10);
-
-document.getElementById("refreshSessionsButton")
-    .addEventListener("click", loadActiveSessions);
 
 document.getElementById("recordSearchForm")
     .addEventListener("submit", event => {
@@ -597,18 +815,32 @@ document.getElementById("closeRecordDialog")
         () => recordDialog.close()
     );
 
-loadSession()
-    .then(() => Promise.all([
+/* A follow-up visit cannot be booked in the past */
+const localToday = new Date();
+
+localToday.setMinutes(
+    localToday.getMinutes() -
+    localToday.getTimezoneOffset()
+);
+
+document.getElementById("followUpDate").min =
+    localToday.toISOString().slice(0, 10);
+
+async function initializePage() {
+
+    await loadSession();
+
+    await Promise.all([
         loadActiveSessions(),
         loadTreatmentRecords()
-    ]))
-    .catch(error => {
-        showMessage(
-            sessionMessage,
-            error.message,
-            "error"
-        );
+    ]);
+}
 
-        activeSessionRows.replaceChildren();
-        treatmentRecordRows.replaceChildren();
-    });
+initializePage().catch(error => {
+
+    showMessage(sessionMessage, error.message, "error");
+    showMessage(recordMessage, error.message, "error");
+
+    showEmptyQueue("Active sessions are unavailable.");
+    setRecordRows(document.createDocumentFragment());
+});

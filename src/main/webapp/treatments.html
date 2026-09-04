@@ -2,163 +2,192 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
     <title>Treatments | Sunrise Dental Clinic</title>
 
     <link rel="stylesheet"
-          href="assets/css/style.css">
+          href="assets/css/treatments.css">
 </head>
 
-<body class="application-page">
+<body>
 
-<header class="app-header">
-    <div>
-        <p class="label">Sunrise Dental Clinic</p>
-        <h1>Treatment Sessions</h1>
-        <p class="description">
-            Start dental sessions, document clinical care and
-            complete appointments safely.
-        </p>
-    </div>
+<aside id="appSidebar" class="sidebar"></aside>
 
-    <a class="navigation-link"
-       href="dashboard.html">
-        Dashboard
-    </a>
-</header>
+<main class="main-area">
 
-<main class="treatment-layout">
+    <header class="page-head">
+        <div>
+            <h1>Treatments</h1>
+            <p class="subtitle">
+                Start sessions for checked-in patients and document
+                the clinical care that was given.
+            </p>
+        </div>
 
-    <section class="panel active-session-panel">
-        <div class="section-heading-row">
-            <div>
-                <p class="label">Live workflow</p>
-                <h2>Active Treatment Sessions</h2>
+        <div class="head-chip">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 3v5a4 4 0 0 0 8 0V3" stroke="currentColor"
+                      stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M12 12v4a4 4 0 0 1-8 0v-1" stroke="currentColor"
+                      stroke-width="1.7" stroke-linecap="round"/>
+                <circle cx="4" cy="13" r="1.9" stroke="currentColor"
+                        stroke-width="1.7"/>
+            </svg>
+            <span>Clinical workspace</span>
+        </div>
+    </header>
+
+    <div class="workspace">
+
+        <!-- ================================================= list panel == -->
+        <section class="panel list-panel">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" stroke="currentColor"
+                                stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Treatment Records</h2>
+                    <p class="panel-sub">
+                        Search by appointment, patient, dentist or diagnosis
+                    </p>
+                </div>
             </div>
 
-            <button id="refreshSessionsButton"
-                    type="button"
-                    class="secondary-button">
-                Refresh
-            </button>
-        </div>
+            <form id="recordSearchForm" class="search-bar">
+                <div class="search-field">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" stroke="currentColor"
+                                stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
 
-        <p class="field-help">
-            Patients must be checked in before a dentist can start
-            treatment. Completing a session requires a clinical record.
-        </p>
+                    <input id="recordSearch"
+                           type="search"
+                           maxlength="100"
+                           placeholder="Appointment, patient, dentist or diagnosis">
+                </div>
 
-        <p id="sessionMessage"
-           class="ui-message"
-           role="status"></p>
+                <button type="submit" class="button">
+                    Search
+                </button>
+            </form>
 
-        <div class="table-container">
-            <table class="patient-table treatment-session-table">
-                <thead>
-                <tr>
-                    <th>Appointment</th>
-                    <th>Patient</th>
-                    <th>Dentist</th>
-                    <th>Treatment</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
+            <div class="table-container">
+                <table class="data-table record-table">
+                    <thead>
+                    <tr>
+                        <th>Appointment</th>
+                        <th>Patient</th>
+                        <th>Treatment</th>
+                        <th>Diagnosis</th>
+                        <th>Follow-up</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
 
-                <tbody id="activeSessionRows">
-                <tr>
-                    <td colspan="6">
-                        Loading active sessions...
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    <tbody id="treatmentRecordRows">
+                    <tr>
+                        <td colspan="6">Loading treatment records...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <section class="panel treatment-record-panel">
-        <p class="label">Clinical history</p>
-        <h2>Treatment Records</h2>
+            <!-- Result count sits under the table on the right -->
+            <div class="table-footer">
+                <span></span>
 
-        <form id="recordSearchForm"
-              class="treatment-search-form">
-            <input id="recordSearch"
-                   type="search"
-                   maxlength="100"
-                   placeholder="Appointment, patient, dentist or diagnosis">
+                <p id="recordMessage"
+                   class="ui-message"
+                   role="status"></p>
+            </div>
+        </section>
 
-            <button type="submit">Search</button>
-        </form>
+        <!-- ================================================ queue panel == -->
+        <section class="panel queue-panel">
 
-        <p id="recordMessage"
-           class="ui-message"
-           role="status"></p>
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor"
+                                stroke-width="1.7"/>
+                        <path d="M12 7v5.2l3.2 2" stroke="currentColor"
+                              stroke-width="1.7" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Active Sessions</h2>
+                    <p class="panel-sub">
+                        Waiting and in treatment
+                    </p>
+                </div>
 
-        <div class="table-container">
-            <table class="patient-table treatment-record-table">
-                <thead>
-                <tr>
-                    <th>Appointment</th>
-                    <th>Patient</th>
-                    <th>Treatment</th>
-                    <th>Diagnosis</th>
-                    <th>Follow-up</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
+                <button id="refreshSessionsButton"
+                        type="button"
+                        class="icon-button panel-head-action"
+                        aria-label="Refresh active sessions"
+                        title="Refresh">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M20 12a8 8 0 1 1-2.3-5.6" stroke="currentColor"
+                              stroke-width="1.9" stroke-linecap="round"/>
+                        <path d="M20 4v4h-4" stroke="currentColor"
+                              stroke-width="1.9" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
 
-                <tbody id="treatmentRecordRows">
-                <tr>
-                    <td colspan="6">
-                        Loading treatment records...
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+            <div id="activeSessions" class="session-queue">
+                <div class="queue-empty">
+                    <p>Loading active sessions...</p>
+                </div>
+            </div>
+
+            <div class="table-footer">
+                <span></span>
+
+                <p id="sessionMessage"
+                   class="ui-message"
+                   role="status"></p>
+            </div>
+        </section>
+
+    </div>
 </main>
 
-<dialog id="completeSessionDialog"
-        class="patient-dialog treatment-dialog">
+<!-- ================================================== completion dialog == -->
+<dialog id="completeSessionDialog" class="app-dialog">
 
     <div class="dialog-header">
         <div>
-            <p class="label">Clinical documentation</p>
             <h2>Complete Treatment Session</h2>
+            <p class="panel-sub">
+                Fields marked
+                <span class="required-mark">*</span>
+                are required
+            </p>
         </div>
 
         <button id="closeCompleteSessionDialog"
                 type="button"
                 class="icon-button"
-                aria-label="Close">×</button>
+                aria-label="Close">
+            &times;
+        </button>
     </div>
 
-    <div class="session-summary">
-        <p>
-            <span>Appointment</span>
-            <strong id="completeAppointmentNumber">-</strong>
-        </p>
-
-        <p>
-            <span>Patient</span>
-            <strong id="completePatientName">-</strong>
-        </p>
-
-        <p>
-            <span>Treatment</span>
-            <strong id="completeTreatmentName">-</strong>
-        </p>
-
-        <p>
-            <span>Dentist</span>
-            <strong id="completeDentistName">-</strong>
-        </p>
-    </div>
-
-    <form id="completeSessionForm">
+    <form id="completeSessionForm" class="dialog-form">
         <input id="completeAppointmentId"
                name="appointmentId"
                type="hidden">
@@ -167,74 +196,132 @@
                name="versionNumber"
                type="hidden">
 
-        <label for="diagnosis">Diagnosis *</label>
-        <textarea id="diagnosis"
-                  name="diagnosis"
-                  maxlength="1000"
-                  rows="3"
-                  required></textarea>
+        <dl class="session-summary">
+            <div>
+                <dt>Appointment</dt>
+                <dd id="completeAppointmentNumber">-</dd>
+            </div>
 
-        <label for="treatmentPerformed">
-            Treatment performed *
-        </label>
-        <textarea id="treatmentPerformed"
-                  name="treatmentPerformed"
-                  maxlength="1000"
-                  rows="3"
-                  required></textarea>
+            <div>
+                <dt>Patient</dt>
+                <dd id="completePatientName">-</dd>
+            </div>
 
-        <label for="clinicalNotes">Clinical notes</label>
-        <textarea id="clinicalNotes"
-                  name="clinicalNotes"
-                  maxlength="10000"
-                  rows="4"></textarea>
+            <div>
+                <dt>Treatment</dt>
+                <dd id="completeTreatmentName">-</dd>
+            </div>
 
-        <label for="prescription">Prescription</label>
-        <textarea id="prescription"
-                  name="prescription"
-                  maxlength="10000"
-                  rows="3"></textarea>
+            <div>
+                <dt>Dentist</dt>
+                <dd id="completeDentistName">-</dd>
+            </div>
+        </dl>
 
-        <label for="followUpDate">Follow-up date</label>
-        <input id="followUpDate"
-               name="followUpDate"
-               type="date">
+        <div class="field">
+            <label for="diagnosis">
+                Diagnosis <span class="required-mark">*</span>
+            </label>
+            <!-- autofocus so the dialog opens on the first field, not the
+                 close button -->
+            <textarea id="diagnosis"
+                      name="diagnosis"
+                      maxlength="1000"
+                      rows="3"
+                      placeholder="Findings for this visit"
+                      autofocus
+                      required></textarea>
+        </div>
+
+        <div class="field">
+            <label for="treatmentPerformed">
+                Treatment performed <span class="required-mark">*</span>
+            </label>
+            <textarea id="treatmentPerformed"
+                      name="treatmentPerformed"
+                      maxlength="1000"
+                      rows="3"
+                      placeholder="Procedures carried out"
+                      required></textarea>
+        </div>
+
+        <div class="field">
+            <label for="clinicalNotes">Clinical notes</label>
+            <textarea id="clinicalNotes"
+                      name="clinicalNotes"
+                      maxlength="10000"
+                      rows="3"
+                      placeholder="Observations for the patient record"></textarea>
+        </div>
+
+        <div class="field">
+            <label for="prescription">Prescription</label>
+            <textarea id="prescription"
+                      name="prescription"
+                      maxlength="10000"
+                      rows="3"
+                      placeholder="Medication, dosage and duration"></textarea>
+        </div>
+
+        <div class="field">
+            <label for="followUpDate">Follow-up date</label>
+            <input id="followUpDate"
+                   name="followUpDate"
+                   type="date">
+            <p class="field-help">
+                Leave empty if no follow-up visit is needed.
+            </p>
+        </div>
 
         <p class="clinical-warning">
-            Saving this record will mark the appointment as completed.
-            The record cannot be duplicated for the same appointment.
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3.8 21 19.5H3L12 3.8Z" stroke="currentColor"
+                      stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M12 10v4" stroke="currentColor" stroke-width="1.7"
+                      stroke-linecap="round"/>
+                <circle cx="12" cy="16.8" r="0.9" fill="currentColor"/>
+            </svg>
+
+            <span>
+                Saving this record marks the appointment as completed.
+                A second record cannot be added for the same appointment.
+            </span>
         </p>
 
-        <div class="dialog-actions">
+        <div class="form-actions">
             <button id="completeSessionButton"
-                    type="submit">
+                    type="submit"
+                    class="button">
                 Save Record and Complete
             </button>
 
             <button id="cancelCompleteSessionButton"
                     type="button"
-                    class="secondary-button">
+                    class="button button-secondary">
                 Cancel
             </button>
         </div>
     </form>
 </dialog>
 
-<dialog id="recordDialog"
-        class="patient-dialog treatment-dialog">
+<!-- ==================================================== details dialog == -->
+<dialog id="recordDialog" class="app-dialog">
+
     <div class="dialog-header">
         <div>
-            <p class="label">Clinical record</p>
             <h2 id="detailRecordAppointment">Treatment Record</h2>
+            <p class="panel-sub">Complete clinical record</p>
         </div>
 
         <button id="closeRecordDialog"
                 type="button"
                 class="icon-button"
-                aria-label="Close">×</button>
+                aria-label="Close">
+            &times;
+        </button>
     </div>
 
-    <dl class="patient-details treatment-details">
+    <dl class="detail-list">
         <dt>Patient</dt>
         <dd id="detailRecordPatient">-</dd>
 
@@ -264,6 +351,7 @@
     </dl>
 </dialog>
 
+<script src="assets/js/shell.js"></script>
 <script src="assets/js/treatments.js"></script>
 </body>
 </html>

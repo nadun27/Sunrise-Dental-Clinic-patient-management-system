@@ -1,0 +1,411 @@
+/* ==========================================================================
+   Billing page.
+
+   Same two-column workspace as the other pages: the bill directory fills the
+   wide left column and the "create bill" form sits in the right column.
+   Panels, table, forms and dialog chrome come from components.css; this file
+   adds the payment status colours, the money blocks and the printed receipt.
+   ========================================================================== */
+
+@import "components.css";
+
+/* Search box and status filter share one row above the table */
+.bill-search {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 175px auto;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+/* ==========================================================================
+   Payment status badges
+
+   billing.js builds the class as
+       status-badge payment-{paymentStatus.toLowerCase()}
+   so these names must stay in sync with the PaymentStatus enum:
+   UNPAID, PARTIALLY_PAID, PAID, VOID
+   ========================================================================== */
+
+.status-badge.payment-unpaid {
+    color: #b5752a;
+    background-color: #fbf0e0;
+}
+
+.status-badge.payment-partially_paid {
+    color: #2f6bbf;
+    background-color: #e6eefb;
+}
+
+.status-badge.payment-paid {
+    color: var(--ok);
+    background-color: var(--ok-bg);
+}
+
+.status-badge.payment-void {
+    color: #5c7080;
+    background-color: #eaeff2;
+}
+
+/* Money reads better right-aligned and in tabular figures */
+.data-table td.amount-cell,
+.data-table th.amount-column {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Five columns in a shared panel, so the cells are a little tighter */
+.bill-table th,
+.bill-table td {
+    padding-right: 11px;
+    padding-left: 11px;
+}
+
+.bill-table tbody td {
+    vertical-align: top;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+/* Patient name over appointment number, written as one \n string */
+.bill-table td.stacked-cell {
+    max-width: 175px;
+    white-space: pre-line;
+}
+
+/* Lets the two action buttons wrap instead of widening the table */
+.bill-table td.table-actions {
+    max-width: 190px;
+}
+
+/* ========================================================== money blocks = */
+
+/*
+   Shared by the appointment summary and the payment balance panel: a stack of
+   label / value rows inside a tinted box.
+*/
+.money-list {
+    margin: 0 0 15px;
+    padding: 14px 16px;
+
+    background-color: #f6fafb;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+}
+
+.money-list[hidden] {
+    display: none;
+}
+
+.money-list > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+
+    padding: 6px 0;
+}
+
+.money-list dt {
+    color: var(--ink-500);
+    font-size: 13px;
+}
+
+.money-list dd {
+    margin: 0;
+
+    font-size: 13.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+/* The running total closes the block */
+.money-list .total-row {
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.money-list .total-row dt {
+    color: var(--ink-900);
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+.money-list .total-row dd {
+    color: var(--teal-700);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* ============================================================= dialogs === */
+
+.dialog-form {
+    max-height: 60vh;
+    padding: 18px 24px 22px;
+    overflow-y: auto;
+}
+
+.dialog-form .form-actions {
+    margin-top: 18px;
+}
+
+/* Payment history sits below the payment form, inside the same dialog */
+.payment-history {
+    padding: 18px 24px 24px;
+    border-top: 1px solid var(--line-soft);
+}
+
+.payment-history h3 {
+    margin: 0 0 12px;
+
+    color: var(--ink-700);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+/* ============================================================== receipt == */
+
+.receipt-dialog {
+    width: min(560px, calc(100% - 32px));
+}
+
+.printable-bill {
+    max-height: 68vh;
+    padding: 26px 28px;
+    overflow-y: auto;
+}
+
+.receipt-header {
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+
+    text-align: center;
+    border-bottom: 2px solid var(--navy-800);
+}
+
+.receipt-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    margin: 0 0 8px;
+
+    color: var(--navy-800);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.receipt-brand svg {
+    width: 20px;
+    height: 20px;
+}
+
+.receipt-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.receipt-header .receipt-address {
+    margin: 4px 0 0;
+    color: var(--ink-500);
+    font-size: 12.5px;
+}
+
+/* Invoice number, patient and dates, two per row */
+.receipt-information {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 18px;
+
+    margin: 0 0 20px;
+}
+
+.receipt-information dt {
+    margin-bottom: 2px;
+
+    color: var(--ink-500);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.receipt-information dd {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.receipt-table {
+    width: 100%;
+    margin-bottom: 18px;
+    border-collapse: collapse;
+}
+
+.receipt-table th,
+.receipt-table td {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.receipt-table th {
+    color: var(--ink-700);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.receipt-table td {
+    font-size: 13.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.receipt-table .receipt-total th,
+.receipt-table .receipt-total td {
+    padding-top: 14px;
+
+    color: var(--navy-800);
+    font-size: 16px;
+    font-weight: 700;
+
+    border-top: 2px solid var(--navy-800);
+    border-bottom: none;
+}
+
+.receipt-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--line-soft);
+}
+
+.receipt-footer p {
+    margin: 0 0 6px;
+    color: var(--ink-700);
+    font-size: 12.5px;
+}
+
+.receipt-thank-you {
+    margin: 14px 0 0;
+
+    color: var(--ink-500);
+    font-size: 12.5px;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Print / close buttons under the receipt */
+.dialog-actions {
+    display: flex;
+    gap: 10px;
+
+    padding: 16px 24px 22px;
+    border-top: 1px solid var(--line-soft);
+}
+
+.dialog-actions .button {
+    flex: 1;
+}
+
+/* ==========================================================================
+   Fixed-height workspace (wide screens only)
+   components.css handles the list panel and the form panel; nothing extra
+   is needed here.
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+    .bill-search {
+        grid-template-columns: minmax(0, 1fr) 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .bill-search,
+    .receipt-information {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   Print
+
+   Only the open receipt is printed. Everything else - sidebar, workspace and
+   the dialog buttons - is hidden. billing.js adds .printing-payment to the
+   body while printing a payment receipt so the right dialog is chosen.
+   ========================================================================== */
+
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    body {
+        display: block;
+        color: #000000;
+        background-color: #ffffff;
+    }
+
+    body:not(.printing-payment) > :not(#billDialog) {
+        display: none !important;
+    }
+
+    body.printing-payment > :not(#paymentReceiptDialog) {
+        display: none !important;
+    }
+
+    #billDialog,
+    #paymentReceiptDialog {
+        display: block;
+        position: static;
+
+        width: 100%;
+        max-width: none;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+
+        color: #000000;
+        background-color: #ffffff;
+
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    #billDialog::backdrop,
+    #paymentReceiptDialog::backdrop {
+        display: none;
+    }
+
+    .printable-bill {
+        max-height: none;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .receipt-header,
+    .receipt-table .receipt-total th,
+    .receipt-table .receipt-total td {
+        border-color: #000000;
+    }
+
+    .receipt-brand,
+    .receipt-header h2,
+    .receipt-table .receipt-total th,
+    .receipt-table .receipt-total td {
+        color: #000000;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}

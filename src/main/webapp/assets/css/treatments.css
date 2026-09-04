@@ -1,0 +1,300 @@
+/* ==========================================================================
+   Treatments page.
+
+   Same two-column workspace as patients and appointments: the searchable
+   clinical history fills the wide left column, and the right column holds the
+   live session queue instead of a form (the clinical form is a dialog).
+   Panels, table, badges and dialog chrome come from components.css.
+   ========================================================================== */
+
+@import "components.css";
+
+/*
+   The queue cards are narrower than a form, so the right column gives some of
+   its width back to the six-column record table. Scoped to the width where
+   components.css uses two columns - below it the panels stack instead.
+*/
+@media (min-width: 1181px) {
+    .workspace {
+        grid-template-columns: minmax(0, 1fr) minmax(318px, 352px);
+    }
+}
+
+/* A panel head can carry a trailing control (the queue refresh button) */
+.panel-head-action {
+    margin-left: auto;
+}
+
+.panel-head-action svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================================== session queue = */
+
+.session-queue {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+}
+
+.session-card {
+    padding: 15px 16px;
+
+    background-color: #fbfdfe;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+
+    /* Coloured rail on the left repeats the status badge colour */
+    box-shadow: inset 3px 0 0 var(--session-accent, var(--teal-600));
+}
+
+.session-card[data-status="CHECKED_IN"] {
+    --session-accent: #7a4fb5;
+}
+
+.session-card[data-status="IN_TREATMENT"] {
+    --session-accent: #b5752a;
+}
+
+.session-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-bottom: 12px;
+}
+
+.session-number {
+    margin: 0;
+
+    color: var(--teal-700);
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.session-time {
+    margin: 2px 0 0;
+    color: var(--ink-500);
+    font-size: 12.5px;
+}
+
+.session-patient {
+    margin: 0;
+    font-size: 15.5px;
+    font-weight: 700;
+}
+
+.session-patient-code {
+    margin: 1px 0 0;
+    color: var(--ink-500);
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Dentist and treatment, as a label / value pair per row */
+.session-facts {
+    display: grid;
+    gap: 7px;
+
+    margin: 13px 0 0;
+    padding: 12px 0 0;
+
+    border-top: 1px solid var(--line-soft);
+}
+
+.session-facts > div {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 10px;
+}
+
+.session-facts dt {
+    color: var(--ink-500);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.session-facts dd {
+    margin: 0;
+    font-size: 13.5px;
+    overflow-wrap: anywhere;
+}
+
+.session-card .button {
+    width: 100%;
+    min-height: 40px;
+    margin-top: 14px;
+    padding: 10px 16px;
+    font-size: 13.5px;
+}
+
+/* Shown in place of the cards when nothing is waiting */
+.queue-empty {
+    padding: 30px 18px;
+    text-align: center;
+}
+
+.queue-empty svg {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 10px;
+    color: var(--ink-400);
+}
+
+.queue-empty p {
+    margin: 0;
+    color: var(--ink-500);
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+.queue-empty .queue-empty-hint {
+    margin-top: 7px;
+    color: var(--ink-400);
+    font-size: 12.5px;
+}
+
+/* ============================================================ record table */
+
+/* Six columns is a lot for this panel, so the cells are a little tighter */
+.record-table th,
+.record-table td {
+    padding-right: 11px;
+    padding-left: 11px;
+}
+
+/* Records carry stacked and free-text cells, so rows need more height */
+.record-table tbody td {
+    vertical-align: top;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+/* Patient name over patient code, written by the script as one \n string.
+   Needs the table selector to outrank the nowrap rule in components.css. */
+.record-table td.stacked-cell {
+    white-space: pre-line;
+}
+
+/* Treatment names wrap, which leaves the diagnosis column more room */
+.record-table td.treatment-cell {
+    max-width: 130px;
+    white-space: normal;
+}
+
+/*
+   Diagnosis is free text, up to 1000 characters. The cell keeps it to two
+   lines; the full text is in the record dialog behind "View Record".
+   The clamp goes on the inner span so the cell stays a table cell.
+*/
+.record-table td.diagnosis-cell {
+    min-width: 175px;
+    max-width: 240px;
+    white-space: normal;
+}
+
+.record-table td.diagnosis-cell span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+/* ================================================================ dialogs = */
+
+.dialog-form {
+    max-height: 62vh;
+    padding: 18px 24px 22px;
+    overflow-y: auto;
+}
+
+/* The four read-only facts about the session being documented */
+.session-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 18px;
+
+    margin-bottom: 20px;
+    padding: 14px 16px;
+
+    background-color: #f6fafb;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+}
+
+.session-summary dt {
+    margin-bottom: 2px;
+
+    color: var(--ink-500);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.session-summary dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.clinical-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    margin: 4px 0 0;
+    padding: 12px 14px;
+
+    color: #8a5a1c;
+    font-size: 12.5px;
+    line-height: 1.55;
+
+    background-color: #fdf6e9;
+    border: 1px solid #f2e0bd;
+    border-radius: var(--radius-md);
+}
+
+.clinical-warning svg {
+    flex: 0 0 auto;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+}
+
+/* The dialog form scrolls as one block, so the buttons are not pinned */
+.dialog-form .form-actions {
+    margin-top: 18px;
+}
+
+/* ==========================================================================
+   Fixed-height workspace (wide screens only)
+
+   components.css locks the main area to the viewport and scrolls each panel
+   separately. The queue takes the place of the form panel, so it gets the
+   same treatment: the head stays put and only the cards scroll.
+   ========================================================================== */
+
+@media (min-width: 1181px) {
+    .session-queue {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+
+        /* keeps the card shadows clear of the scrollbar */
+        padding-right: 6px;
+        margin-right: -6px;
+    }
+}
+
+@media (max-width: 560px) {
+    .session-summary {
+        grid-template-columns: 1fr;
+    }
+}

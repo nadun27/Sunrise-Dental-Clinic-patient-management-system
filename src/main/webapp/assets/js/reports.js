@@ -111,6 +111,12 @@ function formatStatus(value) {
 }
 
 function showMessage(message, type = "") {
+
+    /* Guarded so reporting a problem can never itself throw */
+    if (!reportMessage) {
+        return;
+    }
+
     reportMessage.textContent = message;
     reportMessage.className = "ui-message";
 
@@ -119,13 +125,22 @@ function showMessage(message, type = "") {
     }
 }
 
-function createCell(value) {
+function createCell(value, className = "") {
     const cell =
         document.createElement("td");
 
     cell.textContent = value;
 
+    if (className) {
+        cell.className = className;
+    }
+
     return cell;
+}
+
+/* Counts and money sit in their own right-aligned, tabular-figure column */
+function createFigureCell(value) {
+    return createCell(value, "figure-cell");
 }
 
 function renderEmptyRow(
@@ -133,8 +148,6 @@ function renderEmptyRow(
     columnCount,
     message
 ) {
-    tableBody.replaceChildren();
-
     const row =
         document.createElement("tr");
 
@@ -142,10 +155,9 @@ function renderEmptyRow(
         createCell(message);
 
     cell.colSpan = columnCount;
-    cell.className = "report-empty-cell";
 
     row.appendChild(cell);
-    tableBody.appendChild(row);
+    tableBody.replaceChildren(row);
 }
 
 function renderAppointmentStatuses(statuses) {
@@ -159,7 +171,8 @@ function renderAppointmentStatuses(statuses) {
         return;
     }
 
-    appointmentStatusRows.replaceChildren();
+    const rows =
+        document.createDocumentFragment();
 
     statuses.forEach(status => {
         const row =
@@ -172,13 +185,15 @@ function renderAppointmentStatuses(statuses) {
         );
 
         row.appendChild(
-            createCell(
+            createFigureCell(
                 status.appointmentCount
             )
         );
 
-        appointmentStatusRows.appendChild(row);
+        rows.appendChild(row);
     });
+
+    appointmentStatusRows.replaceChildren(rows);
 }
 
 function renderTreatments(treatments) {
@@ -192,30 +207,38 @@ function renderTreatments(treatments) {
         return;
     }
 
-    treatmentRows.replaceChildren();
+    const rows =
+        document.createDocumentFragment();
 
     treatments.forEach(treatment => {
         const row =
             document.createElement("tr");
 
         row.appendChild(
-            createCell(treatment.treatmentName)
-        );
-
-        row.appendChild(
-            createCell(treatment.appointmentCount)
-        );
-
-        row.appendChild(
             createCell(
+                treatment.treatmentName,
+                "name-cell"
+            )
+        );
+
+        row.appendChild(
+            createFigureCell(
+                treatment.appointmentCount
+            )
+        );
+
+        row.appendChild(
+            createFigureCell(
                 formatCurrency(
                     treatment.billedAmount
                 )
             )
         );
 
-        treatmentRows.appendChild(row);
+        rows.appendChild(row);
     });
+
+    treatmentRows.replaceChildren(rows);
 }
 
 function renderDentists(dentists) {
@@ -229,7 +252,8 @@ function renderDentists(dentists) {
         return;
     }
 
-    dentistRows.replaceChildren();
+    const rows =
+        document.createDocumentFragment();
 
     dentists.forEach(dentist => {
         const appointmentCount =
@@ -251,25 +275,30 @@ function renderDentists(dentists) {
             document.createElement("tr");
 
         row.appendChild(
-            createCell(dentist.dentistName)
-        );
-
-        row.appendChild(
-            createCell(appointmentCount)
-        );
-
-        row.appendChild(
-            createCell(completedCount)
-        );
-
-        row.appendChild(
             createCell(
+                dentist.dentistName,
+                "name-cell"
+            )
+        );
+
+        row.appendChild(
+            createFigureCell(appointmentCount)
+        );
+
+        row.appendChild(
+            createFigureCell(completedCount)
+        );
+
+        row.appendChild(
+            createFigureCell(
                 `${completionRate.toFixed(1)}%`
             )
         );
 
-        dentistRows.appendChild(row);
+        rows.appendChild(row);
     });
+
+    dentistRows.replaceChildren(rows);
 }
 
 function renderReport(report) {
@@ -326,21 +355,15 @@ function renderReport(report) {
 }
 
 async function loadSession() {
-    const response = await fetch(
-        "api/v1/auth/session",
-        {
-            credentials: "same-origin"
-        }
-    );
 
-    if (!response.ok) {
-        window.location.replace("login.html");
-        return false;
-    }
+    /*
+       shell.js has already fetched the session to build the sidebar, so reuse
+       its promise instead of calling api/v1/auth/session a second time. It
+       redirects to login.html itself when there is no session.
+    */
+    const user = await window.clinicShell.session;
 
-    const result = await response.json();
-
-    if (result.user.role !== "ADMIN") {
+    if (user.role !== "ADMIN") {
         window.location.replace("dashboard.html");
         return false;
     }

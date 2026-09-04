@@ -9,360 +9,805 @@
     <title>Help | Sunrise Dental Clinic</title>
 
     <link rel="stylesheet"
-          href="assets/css/style.css">
+          href="assets/css/help.css">
 </head>
 
-<body class="application-page help-page">
+<body>
 
-<header class="app-header">
-    <div>
-        <p class="label">
-            Sunrise Dental Clinic
-        </p>
+<aside id="appSidebar" class="sidebar"></aside>
 
-        <h1>Help and User Guide</h1>
+<main class="main-area">
 
-        <p class="description">
-            Instructions for using the patient management system
-            safely and correctly.
-        </p>
+    <header class="page-head">
+        <div>
+            <h1>Help</h1>
+            <p class="subtitle">
+                How to use the patient management system safely
+                and correctly.
+            </p>
+        </div>
+
+        <div class="head-chip">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor"
+                        stroke-width="1.7"/>
+                <path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6"
+                      stroke="currentColor" stroke-width="1.7"
+                      stroke-linecap="round"/>
+                <circle cx="12" cy="17" r="1" fill="currentColor"/>
+            </svg>
+            <span>User guide</span>
+        </div>
+    </header>
+
+    <div class="help-workspace">
+
+        <div class="help-sections">
+
+            <!-- ============================================== workflow == -->
+            <section id="workflow" class="panel">
+
+                <div class="panel-head">
+                    <div class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="1.8" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Standard Clinic Workflow</h2>
+                        <p class="panel-sub">
+                            The order a patient visit moves through the system
+                        </p>
+                    </div>
+                </div>
+
+                <ol class="workflow-steps">
+                    <li>
+                        <strong>Sign in</strong>
+                        Use your own staff account. The menu shows only the
+                        areas your role is allowed to open.
+                    </li>
+
+                    <li>
+                        <strong>Find or register the patient</strong>
+                        Search the directory first, so the same person is
+                        not entered twice.
+                    </li>
+
+                    <li>
+                        <strong>Book the appointment</strong>
+                        Choose the patient, dentist, treatment, date and
+                        time. Double bookings are blocked automatically.
+                    </li>
+
+                    <li>
+                        <strong>Check the patient in</strong>
+                        On arrival, move the appointment to Checked in so
+                        the dentist can start the session.
+                    </li>
+
+                    <li>
+                        <strong>Record the treatment</strong>
+                        The dentist starts the session and saves the
+                        clinical record, which completes the appointment.
+                    </li>
+
+                    <li>
+                        <strong>Create the bill and take payment</strong>
+                        Raise the bill for the completed appointment,
+                        record the payment and print the receipt.
+                    </li>
+
+                    <li>
+                        <strong>Sign out</strong>
+                        Always sign out when you finish, especially on a
+                        shared computer.
+                    </li>
+                </ol>
+            </section>
+
+            <!-- =============================================== modules == -->
+            <section id="modules" class="panel">
+
+                <div class="panel-head">
+                    <div class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="3" y="3" width="7.5" height="7.5" rx="2"
+                                  stroke="currentColor" stroke-width="1.7"/>
+                            <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"
+                                  stroke="currentColor" stroke-width="1.7"/>
+                            <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"
+                                  stroke="currentColor" stroke-width="1.7"/>
+                            <rect x="13.5" y="13.5" width="7.5" height="7.5"
+                                  rx="2" stroke="currentColor"
+                                  stroke-width="1.7"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Using Each Module</h2>
+                        <p class="panel-sub">
+                            What each area does and who can open it
+                        </p>
+                    </div>
+                </div>
+
+                <div class="module-cards">
+
+                    <article class="help-module">
+                        <div class="help-module-head">
+                            <div class="help-module-icon">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                     aria-hidden="true">
+                                    <circle cx="9" cy="8" r="3.4"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"/>
+                                    <path d="M3 20c0-3.2 2.7-5.2 6-5.2s6 2 6 5.2"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"/>
+                                    <path d="M17 11h4M19 9v4"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Patients</h3>
+                                <p class="help-module-roles">
+                                    Administrator, Reception
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            Register new patients, search the directory and
+                            open a full patient record.
+                        </p>
+
+                        <ul>
+                            <li>Search before registering anyone new.</li>
+                            <li>Record an accurate contact number.</li>
+                            <li>Deactivate rather than delete old records.</li>
+                        </ul>
+                    </article>
+
+                    <article class="help-module">
+                        <div class="help-module-head">
+                            <div class="help-module-icon">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                     aria-hidden="true">
+                                    <rect x="3" y="5" width="18" height="16"
+                                          rx="2.5" stroke="currentColor"
+                                          stroke-width="1.7"/>
+                                    <path d="M3 10h18M8 3v4M16 3v4"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Appointments</h3>
+                                <p class="help-module-roles">
+                                    Administrator, Reception
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            Book and reschedule visits, then move them through
+                            confirmed, checked in, completed or cancelled.
+                        </p>
+
+                        <ul>
+                            <li>Monday to Saturday, 08:00 to 18:00.</li>
+                            <li>Times run in 15-minute steps.</li>
+                            <li>A cancellation needs a reason.</li>
+                        </ul>
+                    </article>
+
+                    <article class="help-module">
+                        <div class="help-module-head">
+                            <div class="help-module-icon">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                     aria-hidden="true">
+                                    <path d="M8 3v5a4 4 0 0 0 8 0V3"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"/>
+                                    <path d="M12 12v4a4 4 0 0 1-8 0v-1"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"/>
+                                    <circle cx="4" cy="13" r="1.9"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Treatments</h3>
+                                <p class="help-module-roles">
+                                    Administrator, Dentist
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            Start sessions for checked-in patients and write
+                            the clinical record for the visit.
+                        </p>
+
+                        <ul>
+                            <li>The patient must be checked in first.</li>
+                            <li>Diagnosis and treatment given are required.</li>
+                            <li>One record only, per appointment.</li>
+                        </ul>
+                    </article>
+
+                    <article class="help-module">
+                        <div class="help-module-head">
+                            <div class="help-module-icon">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                     aria-hidden="true">
+                                    <path d="M5 3h14v18l-2.3-1.6-2.4 1.6-2.3-1.6L9.7 21l-2.4-1.6L5 21V3Z"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linejoin="round"/>
+                                    <path d="M9 8h6M9 12h6"
+                                          stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Billing</h3>
+                                <p class="help-module-roles">
+                                    Administrator, Cashier
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            Raise bills for completed appointments, record
+                            payments and print bills and receipts.
+                        </p>
+
+                        <ul>
+                            <li>Only completed, unbilled visits are listed.</li>
+                            <li>A discount needs a written reason.</li>
+                            <li>Record only money actually received.</li>
+                        </ul>
+                    </article>
+
+                    <article class="help-module">
+                        <div class="help-module-head">
+                            <div class="help-module-icon">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                     aria-hidden="true">
+                                    <path d="M4 19V9m5 10V5m5 14v-7m5 7V8"
+                                          stroke="currentColor"
+                                          stroke-width="1.9"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Reports</h3>
+                                <p class="help-module-roles">
+                                    Administrator only
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            Summarise appointments, patients, treatments and
+                            revenue for a date range, and print the result.
+                        </p>
+
+                        <ul>
+                            <li>Choose both the from and to dates.</li>
+                            <li>Check the totals before printing.</li>
+                            <li>Keep printed reports secure.</li>
+                        </ul>
+                    </article>
+
+                    <article class="help-module">
+                        <div class="help-module-head">
+                            <div class="help-module-icon">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                     aria-hidden="true">
+                                    <rect x="3" y="5" width="18" height="14"
+                                          rx="2.5" stroke="currentColor"
+                                          stroke-width="1.7"/>
+                                    <path d="m4 7 8 6 8-6" stroke="currentColor"
+                                          stroke-width="1.7"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Email notifications</h3>
+                                <p class="help-module-roles">
+                                    Automatic &mdash; no page to open
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            The system emails the patient by itself when a
+                            visit or payment is recorded. There is no inbox
+                            for staff to check.
+                        </p>
+
+                        <ul>
+                            <li>
+                                Sent when an appointment is booked,
+                                rescheduled or cancelled.
+                            </li>
+                            <li>
+                                Sent when a treatment is completed, a bill is
+                                created or a payment is received.
+                            </li>
+                            <li>
+                                An email is not proof of payment &mdash; check
+                                the bill in Billing.
+                            </li>
+                        </ul>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- ================================================ access == -->
+            <section id="access" class="panel">
+
+                <div class="panel-head">
+                    <div class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="4" y="10" width="16" height="11" rx="2.5"
+                                  stroke="currentColor" stroke-width="1.7"/>
+                            <path d="M8 10V7.5a4 4 0 0 1 8 0V10"
+                                  stroke="currentColor" stroke-width="1.7"
+                                  stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Access by Staff Role</h2>
+                        <p class="panel-sub">
+                            What each of the four roles can open
+                        </p>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table access-table">
+                        <thead>
+                        <tr>
+                            <th>System area</th>
+                            <th>Administrator</th>
+                            <th>Reception</th>
+                            <th>Dentist</th>
+                            <th>Cashier</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>Patients</td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Appointments</td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Treatments</td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Billing and payments</td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Management reports</td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge blocked">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+                                    Restricted
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Dashboard and Help</td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                            <td>
+                                <span class="access-badge allowed">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         aria-hidden="true"><path d="m5 13 4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Available
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="help-note">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor"
+                                stroke-width="1.7"/>
+                        <path d="M12 11v5" stroke="currentColor"
+                              stroke-width="1.7" stroke-linecap="round"/>
+                        <circle cx="12" cy="8" r="1" fill="currentColor"/>
+                    </svg>
+
+                    <span>
+                        The menu hides areas your role cannot open, and the
+                        server refuses the request as well. If a page you
+                        need is missing, ask the administrator to check
+                        your role.
+                    </span>
+                </p>
+            </section>
+
+            <!-- ============================================== problems == -->
+            <section id="problems" class="panel">
+
+                <div class="panel-head">
+                    <div class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor"
+                                    stroke-width="1.7"/>
+                            <path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6"
+                                  stroke="currentColor" stroke-width="1.7"
+                                  stroke-linecap="round"/>
+                            <circle cx="12" cy="17" r="1" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Common Problems</h2>
+                        <p class="panel-sub">
+                            Select a question to see what to do
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-list">
+
+                    <details>
+                        <summary>I cannot sign in</summary>
+                        <p>
+                            Check the username and password, and make sure
+                            Caps Lock is off. Accounts are disabled rather
+                            than deleted when staff leave, so ask the
+                            administrator if the details look correct.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>A page sends me back to the sign-in screen</summary>
+                        <p>
+                            Your session has ended, either because you signed
+                            out or because it expired. Sign in again and
+                            reopen the page.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>A menu item I expected is missing</summary>
+                        <p>
+                            The menu only lists the areas your role can open.
+                            Check the access table above; if the area should
+                            be available to you, ask the administrator to
+                            review your role.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>An appointment will not save</summary>
+                        <p>
+                            The time must be Monday to Saturday, between
+                            08:00 and 18:00, in 15-minute steps, and neither
+                            the dentist nor the patient may already be booked
+                            then. Read the message shown under the form.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>I cannot start or complete a treatment session</summary>
+                        <p>
+                            The patient must be checked in before a session
+                            can start, and a session must be in treatment
+                            before it can be completed. Reception can check
+                            the patient in from Appointments.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>An appointment is missing from Create Bill</summary>
+                        <p>
+                            Only completed appointments that have not been
+                            billed yet appear there. Confirm the treatment
+                            record was saved, and search Billing in case the
+                            bill already exists.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>The report is empty</summary>
+                        <p>
+                            Check the date range. A report shows zero results
+                            when there was no clinic activity in that period.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>Recent changes are not showing</summary>
+                        <p>
+                            Refresh the page. If it still looks out of date,
+                            press Ctrl + F5 to reload the latest files from
+                            the server.
+                        </p>
+                    </details>
+
+                </div>
+            </section>
+
+            <!-- ================================================ safety == -->
+            <section id="safety" class="panel">
+
+                <div class="panel-head">
+                    <div class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 3l7 3v5.5c0 4.2-2.9 7.7-7 9-4.1-1.3-7-4.8-7-9V6l7-3Z"
+                                  stroke="currentColor" stroke-width="1.7"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Safe System Use</h2>
+                        <p class="panel-sub">
+                            Protecting patient and payment information
+                        </p>
+                    </div>
+                </div>
+
+                <ul class="safety-list">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="2.2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        Never share your username or password, and never work
+                        under someone else's account.
+                    </li>
+
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="2.2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        Check patient details on screen before saving any
+                        change.
+                    </li>
+
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="2.2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        Do not leave the system open on an unattended
+                        computer.
+                    </li>
+
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="2.2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        Do not discuss or pass on patient, clinical or
+                        billing information to anyone outside the clinic.
+                    </li>
+
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="2.2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        Keep printed bills, receipts and reports secure, and
+                        dispose of them properly.
+                    </li>
+
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="m5 13 4 4 10-10" stroke="currentColor"
+                                  stroke-width="2.2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                        Report wrong information or anything suspicious to the
+                        clinic administrator.
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+
+        <!-- ================================================== contents == -->
+        <nav class="panel help-contents" aria-label="On this page">
+            <h2>On this page</h2>
+
+            <ol>
+                <li><a href="#workflow">Clinic workflow</a></li>
+                <li><a href="#modules">Using each module</a></li>
+                <li><a href="#access">Access by role</a></li>
+                <li><a href="#problems">Common problems</a></li>
+                <li><a href="#safety">Safe system use</a></li>
+            </ol>
+        </nav>
+
     </div>
-
-    <a class="navigation-link"
-       href="dashboard.html">
-        Dashboard
-    </a>
-</header>
-
-<main class="help-layout">
-
-    <section class="panel help-introduction">
-        <p class="label">Quick start</p>
-        <h2>Standard Clinic Workflow</h2>
-
-        <ol class="workflow-list">
-            <li>
-                <strong>Sign in</strong>
-                using your authorized staff account.
-            </li>
-
-            <li>
-                <strong>Find or register the patient</strong>
-                before creating an appointment.
-            </li>
-
-            <li>
-                <strong>Create the appointment</strong>
-                with the dentist, treatment, date and time.
-            </li>
-
-            <li>
-                <strong>Update the appointment</strong>
-                when it is completed or cancelled.
-            </li>
-
-            <li>
-                <strong>Generate the bill</strong>
-                and record the patient’s payment.
-            </li>
-
-            <li>
-                <strong>Review management reports</strong>
-                if your account has administrator access.
-            </li>
-
-            <li>
-                <strong>Log out</strong>
-                when you finish using the system.
-            </li>
-        </ol>
-    </section>
-
-    <section class="panel">
-        <p class="label">System modules</p>
-        <h2>How to Use Each Module</h2>
-
-        <div class="help-module-grid">
-
-            <article class="help-module-card">
-                <span class="help-step-number">01</span>
-                <h3>Patients</h3>
-
-                <p>
-                    Use the patient module to register new patients,
-                    search existing records and review patient details.
-                </p>
-
-                <ul>
-                    <li>Check for an existing patient first.</li>
-                    <li>Enter accurate contact information.</li>
-                    <li>Do not create duplicate patient records.</li>
-                </ul>
-            </article>
-
-            <article class="help-module-card">
-                <span class="help-step-number">02</span>
-                <h3>Appointments</h3>
-
-                <p>
-                    Create and manage appointments using the selected
-                    patient, dentist, treatment, date and time.
-                </p>
-
-                <ul>
-                    <li>Confirm the patient and dentist.</li>
-                    <li>Check the selected appointment time.</li>
-                    <li>Update the status after the appointment.</li>
-                </ul>
-            </article>
-
-            <article class="help-module-card">
-                <span class="help-step-number">03</span>
-                <h3>Treatments</h3>
-
-                <p>
-                    Authorized administrators and dentists can manage
-                    the clinic’s treatment information and prices.
-                </p>
-
-                <ul>
-                    <li>Use clear treatment names.</li>
-                    <li>Check the price before saving.</li>
-                    <li>Do not remove an active treatment carelessly.</li>
-                </ul>
-            </article>
-
-            <article class="help-module-card">
-                <span class="help-step-number">04</span>
-                <h3>Billing</h3>
-
-                <p>
-                    Generate bills from appointment and treatment
-                    information, then record received payments.
-                </p>
-
-                <ul>
-                    <li>Verify the patient and treatment.</li>
-                    <li>Check the total before generating the bill.</li>
-                    <li>Record only payments actually received.</li>
-                </ul>
-            </article>
-
-            <article class="help-module-card">
-                <span class="help-step-number">05</span>
-                <h3>Notifications</h3>
-
-                <p>
-                    System notifications provide information about
-                    important appointment, treatment and billing events.
-                </p>
-
-                <ul>
-                    <li>Read new notifications carefully.</li>
-                    <li>Confirm important changes with clinic records.</li>
-                    <li>Do not treat a notification as a payment receipt.</li>
-                </ul>
-            </article>
-
-            <article class="help-module-card">
-                <span class="help-step-number">06</span>
-                <h3>Reports</h3>
-
-                <p>
-                    Administrators can generate reports for a selected
-                    date range and print them when required.
-                </p>
-
-                <ul>
-                    <li>Select both the from and to dates.</li>
-                    <li>Review totals before printing.</li>
-                    <li>Store printed reports securely.</li>
-                </ul>
-            </article>
-
-        </div>
-    </section>
-
-    <section class="panel">
-        <p class="label">Permissions</p>
-        <h2>Access by Staff Role</h2>
-
-        <div class="table-container">
-            <table class="patient-table help-access-table">
-                <thead>
-                <tr>
-                    <th>System area</th>
-                    <th>Administrator</th>
-                    <th>Dentist</th>
-                    <th>Reception staff</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Patients</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                </tr>
-
-                <tr>
-                    <td>Appointments</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                </tr>
-
-                <tr>
-                    <td>Billing</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                </tr>
-
-                <tr>
-                    <td>Treatment management</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                    <td>Restricted</td>
-                </tr>
-
-                <tr>
-                    <td>Management reports</td>
-                    <td>Available</td>
-                    <td>Restricted</td>
-                    <td>Restricted</td>
-                </tr>
-
-                <tr>
-                    <td>Help page</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                    <td>Available</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <p class="help-note">
-            The system automatically hides or blocks functions that
-            are not available to the signed-in staff role.
-        </p>
-    </section>
-
-    <section class="panel">
-        <p class="label">Problem solving</p>
-        <h2>Common Problems</h2>
-
-        <div class="help-faq-list">
-
-            <details>
-                <summary>
-                    I cannot sign in
-                </summary>
-
-                <p>
-                    Check the username and password carefully. Confirm
-                    that Caps Lock is off. If the problem continues,
-                    contact the clinic administrator.
-                </p>
-            </details>
-
-            <details>
-                <summary>
-                    A page returns to the login screen
-                </summary>
-
-                <p>
-                    Your session may have ended, or you may have logged
-                    out. Sign in again and reopen the required page.
-                </p>
-            </details>
-
-            <details>
-                <summary>
-                    I cannot see Treatments or Reports
-                </summary>
-
-                <p>
-                    These functions depend on the signed-in staff role.
-                    Treatment management is limited to authorized roles,
-                    while management reports require administrator access.
-                </p>
-            </details>
-
-            <details>
-                <summary>
-                    An appointment cannot be created
-                </summary>
-
-                <p>
-                    Check all required fields and verify the selected
-                    date, time, dentist, patient and treatment. Read the
-                    validation message displayed by the system.
-                </p>
-            </details>
-
-            <details>
-                <summary>
-                    The report contains no information
-                </summary>
-
-                <p>
-                    Check the selected date range. A report may contain
-                    zero results when no clinic activity exists within
-                    that period.
-                </p>
-            </details>
-
-            <details>
-                <summary>
-                    Recent changes are not visible
-                </summary>
-
-                <p>
-                    Refresh the page. If necessary, use Ctrl + F5 to
-                    reload the latest page files from the server.
-                </p>
-            </details>
-
-        </div>
-    </section>
-
-    <section class="panel help-security-panel">
-        <p class="label">Data protection</p>
-        <h2>Safe System Use</h2>
-
-        <ul class="security-guidance-list">
-            <li>
-                Never share your username or password with another person.
-            </li>
-
-            <li>
-                Check patient information before saving any change.
-            </li>
-
-            <li>
-                Do not leave the system open on an unattended computer.
-            </li>
-
-            <li>
-                Do not disclose patient or billing information to
-                unauthorized people.
-            </li>
-
-            <li>
-                Log out after completing your work.
-            </li>
-
-            <li>
-                Report incorrect information or suspicious activity
-                to the clinic administrator.
-            </li>
-        </ul>
-    </section>
-
 </main>
 
+<script src="assets/js/shell.js"></script>
 </body>
 </html>

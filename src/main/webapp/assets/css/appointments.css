@@ -1,7 +1,7 @@
 /* ==========================================================================
    Appointments page.
-   Layout, panels, forms, table and dialog come from components.css; this file
-   adds the three-field search bar and the appointment status colours.
+   Layout, panels, forms, table, dialog and the appointment status colours all
+   come from components.css; this file adds the three-field search bar.
    ========================================================================== */
 
 @import "components.css";
@@ -12,50 +12,6 @@
     grid-template-columns: minmax(0, 1fr) 170px 170px auto;
     gap: 10px;
     margin-bottom: 14px;
-}
-
-/* ==========================================================================
-   Status badges
-
-   appointments.js builds the class as
-       status-badge status-{status.toLowerCase()}
-   so these names must stay in sync with the AppointmentStatus enum:
-   SCHEDULED, CONFIRMED, CHECKED_IN, IN_TREATMENT, COMPLETED, CANCELLED, NO_SHOW
-   ========================================================================== */
-
-.status-badge.status-scheduled {
-    color: #2f6bbf;
-    background-color: #e6eefb;
-}
-
-.status-badge.status-confirmed {
-    color: #11806f;
-    background-color: #e0f3ef;
-}
-
-.status-badge.status-checked_in {
-    color: #7a4fb5;
-    background-color: #efe8f9;
-}
-
-.status-badge.status-in_treatment {
-    color: #b5752a;
-    background-color: #fbf0e0;
-}
-
-.status-badge.status-completed {
-    color: #196b4d;
-    background-color: #e2f4ea;
-}
-
-.status-badge.status-cancelled {
-    color: var(--bad);
-    background-color: var(--bad-bg);
-}
-
-.status-badge.status-no_show {
-    color: #5c7080;
-    background-color: #eaeff2;
 }
 
 /* Appointment rows carry two lines of text in some cells (set by the script

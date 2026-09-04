@@ -423,6 +423,49 @@ textarea:focus {
     background-color: var(--bad-bg);
 }
 
+/*
+   Appointment status colours, shared by the appointments diary and the
+   treatments workspace. The page scripts build the class as
+       status-badge status-{status.toLowerCase()}
+   so these names must stay in sync with the AppointmentStatus enum:
+   SCHEDULED, CONFIRMED, CHECKED_IN, IN_TREATMENT, COMPLETED, CANCELLED, NO_SHOW
+*/
+
+.status-badge.status-scheduled {
+    color: #2f6bbf;
+    background-color: #e6eefb;
+}
+
+.status-badge.status-confirmed {
+    color: #11806f;
+    background-color: #e0f3ef;
+}
+
+.status-badge.status-checked_in {
+    color: #7a4fb5;
+    background-color: #efe8f9;
+}
+
+.status-badge.status-in_treatment {
+    color: #b5752a;
+    background-color: #fbf0e0;
+}
+
+.status-badge.status-completed {
+    color: #196b4d;
+    background-color: #e2f4ea;
+}
+
+.status-badge.status-cancelled {
+    color: var(--bad);
+    background-color: var(--bad-bg);
+}
+
+.status-badge.status-no_show {
+    color: #5c7080;
+    background-color: #eaeff2;
+}
+
 /* ------------------------------------------------------- action buttons -- */
 
 .table-actions {
@@ -695,8 +738,11 @@ textarea:focus {
 /* Below this width the layout stacks and the page scrolls normally, so none
    of the fixed-height rules above apply. */
 @media (max-width: 1180px) {
+    /* minmax(0, …) rather than a bare 1fr: a plain 1fr is floored at the
+       content's min-content width, so a wide table would stretch the page
+       sideways instead of scrolling inside its own container. */
     .workspace {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
