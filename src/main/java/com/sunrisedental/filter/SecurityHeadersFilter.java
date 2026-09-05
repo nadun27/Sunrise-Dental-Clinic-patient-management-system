@@ -81,6 +81,20 @@ public class SecurityHeadersFilter implements Filter {
                     "Pragma",
                     "no-cache"
             );
+
+        } else if (isStaticAsset(request)) {
+            /*
+               "no-cache" still lets the browser keep a copy, but it has to
+               revalidate before using it, so Tomcat answers an unchanged
+               file with 304 Not Modified. Without this the stylesheets and
+               scripts carry no cache directive at all, and the browser is
+               free to serve an old copy for hours - which makes a deployed
+               change look as though it never happened.
+            */
+            response.setHeader(
+                    "Cache-Control",
+                    "no-cache"
+            );
         }
 
         chain.doFilter(
@@ -89,15 +103,17 @@ public class SecurityHeadersFilter implements Filter {
         );
     }
 
+    /* Stylesheets, scripts, fonts and images served from /assets/ */
+    private boolean isStaticAsset(
+            HttpServletRequest request
+    ) {
+        return pathOf(request).startsWith("/assets/");
+    }
+
     private boolean isSensitivePath(
             HttpServletRequest request
     ) {
-        String contextPath =
-                request.getContextPath();
-
-        String path =
-                request.getRequestURI()
-                        .substring(contextPath.length());
+        String path = pathOf(request);
 
         return path.startsWith("/api/")
                 || path.equals("/dashboard.html")
@@ -107,5 +123,11 @@ public class SecurityHeadersFilter implements Filter {
                 || path.equals("/treatments.html")
                 || path.equals("/reports.html")
                 || path.equals("/help.html");
+    }
+
+    /* Request path with the context path removed */
+    private String pathOf(HttpServletRequest request) {
+        return request.getRequestURI()
+                .substring(request.getContextPath().length());
     }
 }

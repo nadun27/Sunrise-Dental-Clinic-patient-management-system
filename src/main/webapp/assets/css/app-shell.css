@@ -7,28 +7,73 @@
 /* Must stay at the top of the file: @import rules precede all other rules. */
 @import "fonts.css";
 
+/* ==========================================================================
+   Theme: Clinical Indigo
+
+   Every colour in the application comes from this block. Page stylesheets
+   reference the tokens and never hard-code a hex, so the whole application
+   can be re-themed by editing this one place.
+   ========================================================================== */
+
 :root {
-    --navy-900: #0b2739;
-    --navy-800: #103a52;
-    --teal-700: #176b87;
-    --teal-600: #1b7f9e;
-    --teal-500: #16877d;
+    /* Brand ramp - 900 is the deepest (sidebar), 700 the primary accent */
+    --brand-900: #1d1a3d;
+    --brand-800: #2b2565;
+    --brand-700: #4a3fa8;
+    --brand-600: #5b4fc4;
+    --brand-500: #7c6fe0;
 
-    --ink-900: #12293c;
-    --ink-700: #33556b;
-    --ink-500: #64818f;
-    --ink-400: #8aa5b1;
+    /* Text */
+    --ink-900: #1c1930;
+    --ink-700: #46416b;
+    --ink-500: #706b90;
+    --ink-400: #948fad;
 
-    --line: #dfeaee;
-    --line-soft: #eaf2f5;
+    /* Borders */
+    --line: #e4e1f0;
+    --line-soft: #efedf8;
+    --line-strong: #cdc7e8;
+
+    /* Surfaces, lightest to most tinted */
     --surface: #ffffff;
-    --canvas: #f4f9fa;
+    --surface-subtle: #fcfbff;
+    --surface-hover: #faf9ff;
+    --surface-muted: #f7f6fd;
+    --surface-control: #eeecf9;
+    --surface-control-hover: #e4e1f4;
+    --canvas: #f6f5fb;
 
-    --ok: #11806f;
-    --ok-bg: #e4f6f1;
+    /* Brand tints for icon chips and quiet buttons */
+    --tint-brand: #ebe8fa;
+    --tint-brand-soft: #f1effc;
+    --tint-brand-border: #ddd8f2;
+
+    /* Feedback */
+    --ok: #0f7a63;
+    --ok-bg: #e3f5f0;
+    --ok-border: #c3e8dd;
     --bad: #b42318;
     --bad-bg: #fdecea;
-    --info: #176b87;
+    --bad-border: var(--bad-border);
+    --info: var(--brand-700);
+
+    /*
+       Status hues. Kept apart from the brand ramp so a badge never reads as
+       a brand element, and each one ships with a text label as well.
+    */
+    --status-info: #3b5bc0;
+    --status-info-bg: #e8ecfb;
+    --status-good: #0f7a63;
+    --status-good-bg: #e3f5f0;
+    --status-cyan: #0e7490;
+    --status-cyan-bg: #ddf1f7;
+    --status-warn: #9a5d1c;
+    --status-warn-bg: #fbeedd;
+    --status-warn-border: #f0dcbc;
+    --status-done: #17694a;
+    --status-done-bg: #e1f4e9;
+    --status-mute: #6b6688;
+    --status-mute-bg: #edecf3;
 
     --sidebar-width: 268px;
 
@@ -36,11 +81,12 @@
     --radius-md: 12px;
     --radius-sm: 9px;
 
-    --shadow-sm: 0 2px 8px rgba(11, 39, 57, 0.05);
-    --shadow-md: 0 10px 30px rgba(11, 39, 57, 0.09);
-    --shadow-lg: 0 24px 70px rgba(11, 39, 57, 0.22);
+    --shadow-sm: 0 2px 8px rgba(29, 26, 61, 0.05);
+    --shadow-md: 0 10px 30px rgba(29, 26, 61, 0.10);
+    --shadow-lg: 0 24px 70px rgba(29, 26, 61, 0.24);
+    --shadow-button: 0 8px 20px rgba(45, 37, 101, 0.28);
 
-    --focus-ring: 0 0 0 4px rgba(23, 107, 135, 0.16);
+    --focus-ring: 0 0 0 4px rgba(74, 63, 168, 0.18);
 }
 
 *,
@@ -89,9 +135,9 @@ textarea {
     color: rgba(255, 255, 255, 0.92);
     background-image: linear-gradient(
         170deg,
-        var(--navy-900) 0%,
-        var(--navy-800) 55%,
-        var(--teal-700) 140%
+        var(--brand-900) 0%,
+        var(--brand-800) 55%,
+        var(--brand-700) 140%
     );
 }
 
@@ -236,7 +282,7 @@ textarea {
     width: 40px;
     height: 40px;
 
-    color: var(--navy-900);
+    color: var(--brand-900);
     background-color: #ffffff;
     border-radius: 50%;
 
@@ -264,21 +310,6 @@ textarea {
     font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.role-badge {
-    display: inline-block;
-    margin-top: 11px;
-    padding: 4px 10px;
-
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.16);
-    border-radius: 20px;
-
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
 }
 
 .logout-button {
@@ -378,7 +409,7 @@ textarea {
 .head-chip svg {
     width: 17px;
     height: 17px;
-    color: var(--teal-700);
+    color: var(--brand-700);
 }
 
 .section-title {
@@ -439,10 +470,6 @@ textarea {
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 12px;
-    }
-
-    .role-badge {
-        margin-top: 0;
     }
 
     .logout-button {

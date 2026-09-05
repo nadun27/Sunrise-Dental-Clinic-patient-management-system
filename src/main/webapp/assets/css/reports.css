@@ -67,7 +67,7 @@
     margin-bottom: 24px;
 
     text-align: center;
-    border-bottom: 2px solid var(--navy-800);
+    border-bottom: 2px solid var(--brand-800);
 }
 
 .report-brand {
@@ -78,7 +78,7 @@
 
     margin: 0 0 8px;
 
-    color: var(--navy-800);
+    color: var(--brand-800);
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.3px;
@@ -104,7 +104,7 @@
 .report-period {
     margin: 12px 0 0;
 
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-size: 14px;
     font-weight: 600;
 }
@@ -129,7 +129,7 @@
 .stat-tile {
     padding: 16px 18px;
 
-    background-color: #f6fafb;
+    background-color: var(--surface-muted);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-md);
 }
@@ -155,7 +155,7 @@
 
 /* Currency values carry more characters, so they step down a size */
 .stat-tile.stat-money dd {
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-size: 19px;
     letter-spacing: -0.2px;
 }
@@ -182,8 +182,9 @@
 }
 
 /*
-   components.css paints the first column teal because on the directory pages
-   it holds a record reference. Here it is a plain label, so it reverts to ink.
+   components.css paints the first column in the brand colour because on the
+   directory pages it holds a record reference. Here it is a plain label, so
+   it reverts to ink.
 */
 .report-table tbody td:first-child {
     color: var(--ink-900);

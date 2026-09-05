@@ -53,8 +53,8 @@
     width: 38px;
     height: 38px;
 
-    color: var(--teal-700);
-    background-color: #e3f1f6;
+    color: var(--brand-700);
+    background-color: var(--tint-brand);
     border-radius: 11px;
 }
 
@@ -123,7 +123,7 @@ textarea {
     font: inherit;
     font-size: 14.5px;
 
-    background-color: #fbfdfe;
+    background-color: var(--surface-subtle);
     border: 1.5px solid var(--line);
     border-radius: var(--radius-md);
 
@@ -154,14 +154,14 @@ textarea::placeholder {
 input:hover,
 select:hover,
 textarea:hover {
-    border-color: #c6dae2;
+    border-color: var(--line-strong);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
     background-color: var(--surface);
-    border-color: var(--teal-600);
+    border-color: var(--brand-600);
     outline: none;
     box-shadow: var(--focus-ring);
 }
@@ -187,8 +187,8 @@ textarea:focus {
 
     background-image: linear-gradient(
         135deg,
-        var(--navy-800),
-        var(--teal-700)
+        var(--brand-800),
+        var(--brand-700)
     );
     border: none;
     border-radius: var(--radius-md);
@@ -204,11 +204,11 @@ textarea:focus {
 
 .button:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(16, 58, 82, 0.26);
+    box-shadow: var(--shadow-button);
 }
 
 .button:focus-visible {
-    outline: 3px solid var(--teal-600);
+    outline: 3px solid var(--brand-600);
     outline-offset: 2px;
 }
 
@@ -221,12 +221,12 @@ textarea:focus {
 .button-secondary {
     color: var(--ink-700);
     background-image: none;
-    background-color: #eef4f6;
+    background-color: var(--surface-control);
     border: 1.5px solid var(--line);
 }
 
 .button-secondary:hover:not(:disabled) {
-    background-color: #e3edf1;
+    background-color: var(--surface-control-hover);
     box-shadow: none;
 }
 
@@ -292,7 +292,7 @@ textarea:focus {
     height: 17px;
     min-height: 0;
     margin: 0;
-    accent-color: var(--teal-700);
+    accent-color: var(--brand-700);
     cursor: pointer;
 }
 
@@ -352,7 +352,7 @@ textarea:focus {
     z-index: 1;
 
     color: var(--ink-500);
-    background-color: #f6fafb;
+    background-color: var(--surface-muted);
 
     border-bottom: 1px solid var(--line);
 
@@ -372,12 +372,12 @@ textarea:focus {
 }
 
 .data-table tbody tr:hover {
-    background-color: #f8fcfd;
+    background-color: var(--surface-hover);
 }
 
 /* First column carries the record reference (patient code, appointment no.) */
 .data-table tbody td:first-child {
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
 }
@@ -432,28 +432,28 @@ textarea:focus {
 */
 
 .status-badge.status-scheduled {
-    color: #2f6bbf;
-    background-color: #e6eefb;
+    color: var(--status-info);
+    background-color: var(--status-info-bg);
 }
 
 .status-badge.status-confirmed {
-    color: #11806f;
-    background-color: #e0f3ef;
+    color: var(--status-good);
+    background-color: var(--status-good-bg);
 }
 
 .status-badge.status-checked_in {
-    color: #7a4fb5;
-    background-color: #efe8f9;
+    color: var(--status-cyan);
+    background-color: var(--status-cyan-bg);
 }
 
 .status-badge.status-in_treatment {
-    color: #b5752a;
-    background-color: #fbf0e0;
+    color: var(--status-warn);
+    background-color: var(--status-warn-bg);
 }
 
 .status-badge.status-completed {
-    color: #196b4d;
-    background-color: #e2f4ea;
+    color: var(--status-done);
+    background-color: var(--status-done-bg);
 }
 
 .status-badge.status-cancelled {
@@ -462,8 +462,8 @@ textarea:focus {
 }
 
 .status-badge.status-no_show {
-    color: #5c7080;
-    background-color: #eaeff2;
+    color: var(--status-mute);
+    background-color: var(--status-mute-bg);
 }
 
 /* ------------------------------------------------------- action buttons -- */
@@ -477,12 +477,12 @@ textarea:focus {
 .small-button {
     padding: 7px 12px;
 
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-size: 12.5px;
     font-weight: 600;
 
-    background-color: #eef6f9;
-    border: 1px solid #d5e8ef;
+    background-color: var(--tint-brand-soft);
+    border: 1px solid var(--tint-brand-border);
     border-radius: 8px;
 
     cursor: pointer;
@@ -492,19 +492,19 @@ textarea:focus {
 
 .small-button:hover {
     color: #ffffff;
-    background-color: var(--teal-700);
-    border-color: var(--teal-700);
+    background-color: var(--brand-700);
+    border-color: var(--brand-700);
 }
 
 .small-button:focus-visible {
-    outline: 2px solid var(--teal-600);
+    outline: 2px solid var(--brand-600);
     outline-offset: 2px;
 }
 
 .small-button.danger-button {
     color: var(--bad);
     background-color: var(--bad-bg);
-    border-color: #f4cdc9;
+    border-color: var(--bad-border);
 }
 
 .small-button.danger-button:hover {
@@ -516,7 +516,7 @@ textarea:focus {
 .small-button.success-button {
     color: var(--ok);
     background-color: var(--ok-bg);
-    border-color: #c5e8de;
+    border-color: var(--ok-border);
 }
 
 .small-button.success-button:hover {
@@ -541,7 +541,7 @@ textarea:focus {
 }
 
 .app-dialog::backdrop {
-    background-color: rgba(11, 39, 57, 0.45);
+    background-color: rgba(29, 26, 61, 0.45);
 }
 
 .dialog-header {
@@ -590,11 +590,11 @@ textarea:focus {
 
 .icon-button:hover {
     color: var(--ink-900);
-    background-color: #eef4f6;
+    background-color: var(--surface-control);
 }
 
 .icon-button:focus-visible {
-    outline: 2px solid var(--teal-600);
+    outline: 2px solid var(--brand-600);
     outline-offset: 2px;
 }
 

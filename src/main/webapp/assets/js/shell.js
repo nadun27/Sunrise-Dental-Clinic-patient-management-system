@@ -138,8 +138,6 @@
                     </div>
                 </div>
 
-                <span class="role-badge" id="shellRole">-</span>
-
                 <button id="shellLogout" class="logout-button" type="button">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M15 17v1.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -168,7 +166,6 @@
     function applyUser(sidebar, user) {
         sidebar.querySelector("#shellFullName").textContent = user.fullName;
         sidebar.querySelector("#shellUsername").textContent = user.username;
-        sidebar.querySelector("#shellRole").textContent = user.role;
         sidebar.querySelector("#shellAvatar").textContent =
             initials(user.fullName);
 

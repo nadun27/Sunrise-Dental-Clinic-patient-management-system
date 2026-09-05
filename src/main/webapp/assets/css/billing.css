@@ -27,13 +27,13 @@
    ========================================================================== */
 
 .status-badge.payment-unpaid {
-    color: #b5752a;
-    background-color: #fbf0e0;
+    color: var(--status-warn);
+    background-color: var(--status-warn-bg);
 }
 
 .status-badge.payment-partially_paid {
-    color: #2f6bbf;
-    background-color: #e6eefb;
+    color: var(--status-info);
+    background-color: var(--status-info-bg);
 }
 
 .status-badge.payment-paid {
@@ -42,8 +42,8 @@
 }
 
 .status-badge.payment-void {
-    color: #5c7080;
-    background-color: #eaeff2;
+    color: var(--status-mute);
+    background-color: var(--status-mute-bg);
 }
 
 /* Money reads better right-aligned and in tabular figures */
@@ -87,7 +87,7 @@
     margin: 0 0 15px;
     padding: 14px 16px;
 
-    background-color: #f6fafb;
+    background-color: var(--surface-muted);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-md);
 }
@@ -134,7 +134,7 @@
 }
 
 .money-list .total-row dd {
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-size: 17px;
     font-weight: 700;
 }
@@ -184,7 +184,7 @@
     margin-bottom: 18px;
 
     text-align: center;
-    border-bottom: 2px solid var(--navy-800);
+    border-bottom: 2px solid var(--brand-800);
 }
 
 .receipt-brand {
@@ -195,7 +195,7 @@
 
     margin: 0 0 8px;
 
-    color: var(--navy-800);
+    color: var(--brand-800);
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.3px;
@@ -274,11 +274,11 @@
 .receipt-table .receipt-total td {
     padding-top: 14px;
 
-    color: var(--navy-800);
+    color: var(--brand-800);
     font-size: 16px;
     font-weight: 700;
 
-    border-top: 2px solid var(--navy-800);
+    border-top: 2px solid var(--brand-800);
     border-bottom: none;
 }
 

@@ -99,12 +99,12 @@
 }
 
 .help-contents a:hover {
-    color: var(--teal-700);
-    background-color: #eef6f9;
+    color: var(--brand-700);
+    background-color: var(--tint-brand-soft);
 }
 
 .help-contents a:focus-visible {
-    outline: 2px solid var(--teal-600);
+    outline: 2px solid var(--brand-600);
     outline-offset: 2px;
 }
 
@@ -150,11 +150,11 @@
     width: 28px;
     height: 28px;
 
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-size: 12.5px;
     font-weight: 700;
 
-    background-color: #e3f1f6;
+    background-color: var(--tint-brand);
     border-radius: 50%;
 }
 
@@ -196,7 +196,7 @@
 .help-module {
     padding: 18px;
 
-    background-color: #fbfdfe;
+    background-color: var(--surface-subtle);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
 }
@@ -218,8 +218,8 @@
     width: 34px;
     height: 34px;
 
-    color: var(--teal-700);
-    background-color: #e3f1f6;
+    color: var(--brand-700);
+    background-color: var(--tint-brand);
     border-radius: 10px;
 }
 
@@ -263,8 +263,9 @@
 /* =========================================================== access table = */
 
 /*
-   components.css paints the first column teal because on the directory pages
-   it holds a record reference. Here it is a plain label, so it reverts to ink.
+   components.css paints the first column in the brand colour because on the
+   directory pages it holds a record reference. Here it is a plain label, so
+   it reverts to ink.
 */
 .access-table tbody td:first-child {
     color: var(--ink-900);
@@ -300,8 +301,8 @@
 }
 
 .access-badge.blocked {
-    color: #5c7080;
-    background-color: #eaeff2;
+    color: var(--status-mute);
+    background-color: var(--status-mute-bg);
 }
 
 .help-note {
@@ -316,7 +317,7 @@
     font-size: 12.5px;
     line-height: 1.55;
 
-    background-color: #f6fafb;
+    background-color: var(--surface-muted);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-md);
 }
@@ -326,7 +327,7 @@
     width: 16px;
     height: 16px;
     margin-top: 1px;
-    color: var(--teal-700);
+    color: var(--brand-700);
 }
 
 /* ================================================================== faq === */
@@ -337,7 +338,7 @@
 }
 
 .faq-list details {
-    background-color: #fbfdfe;
+    background-color: var(--surface-subtle);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
 }
@@ -383,11 +384,11 @@
 }
 
 .faq-list summary:hover {
-    color: var(--teal-700);
+    color: var(--brand-700);
 }
 
 .faq-list summary:focus-visible {
-    outline: 2px solid var(--teal-600);
+    outline: 2px solid var(--brand-600);
     outline-offset: -2px;
     border-radius: var(--radius-md);
 }

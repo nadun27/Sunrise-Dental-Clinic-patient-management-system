@@ -41,20 +41,20 @@
 .session-card {
     padding: 15px 16px;
 
-    background-color: #fbfdfe;
+    background-color: var(--surface-subtle);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
 
     /* Coloured rail on the left repeats the status badge colour */
-    box-shadow: inset 3px 0 0 var(--session-accent, var(--teal-600));
+    box-shadow: inset 3px 0 0 var(--session-accent, var(--brand-600));
 }
 
 .session-card[data-status="CHECKED_IN"] {
-    --session-accent: #7a4fb5;
+    --session-accent: var(--status-cyan);
 }
 
 .session-card[data-status="IN_TREATMENT"] {
-    --session-accent: #b5752a;
+    --session-accent: var(--status-warn);
 }
 
 .session-card-head {
@@ -69,7 +69,7 @@
 .session-number {
     margin: 0;
 
-    color: var(--teal-700);
+    color: var(--brand-700);
     font-size: 13px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
@@ -222,7 +222,7 @@
     margin-bottom: 20px;
     padding: 14px 16px;
 
-    background-color: #f6fafb;
+    background-color: var(--surface-muted);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-md);
 }
@@ -252,12 +252,12 @@
     margin: 4px 0 0;
     padding: 12px 14px;
 
-    color: #8a5a1c;
+    color: var(--status-warn);
     font-size: 12.5px;
     line-height: 1.55;
 
-    background-color: #fdf6e9;
-    border: 1px solid #f2e0bd;
+    background-color: var(--status-warn-bg);
+    border: 1px solid var(--status-warn-border);
     border-radius: var(--radius-md);
 }
 
