@@ -8,64 +8,133 @@
     <title>Staff Login | Sunrise Dental Clinic</title>
 
     <link rel="stylesheet"
-          href="assets/css/style.css">
+          href="assets/css/login.css">
 </head>
 
 <body>
 
-<main class="auth-card">
+<main class="login-shell">
 
-    <div class="logo">S</div>
+    <!-- Brand side -->
+    <section class="brand-panel">
 
-    <p class="label">Authorized staff only</p>
+        <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3.6c-1.5-.9-3-1.3-4.3-1.3C5 2.3 3.2 4.2 3.2 7.2c0 2 .5 3.7 1 5.5.5 1.7.8 3.4 1 5.1.2 1.7.9 2.6 1.9 2.6 1.1 0 1.6-1 1.9-2.7l.5-3c.2-1.1.7-1.7 1.5-1.7s1.3.6 1.5 1.7l.5 3c.3 1.7.8 2.7 1.9 2.7 1 0 1.7-.9 1.9-2.6.2-1.7.5-3.4 1-5.1.5-1.8 1-3.5 1-5.5 0-3-1.8-4.9-4.5-4.9-1.3 0-2.8.4-4.3 1.3Z"
+                      stroke="currentColor" stroke-width="1.6"
+                      stroke-linejoin="round"/>
+            </svg>
+            <span>Sunrise Dental Clinic</span>
+        </div>
 
-    <h1>Welcome back</h1>
+        <div class="brand-copy">
+            <h2>Care that runs on time.</h2>
+            <p>
+                One place for patient records, appointments, treatment
+                notes and billing &mdash; so the front desk and the
+                surgery always see the same thing.
+            </p>
+        </div>
 
-    <p class="description">
-        Sign in to access the clinic management system.
-    </p>
+        <ul class="brand-points">
+            <li>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="16" rx="2.5"
+                          stroke="currentColor" stroke-width="1.7"/>
+                    <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+                Conflict-free appointment scheduling
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3 5 6v5.5c0 4.3 2.9 7.6 7 9.5 4.1-1.9 7-5.2 7-9.5V6l-7-3Z"
+                          stroke="currentColor" stroke-width="1.7"
+                          stroke-linejoin="round"/>
+                    <path d="m9.2 12 2 2 3.6-4" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+                Role-based access for every staff member
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 19V9m5 10V5m5 14v-7m5 7V8"
+                          stroke="currentColor" stroke-width="1.9"
+                          stroke-linecap="round"/>
+                </svg>
+                Daily billing and clinic reports
+            </li>
+        </ul>
 
-    <div id="loginMessage"
-         class="message"
-         role="alert"></div>
+    </section>
 
-    <form id="loginForm" novalidate>
+    <!-- Form side -->
+    <section class="form-panel">
 
-        <label for="username">
-            Username
-        </label>
+        <p class="eyebrow">Authorized staff only</p>
 
-        <input
-                id="username"
-                name="username"
-                type="text"
-                minlength="4"
-                maxlength="50"
-                autocomplete="username"
-                required>
+        <h1>Welcome back</h1>
 
-        <small id="usernameError"
-               class="error"></small>
+        <p class="description">
+            Sign in to access the clinic management system.
+        </p>
 
-        <label for="password">
-            Password
-        </label>
+        <div id="loginMessage"
+             class="message"
+             role="alert"></div>
 
-        <input
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                required>
+        <form id="loginForm" novalidate>
 
-        <small id="passwordError"
-               class="error"></small>
+            <div class="field">
+                <label for="username">
+                    Username
+                </label>
 
-        <button id="loginButton" type="submit">
-            Sign in
-        </button>
+                <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        minlength="4"
+                        maxlength="50"
+                        placeholder="e.g. reception"
+                        autocomplete="username"
+                        autofocus
+                        required>
 
-    </form>
+                <small id="usernameError"
+                       class="error"></small>
+            </div>
+
+            <div class="field">
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                <small id="passwordError"
+                       class="error"></small>
+            </div>
+
+            <button id="loginButton" type="submit">
+                Sign in
+            </button>
+
+        </form>
+
+        <p class="form-footer">
+            Trouble signing in? Contact the clinic administrator.<br>
+            Accounts lock for 15 minutes after 5 failed attempts.
+        </p>
+
+    </section>
 
 </main>
 

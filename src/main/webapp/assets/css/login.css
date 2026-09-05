@@ -1,0 +1,445 @@
+/* ==========================================================================
+   Sunrise Dental Clinic - staff sign-in page
+   Self-contained: this page does not load style.css, so nothing here can
+   affect the rest of the application.
+   ========================================================================== */
+
+/* Must stay at the top of the file: @import rules precede all other rules. */
+@import "fonts.css";
+
+:root {
+    --brand-900: #1d1a3d;
+    --brand-800: #2b2565;
+    --brand-700: #4a3fa8;
+    --brand-600: #5b4fc4;
+    --brand-500: #7c6fe0;
+    --tint-brand: #ebe8fa;
+
+    --ink-900: #1c1930;
+    --ink-700: #46416b;
+    --ink-500: #706b90;
+    --ink-300: #948fad;
+
+    --line: #e0dcf0;
+    --surface: #ffffff;
+    --canvas: #f2f0fb;
+
+    --danger: #b42318;
+    --danger-bg: #fdecea;
+    --danger-line: #f4cdc9;
+
+    --radius-lg: 22px;
+    --radius-md: 12px;
+    --radius-sm: 9px;
+
+    --shadow-card: 0 24px 70px rgba(29, 26, 61, 0.18);
+    --shadow-focus: 0 0 0 4px rgba(74, 63, 168, 0.18);
+
+    --font: var(--font-sans);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
+    padding: 24px;
+
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-900);
+
+    background-color: var(--canvas);
+
+    /*
+       Three layers, front to back: the oversized tooth watermark bleeding off
+       the left edge, then the two ambient colour washes. Painting the tooth as
+       a background layer (rather than a positioned element) keeps it behind the
+       card automatically - backgrounds always sit below content.
+    */
+    background-image:
+        url("../img/tooth-watermark.svg"),
+        radial-gradient(circle at 12% 18%, rgba(74, 63, 168, 0.12), transparent 45%),
+        radial-gradient(circle at 88% 82%, rgba(124, 111, 224, 0.14), transparent 45%);
+    background-repeat: no-repeat, no-repeat, no-repeat;
+
+    /*
+       Four-value syntax: the tooth is pushed 240px past the left edge and
+       260px past the bottom edge, so it is cropped on both sides and reads as
+       an oversized watermark rather than a centred illustration.
+    */
+    background-position: left -240px bottom -140px, 0 0, 0 0;
+    background-size: 920px auto, auto, auto;
+}
+
+/* ----------------------------------------------------------- shell layout */
+
+.login-shell {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+
+    width: 100%;
+    max-width: 1040px;
+    overflow: hidden;
+
+    background-color: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+/* ------------------------------------------------------------ brand panel */
+
+.brand-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 48px 44px;
+    overflow: hidden;
+
+    color: #ffffff;
+    background-color: var(--brand-800);
+    background-image: linear-gradient(
+        155deg,
+        var(--brand-900) 0%,
+        var(--brand-700) 58%,
+        var(--brand-500) 100%
+    );
+}
+
+/* Soft light bloom behind the content */
+.brand-panel::after {
+    content: "";
+    position: absolute;
+    right: -110px;
+    bottom: -130px;
+
+    width: 340px;
+    height: 340px;
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.16),
+        transparent 68%
+    );
+    border-radius: 50%;
+}
+
+.brand-mark {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-mark svg {
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+
+    background-color: rgba(255, 255, 255, 0.16);
+    border-radius: 13px;
+}
+
+.brand-mark span {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.brand-copy {
+    position: relative;
+    z-index: 1;
+    margin: 44px 0;
+}
+
+.brand-copy h2 {
+    margin: 0 0 14px;
+
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+.brand-copy p {
+    max-width: 34ch;
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.brand-points {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    gap: 14px;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.brand-points li {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+}
+
+.brand-points svg {
+    flex: 0 0 auto;
+    width: 19px;
+    height: 19px;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+/* ------------------------------------------------------------- form panel */
+
+.form-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 52px 48px;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+
+    color: var(--brand-500);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+.form-panel h1 {
+    margin: 0 0 8px;
+
+    font-size: 31px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.form-panel .description {
+    margin: 0 0 28px;
+
+    color: var(--ink-500);
+    font-size: 15px;
+}
+
+/* -------------------------------------------------------------- form bits */
+
+.field {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-700);
+}
+
+input {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 15px;
+
+    color: var(--ink-900);
+    font: inherit;
+
+    background-color: #fcfbff;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-md);
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+input::placeholder {
+    color: var(--ink-300);
+}
+
+input:hover {
+    border-color: #cdc7e8;
+}
+
+input:focus {
+    background-color: var(--surface);
+    border-color: var(--brand-600);
+    outline: none;
+    box-shadow: var(--shadow-focus);
+}
+
+/* Reserve the row so a validation message cannot shift the layout */
+.error {
+    display: block;
+    min-height: 17px;
+    margin-top: 5px;
+
+    color: var(--danger);
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+/* Populated by login.js; hidden while empty */
+.message {
+    margin-bottom: 20px;
+    padding: 12px 15px;
+
+    color: var(--danger);
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger-line);
+    border-radius: var(--radius-sm);
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.message:empty {
+    display: none;
+}
+
+button {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 6px;
+    padding: 14px 20px;
+
+    color: #ffffff;
+    font: inherit;
+    font-size: 15.5px;
+    font-weight: 700;
+
+    background-color: var(--brand-800);
+    background-image: linear-gradient(
+        135deg,
+        var(--brand-800),
+        var(--brand-700)
+    );
+    border: none;
+    border-radius: var(--radius-md);
+
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+    box-shadow: 0 10px 24px rgba(45, 37, 101, 0.30);
+    transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(45, 37, 101, 0.24);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--brand-600);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    cursor: progress;
+    opacity: 0.68;
+    transform: none;
+    box-shadow: none;
+}
+
+.form-footer {
+    margin: 26px 0 0;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--line);
+
+    color: var(--ink-500);
+    font-size: 12.5px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 880px) {
+    body {
+        align-items: flex-start;
+        padding: 0;
+
+        /* The card is full-bleed here, so the watermark would never be seen. */
+        background-image: none;
+    }
+
+    .login-shell {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+        min-height: 100vh;
+        min-height: 100svh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .brand-panel {
+        padding: 30px 28px;
+    }
+
+    /* On small screens the panel becomes a compact header */
+    .brand-copy,
+    .brand-points {
+        display: none;
+    }
+
+    .form-panel {
+        padding: 36px 28px 44px;
+    }
+
+    .form-panel h1 {
+        font-size: 27px;
+    }
+}
+
+@media (max-width: 380px) {
+    .brand-panel,
+    .form-panel {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    input,
+    button {
+        transition: none;
+    }
+
+    button:hover:not(:disabled),
+    button:active:not(:disabled) {
+        transform: none;
+    }
+}

@@ -41,6 +41,31 @@ public final class AppConfig {
         }
     }
 
+    public static boolean getBoolean(
+            String key,
+            boolean defaultValue
+    ) {
+        String value = PROPERTIES.getProperty(key);
+
+        if (value == null || value.isBlank()) {
+            return defaultValue;
+        }
+
+        String normalized = value.trim().toLowerCase();
+
+        if ("true".equals(normalized)) {
+            return true;
+        }
+
+        if ("false".equals(normalized)) {
+            return false;
+        }
+
+        throw new IllegalStateException(
+                "Configuration must be true or false: " + key
+        );
+    }
+
     private static Properties loadProperties() {
         Properties properties = new Properties();
 

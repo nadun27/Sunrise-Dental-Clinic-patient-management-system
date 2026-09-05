@@ -8,62 +8,228 @@
     <title>Dashboard | Sunrise Dental Clinic</title>
 
     <link rel="stylesheet"
-          href="assets/css/style.css">
+          href="assets/css/dashboard.css">
 </head>
 
 <body>
 
-<main class="dashboard-card">
+<!-- =========================================================== sidebar == -->
+<aside id="appSidebar" class="sidebar"></aside>
 
-    <div class="dashboard-header">
+<!-- ============================================================== main == -->
+<main class="main-area">
+
+    <header class="page-head">
         <div>
-            <p class="label">
-                Sunrise Dental Clinic
+            <h1 id="greeting">Welcome back</h1>
+            <p class="subtitle" id="subtitle">
+                Here is everything you have access to.
             </p>
-
-            <h1>Dashboard</h1>
         </div>
 
-        <button id="logoutButton"
-                class="secondary-button">
-            Logout
-        </button>
-    </div>
+        <div class="head-chip">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2.5"
+                      stroke="currentColor" stroke-width="1.7"/>
+                <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor"
+                      stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <span id="todayDate">--</span>
+        </div>
+    </header>
 
-    <p>
-        Welcome,
-        <strong id="fullName">Loading...</strong>
-    </p>
+    <h2 class="section-title">Quick access</h2>
 
-    <p>
-        Username:
-        <span id="username">-</span>
-    </p>
+    <div class="module-grid">
 
-    <p>
-        Role:
-        <span id="role">-</span>
-    </p>
-
-    <div class="dashboard-actions">
-        <a href="patients.html"
-           class="primary-link">
-            Manage Patients
+        <a class="module-card" id="cardStaff" href="staff.html">
+            <div class="module-icon patients">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.2" stroke="currentColor"
+                            stroke-width="1.7"/>
+                    <path d="M2.5 20c0-3.1 2.4-5 5.5-5s5.5 1.9 5.5 5"
+                          stroke="currentColor" stroke-width="1.7"
+                          stroke-linecap="round"/>
+                    <circle cx="17" cy="9" r="2.6" stroke="currentColor"
+                            stroke-width="1.7"/>
+                    <path d="M15.5 15.5c3.3-.6 6 1.2 6 4.5"
+                          stroke="currentColor" stroke-width="1.7"
+                          stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h3>Staff</h3>
+            <p>
+                Add authorised clinic employees and create complete dentist
+                profiles for appointment scheduling.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5"
+                          stroke="currentColor" stroke-width="1.9"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
         </a>
 
-        <a href="appointments.html"
-           class="primary-link">
-            Manage Appointments
+        <a class="module-card" id="cardPatients" href="patients.html">
+            <div class="module-icon patients">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="9" cy="8" r="3.4" stroke="currentColor"
+                            stroke-width="1.7"/>
+                    <path d="M3 20c0-3.2 2.7-5.2 6-5.2s6 2 6 5.2"
+                          stroke="currentColor" stroke-width="1.7"
+                          stroke-linecap="round"/>
+                    <path d="M17 11h4M19 9v4" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h3>Patients</h3>
+            <p>
+                Register new patients, search the register and keep
+                contact and medical details current.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
         </a>
 
-    </div>
+        <a class="module-card" id="cardAppointments" href="appointments.html">
+            <div class="module-icon calendar">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="16" rx="2.5"
+                          stroke="currentColor" stroke-width="1.7"/>
+                    <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="m9 15 2 2 4-4" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Appointments</h3>
+            <p>
+                Book, reschedule and cancel visits. Double-booking is
+                blocked for both the dentist and the patient.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </a>
 
-    <div class="success-box">
-        Authentication and session management are working.
+        <a class="module-card" id="cardTreatments" href="treatments.html">
+            <div class="module-icon clinical">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M8 3v5a4 4 0 0 0 8 0V3" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M12 12v4a4 4 0 0 1-8 0v-1" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"/>
+                    <circle cx="4" cy="13" r="1.9" stroke="currentColor"
+                            stroke-width="1.7"/>
+                </svg>
+            </div>
+            <h3>Treatments</h3>
+            <p>
+                Start a clinical session, record the diagnosis and
+                prescription, and complete the visit.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </a>
+
+        <a class="module-card" id="cardBilling" href="billing.html">
+            <div class="module-icon billing">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 3h14v18l-2.3-1.6-2.4 1.6-2.3-1.6L9.7 21l-2.4-1.6L5 21V3Z"
+                          stroke="currentColor" stroke-width="1.7"
+                          stroke-linejoin="round"/>
+                    <path d="M9 8h6M9 12h6" stroke="currentColor"
+                          stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h3>Billing &amp; Payments</h3>
+            <p>
+                Generate invoices with discount and tax applied, then
+                record payments and issue receipts.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </a>
+
+        <a class="module-card" id="cardReports" href="reports.html">
+            <div class="module-icon reports">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 19V9m5 10V5m5 14v-7m5 7V8" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h3>Reports</h3>
+            <p>
+                Appointment, revenue and dentist activity totals for any
+                date range, ready to print.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </a>
+
+        <a class="module-card" id="cardHelp" href="help.html">
+            <div class="module-icon help">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor"
+                            stroke-width="1.7"/>
+                    <path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6"
+                          stroke="currentColor" stroke-width="1.7"
+                          stroke-linecap="round"/>
+                    <circle cx="12" cy="17" r="1" fill="currentColor"/>
+                </svg>
+            </div>
+            <h3>Help &amp; User Guide</h3>
+            <p>
+                Step-by-step instructions for every workflow in the
+                clinic system.
+            </p>
+            <span class="module-open">
+                Open
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor"
+                          stroke-width="1.9" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </a>
+
     </div>
 
 </main>
 
+<script src="assets/js/shell.js"></script>
 <script src="assets/js/dashboard.js"></script>
 </body>
 </html>

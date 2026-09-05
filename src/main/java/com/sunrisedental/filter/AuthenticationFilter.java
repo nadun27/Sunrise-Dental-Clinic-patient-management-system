@@ -17,7 +17,12 @@ import java.io.IOException;
                 "/api/v1/*",
                 "/dashboard.html",
                 "/patients.html",
-                "/appointments.html"
+                "/appointments.html",
+                "/billing.html",
+                "/treatments.html",
+                "/reports.html",
+                "/staff.html",
+                "/help.html"
         }
 )
 public class AuthenticationFilter implements Filter {
@@ -56,6 +61,38 @@ public class AuthenticationFilter implements Filter {
                         "userId"
                 ) != null;
 
+        if (authenticated &&
+                isAdministratorOnlyPath(requestPath) &&
+                !"ADMIN".equals(
+                        session.getAttribute("role")
+                )) {
+
+            if (requestPath.endsWith(".html")) {
+                response.sendRedirect(
+                        contextPath + "/dashboard.html"
+                );
+            } else {
+                response.setStatus(
+                        HttpServletResponse.SC_FORBIDDEN
+                );
+
+                response.setContentType(
+                        "application/json"
+                );
+
+                response.setCharacterEncoding("UTF-8");
+
+                response.getWriter().write("""
+                        {
+                            "success": false,
+                            "message": "Administrator access is required"
+                        }
+                        """);
+            }
+
+            return;
+        }
+
         if (authenticated) {
             chain.doFilter(request, response);
             return;
@@ -65,6 +102,7 @@ public class AuthenticationFilter implements Filter {
             response.sendRedirect(
                     contextPath + "/login.html"
             );
+
             return;
         }
 
@@ -94,5 +132,11 @@ public class AuthenticationFilter implements Filter {
                 || path.startsWith(
                 "/api/v1/auth/"
         );
+    }
+
+    private boolean isAdministratorOnlyPath(String path) {
+        return path.equals("/staff.html")
+                || path.equals("/api/v1/staff")
+                || path.startsWith("/api/v1/staff/");
     }
 }

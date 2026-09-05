@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Appointments page.
+   Layout, panels, forms, table, dialog and the appointment status colours all
+   come from components.css; this file adds the three-field search bar.
+   ========================================================================== */
+
+@import "components.css";
+
+/* Search, date filter and status filter share one row above the table */
+.appointment-search {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 170px 170px auto;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+/* Appointment rows carry two lines of text in some cells (set by the script
+   with white-space: pre-line), so they need a little more breathing room. */
+.appointment-table tbody td {
+    vertical-align: top;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+@media (max-width: 1180px) {
+    .appointment-search {
+        grid-template-columns: minmax(0, 1fr) 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .appointment-search {
+        grid-template-columns: 1fr;
+    }
+}

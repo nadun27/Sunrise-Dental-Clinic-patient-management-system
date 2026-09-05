@@ -9,220 +9,267 @@
     <title>Patients | Sunrise Dental Clinic</title>
 
     <link rel="stylesheet"
-          href="assets/css/style.css">
+          href="assets/css/patients.css">
 </head>
 
-<body class="application-page">
+<body>
 
-<header class="app-header">
-    <div>
-        <p class="label">Sunrise Dental Clinic</p>
-        <h1>Patient Management</h1>
+<aside id="appSidebar" class="sidebar"></aside>
 
-        <p class="description">
-            Logged in as
-            <strong id="staffName">Loading...</strong>
-        </p>
-    </div>
+<main class="main-area">
 
-    <a href="dashboard.html"
-       class="navigation-link">
-        Dashboard
-    </a>
-</header>
-
-<main class="patient-layout">
-
-    <section id="formPanel"
-             class="panel patient-form-panel">
-
-        <div class="section-heading">
-            <div>
-                <p class="label">Patient information</p>
-                <h2 id="formTitle">Register Patient</h2>
-            </div>
+    <header class="page-head">
+        <div>
+            <h1>Patients</h1>
+            <p class="subtitle">
+                Register new patients and keep the clinic directory
+                up to date.
+            </p>
         </div>
 
-        <form id="patientForm">
-            <input type="hidden"
-                   id="patientId">
+        <div class="head-chip">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="9" cy="8" r="3.4" stroke="currentColor"
+                        stroke-width="1.7"/>
+                <path d="M3 20c0-3.2 2.7-5.2 6-5.2s6 2 6 5.2"
+                      stroke="currentColor" stroke-width="1.7"
+                      stroke-linecap="round"/>
+                <path d="M17 11h4M19 9v4" stroke="currentColor"
+                      stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <span>Patient directory</span>
+        </div>
+    </header>
 
-            <label for="fullName">Patient name *</label>
-            <input type="text"
-                   id="fullName"
-                   name="fullName"
-                   minlength="2"
-                   maxlength="100"
-                   required>
+    <div class="workspace">
 
-            <label for="address">Address *</label>
-            <textarea id="address"
-                      name="address"
-                      minlength="5"
-                      maxlength="255"
-                      rows="3"
-                      required></textarea>
+        <!-- ================================================= list panel == -->
+        <section class="panel list-panel">
 
-            <div class="form-grid">
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" stroke="currentColor"
+                                stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
                 <div>
-                    <label for="contactNumber">
-                        Contact number *
-                    </label>
+                    <h2>Search Patients</h2>
+                    <p class="panel-sub">
+                        Search by patient code, name or contact number
+                    </p>
+                </div>
+            </div>
 
-                    <input type="tel"
-                           id="contactNumber"
-                           name="contactNumber"
-                           maxlength="20"
-                           placeholder="0771234567"
+            <form id="searchForm" class="search-bar">
+                <div class="search-field">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" stroke="currentColor"
+                                stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+
+                    <input type="search"
+                           id="searchInput"
+                           maxlength="100"
+                           placeholder="Code, name or contact number">
+                </div>
+
+                <button type="submit" class="button">
+                    Search
+                </button>
+            </form>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Patient code</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="patientRows">
+                    <tr>
+                        <td colspan="5">Loading patients...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Filter on the left, result count on the right -->
+            <div class="table-footer">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="includeInactive">
+                    Include inactive patients
+                </label>
+
+                <p id="patientMessage"
+                   class="ui-message"
+                   role="status"></p>
+            </div>
+        </section>
+
+        <!-- ================================================= form panel == -->
+        <section id="formPanel" class="panel form-panel">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="10" cy="8" r="3.4" stroke="currentColor"
+                                stroke-width="1.7"/>
+                        <path d="M4 20c0-3.2 2.7-5.2 6-5.2 1.2 0 2.3.3 3.2.8"
+                              stroke="currentColor" stroke-width="1.7"
+                              stroke-linecap="round"/>
+                        <path d="M17 14v6m-3-3h6" stroke="currentColor"
+                              stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 id="formTitle">Register Patient</h2>
+                    <p class="panel-sub">
+                        Fields marked
+                        <span class="required-mark">*</span>
+                        are required
+                    </p>
+                </div>
+            </div>
+
+            <form id="patientForm" class="panel-form">
+                <input type="hidden" id="patientId">
+
+                <div class="field">
+                    <label for="fullName">
+                        Patient name <span class="required-mark">*</span>
+                    </label>
+                    <input type="text"
+                           id="fullName"
+                           name="fullName"
+                           minlength="2"
+                           maxlength="100"
+                           placeholder="e.g. Kamala Silva"
                            required>
                 </div>
 
-                <div>
-                    <label for="email">Email</label>
-
-                    <input type="email"
-                           id="email"
-                           name="email"
-                           maxlength="150">
-                </div>
-
-                <div>
-                    <label for="dateOfBirth">
-                        Date of birth
+                <div class="field">
+                    <label for="address">
+                        Address <span class="required-mark">*</span>
                     </label>
-
-                    <input type="date"
-                           id="dateOfBirth"
-                           name="dateOfBirth">
+                    <textarea id="address"
+                              name="address"
+                              minlength="5"
+                              maxlength="255"
+                              rows="2"
+                              placeholder="Street, city"
+                              required></textarea>
                 </div>
 
-                <div>
-                    <label for="gender">Gender</label>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="contactNumber">
+                            Contact number <span class="required-mark">*</span>
+                        </label>
+                        <input type="tel"
+                               id="contactNumber"
+                               name="contactNumber"
+                               maxlength="20"
+                               placeholder="0771234567"
+                               required>
+                    </div>
 
-                    <select id="gender"
-                            name="gender">
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               maxlength="150"
+                               placeholder="name@example.com">
+                    </div>
 
-                        <option value="">
-                            Select gender
-                        </option>
+                    <div class="field">
+                        <label for="dateOfBirth">Date of birth</label>
+                        <input type="date"
+                               id="dateOfBirth"
+                               name="dateOfBirth">
+                    </div>
 
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
-                        <option value="OTHER">Other</option>
-
-                        <option value="PREFER_NOT_TO_SAY">
-                            Prefer not to say
-                        </option>
-                    </select>
+                    <div class="field">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender">
+                            <option value="">Select gender</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="OTHER">Other</option>
+                            <option value="PREFER_NOT_TO_SAY">
+                                Prefer not to say
+                            </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <label for="allergies">Known allergies</label>
+                <div class="field">
+                    <label for="allergies">Known allergies</label>
+                    <textarea id="allergies"
+                              name="allergies"
+                              maxlength="500"
+                              rows="2"
+                              placeholder="Penicillin, latex..."></textarea>
+                </div>
 
-            <textarea id="allergies"
-                      name="allergies"
-                      maxlength="500"
-                      rows="2"></textarea>
+                <div class="field">
+                    <label for="medicalNotes">Medical notes</label>
+                    <textarea id="medicalNotes"
+                              name="medicalNotes"
+                              maxlength="5000"
+                              rows="3"
+                              placeholder="Conditions, medication, history"></textarea>
+                </div>
 
-            <label for="medicalNotes">Medical notes</label>
+                <div class="form-actions">
+                    <button type="submit"
+                            id="savePatientButton"
+                            class="button">
+                        Register Patient
+                    </button>
 
-            <textarea id="medicalNotes"
-                      name="medicalNotes"
-                      maxlength="5000"
-                      rows="3"></textarea>
+                    <button type="button"
+                            id="cancelEditButton"
+                            class="button button-secondary"
+                            hidden>
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </section>
 
-            <div class="form-actions">
-                <button type="submit"
-                        id="savePatientButton">
-                    Register Patient
-                </button>
 
-                <button type="button"
-                        id="cancelEditButton"
-                        class="secondary-button"
-                        hidden>
-                    Cancel Edit
-                </button>
-            </div>
-        </form>
-    </section>
-
-    <section class="panel patient-list-panel">
-
-        <div class="section-heading">
-            <div>
-                <p class="label">Patient directory</p>
-                <h2>Search Patients</h2>
-            </div>
-        </div>
-
-        <form id="searchForm"
-              class="search-form">
-
-            <input type="search"
-                   id="searchInput"
-                   maxlength="100"
-                   placeholder="Code, name or contact number">
-
-            <button type="submit">
-                Search
-            </button>
-        </form>
-
-        <label class="checkbox-label">
-            <input type="checkbox"
-                   id="includeInactive">
-
-            Include inactive patients
-        </label>
-
-        <p id="patientMessage"
-           class="ui-message"
-           role="status"></p>
-
-        <div class="table-container">
-            <table class="patient-table">
-                <thead>
-                <tr>
-                    <th>Patient code</th>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-
-                <tbody id="patientRows">
-                <tr>
-                    <td colspan="5">
-                        Loading patients...
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
+    </div>
 </main>
 
-<dialog id="patientDialog"
-        class="patient-dialog">
+<!-- ==================================================== details dialog == -->
+<dialog id="patientDialog" class="app-dialog">
 
     <div class="dialog-header">
         <div>
-            <p class="label">Complete information</p>
             <h2 id="detailName">Patient Details</h2>
+            <p class="panel-sub">Complete patient record</p>
         </div>
 
         <button type="button"
                 id="closeDialogButton"
                 class="icon-button"
                 aria-label="Close">
-            ×
+            &times;
         </button>
     </div>
 
-    <dl class="patient-details">
+    <dl class="detail-list">
         <dt>Patient code</dt>
         <dd id="detailCode">-</dd>
 
@@ -252,6 +299,7 @@
     </dl>
 </dialog>
 
+<script src="assets/js/shell.js"></script>
 <script src="assets/js/patients.js"></script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+package com.sunrisedental.event;
+
+public enum ClinicEventType {
+    APPOINTMENT_CREATED,
+    APPOINTMENT_RESCHEDULED,
+    APPOINTMENT_CANCELLED,
+    BILL_CREATED,
+    PAYMENT_RECEIVED,
+    TREATMENT_COMPLETED
+}

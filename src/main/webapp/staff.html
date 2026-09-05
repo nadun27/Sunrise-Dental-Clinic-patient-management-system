@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Staff | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/staff.css">
+</head>
+
+<body>
+
+<aside id="appSidebar" class="sidebar"></aside>
+
+<main class="main-area">
+
+    <header class="page-head">
+        <div>
+            <h1>Staff</h1>
+            <p class="subtitle">
+                Add authorised clinic staff and review existing accounts.
+            </p>
+        </div>
+
+        <div class="head-chip">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="3.2" stroke="currentColor"
+                        stroke-width="1.7"/>
+                <path d="M2.5 20c0-3.1 2.4-5 5.5-5s5.5 1.9 5.5 5"
+                      stroke="currentColor" stroke-width="1.7"
+                      stroke-linecap="round"/>
+                <circle cx="17" cy="9" r="2.6" stroke="currentColor"
+                        stroke-width="1.7"/>
+                <path d="M15.5 15.5c3.3-.6 6 1.2 6 4.5"
+                      stroke="currentColor" stroke-width="1.7"
+                      stroke-linecap="round"/>
+            </svg>
+            <span>Administrator only</span>
+        </div>
+    </header>
+
+    <div class="workspace">
+
+        <section class="panel list-panel">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"
+                                stroke="currentColor" stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Staff Directory</h2>
+                    <p class="panel-sub">
+                        Search by name, username, role, email or registration
+                    </p>
+                </div>
+            </div>
+
+            <form id="searchForm" class="search-bar">
+                <div class="search-field">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"
+                                stroke="currentColor" stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+
+                    <input type="search"
+                           id="searchInput"
+                           maxlength="100"
+                           placeholder="Name, username, role or email">
+                </div>
+
+                <button type="submit" class="button">
+                    Search
+                </button>
+            </form>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Dentist details</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="staffRows">
+                    <tr>
+                        <td colspan="7">Loading staff members...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="includeInactive">
+                    Include inactive staff
+                </label>
+
+                <p id="staffMessage"
+                   class="ui-message"
+                   role="status"></p>
+            </div>
+        </section>
+
+        <section class="panel form-panel">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         aria-hidden="true">
+                        <circle cx="10" cy="8" r="3.4"
+                                stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M4 20c0-3.2 2.7-5.2 6-5.2 1.2 0 2.3.3 3.2.8"
+                              stroke="currentColor" stroke-width="1.7"
+                              stroke-linecap="round"/>
+                        <path d="M17 14v6m-3-3h6" stroke="currentColor"
+                              stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Add Staff Member</h2>
+                    <p class="panel-sub">
+                        Fields marked
+                        <span class="required-mark">*</span>
+                        are required
+                    </p>
+                </div>
+            </div>
+
+            <form id="staffForm" class="panel-form">
+
+                <div class="field">
+                    <label for="fullName">
+                        Full name <span class="required-mark">*</span>
+                    </label>
+                    <input type="text"
+                           id="fullName"
+                           name="fullName"
+                           minlength="2"
+                           maxlength="100"
+                           placeholder="e.g. Nimal Perera"
+                           required>
+                </div>
+
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="username">
+                            Username <span class="required-mark">*</span>
+                        </label>
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               minlength="4"
+                               maxlength="50"
+                               pattern="[A-Za-z][A-Za-z0-9._-]{3,49}"
+                               placeholder="e.g. nimal.perera"
+                               autocomplete="off"
+                               required>
+                    </div>
+
+                    <div class="field">
+                        <label for="role">
+                            Role <span class="required-mark">*</span>
+                        </label>
+                        <select id="role" name="role" required>
+                            <option value="">Select role</option>
+                            <option value="RECEPTIONIST">Receptionist</option>
+                            <option value="DENTIST">Dentist</option>
+                            <option value="CASHIER">Cashier</option>
+                            <option value="ADMIN">Administrator</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               maxlength="150"
+                               placeholder="name@example.com">
+                    </div>
+
+                    <div class="field">
+                        <label for="contactNumber">Contact number</label>
+                        <input type="tel"
+                               id="contactNumber"
+                               name="contactNumber"
+                               maxlength="20"
+                               placeholder="0771234567">
+                    </div>
+                </div>
+
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="password">
+                            Password <span class="required-mark">*</span>
+                        </label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               minlength="10"
+                               maxlength="72"
+                               autocomplete="new-password"
+                               required>
+                    </div>
+
+                    <div class="field">
+                        <label for="confirmPassword">
+                            Confirm password
+                            <span class="required-mark">*</span>
+                        </label>
+                        <input type="password"
+                               id="confirmPassword"
+                               name="confirmPassword"
+                               minlength="10"
+                               maxlength="72"
+                               autocomplete="new-password"
+                               required>
+                    </div>
+                </div>
+
+                <p class="field-help">
+                    The password must contain at least 10 characters.
+                </p>
+
+                <div id="dentistFields" hidden>
+                    <div class="field">
+                        <label for="registrationNumber">
+                            Registration number
+                            <span class="required-mark">*</span>
+                        </label>
+                        <input type="text"
+                               id="registrationNumber"
+                               name="registrationNumber"
+                               minlength="3"
+                               maxlength="50"
+                               placeholder="e.g. SLDC-1024">
+                    </div>
+
+                    <div class="field">
+                        <label for="specialization">Specialization</label>
+                        <input type="text"
+                               id="specialization"
+                               name="specialization"
+                               maxlength="100"
+                               placeholder="e.g. General Dentistry">
+                    </div>
+
+                    <div class="field">
+                        <label for="consultationFee">
+                            Consultation fee (LKR)
+                            <span class="required-mark">*</span>
+                        </label>
+                        <input type="number"
+                               id="consultationFee"
+                               name="consultationFee"
+                               min="0"
+                               max="99999999.99"
+                               step="0.01"
+                               placeholder="2500.00">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit"
+                            id="saveStaffButton"
+                            class="button">
+                        Add Staff Member
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</main>
+
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/staff.js"></script>
+</body>
+</html>

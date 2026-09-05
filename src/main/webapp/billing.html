@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Billing | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/billing.css">
+</head>
+
+<body>
+
+<aside id="appSidebar" class="sidebar"></aside>
+
+<main class="main-area">
+
+    <header class="page-head">
+        <div>
+            <h1>Billing</h1>
+            <p class="subtitle">
+                Raise bills for completed treatments, record payments
+                and print receipts.
+            </p>
+        </div>
+
+        <div class="head-chip">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 3h14v18l-2.3-1.6-2.4 1.6-2.3-1.6L9.7 21l-2.4-1.6L5 21V3Z"
+                      stroke="currentColor" stroke-width="1.7"
+                      stroke-linejoin="round"/>
+                <path d="M9 8h6M9 12h6" stroke="currentColor"
+                      stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <span>Billing desk</span>
+        </div>
+    </header>
+
+    <div class="workspace">
+
+        <!-- ================================================= list panel == -->
+        <section class="panel list-panel">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" stroke="currentColor"
+                                stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Search Bills</h2>
+                    <p class="panel-sub">
+                        Filter by invoice, appointment, patient or status
+                    </p>
+                </div>
+            </div>
+
+            <form id="billSearchForm" class="bill-search">
+                <div class="search-field">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" stroke="currentColor"
+                                stroke-width="1.8"/>
+                        <path d="m20 20-3.9-3.9" stroke="currentColor"
+                              stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+
+                    <input id="billSearch"
+                           type="search"
+                           maxlength="100"
+                           placeholder="Invoice, appointment or patient">
+                </div>
+
+                <select id="billStatus">
+                    <option value="">All statuses</option>
+                    <option value="UNPAID">Unpaid</option>
+                    <option value="PARTIALLY_PAID">Partially paid</option>
+                    <option value="PAID">Paid</option>
+                    <option value="VOID">Void</option>
+                </select>
+
+                <button type="submit" class="button">
+                    Search
+                </button>
+            </form>
+
+            <div class="table-container">
+                <table class="data-table bill-table">
+                    <thead>
+                    <tr>
+                        <th>Invoice</th>
+                        <th>Patient</th>
+                        <th class="amount-column">Total</th>
+                        <th>Payment status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="billRows">
+                    <tr>
+                        <td colspan="5">Loading bills...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Result count sits under the table on the right -->
+            <div class="table-footer">
+                <span></span>
+
+                <p id="billingMessage"
+                   class="ui-message"
+                   role="status"></p>
+            </div>
+        </section>
+
+        <!-- ================================================= form panel == -->
+        <section id="billingFormPanel" class="panel form-panel">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M5 3h14v18l-2.3-1.6-2.4 1.6-2.3-1.6L9.7 21l-2.4-1.6L5 21V3Z"
+                              stroke="currentColor" stroke-width="1.7"
+                              stroke-linejoin="round"/>
+                        <path d="M9.5 9h5M9.5 12.5h5" stroke="currentColor"
+                              stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Create Bill</h2>
+                    <p class="panel-sub">
+                        Fields marked
+                        <span class="required-mark">*</span>
+                        are required
+                    </p>
+                </div>
+            </div>
+
+            <form id="billingForm" class="panel-form">
+
+                <div class="field">
+                    <label for="billAppointmentId">
+                        Completed appointment
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <select id="billAppointmentId"
+                            name="appointmentId"
+                            required>
+                        <option value="">
+                            Select completed appointment
+                        </option>
+                    </select>
+
+                    <p class="field-help">
+                        Only completed appointments that have not been
+                        billed are listed.
+                    </p>
+                </div>
+
+                <dl id="selectedAppointmentSummary"
+                    class="money-list"
+                    hidden>
+
+                    <div>
+                        <dt>Patient</dt>
+                        <dd id="summaryPatient">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Treatment</dt>
+                        <dd id="summaryTreatment">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Consultation fee</dt>
+                        <dd id="summaryConsultationFee">LKR 0.00</dd>
+                    </div>
+
+                    <div>
+                        <dt>Treatment fee</dt>
+                        <dd id="summaryTreatmentFee">LKR 0.00</dd>
+                    </div>
+                </dl>
+
+                <div class="field">
+                    <label for="discountAmount">Discount amount</label>
+                    <input id="discountAmount"
+                           name="discountAmount"
+                           type="number"
+                           min="0"
+                           step="0.01"
+                           value="0.00"
+                           required>
+                </div>
+
+                <div class="field">
+                    <label for="discountReason">Discount reason</label>
+                    <textarea id="discountReason"
+                              name="discountReason"
+                              maxlength="255"
+                              rows="2"
+                              placeholder="Required when a discount is applied"></textarea>
+                </div>
+
+                <dl class="money-list">
+                    <div>
+                        <dt>Subtotal</dt>
+                        <dd id="previewSubtotal">LKR 0.00</dd>
+                    </div>
+
+                    <div>
+                        <dt>Discount</dt>
+                        <dd id="previewDiscount">LKR 0.00</dd>
+                    </div>
+
+                    <div>
+                        <dt>Tax</dt>
+                        <dd id="previewTax">LKR 0.00</dd>
+                    </div>
+
+                    <div class="total-row">
+                        <dt>Estimated total</dt>
+                        <dd id="previewTotal">LKR 0.00</dd>
+                    </div>
+                </dl>
+
+                <div class="form-actions">
+                    <button id="createBillButton"
+                            type="submit"
+                            class="button">
+                        Create Bill
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</main>
+
+<!-- ====================================================== bill receipt == -->
+<dialog id="billDialog" class="app-dialog receipt-dialog">
+
+    <div id="printableBill" class="printable-bill">
+
+        <div class="receipt-header">
+            <p class="receipt-brand">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3.6c-1.5-.9-3-1.3-4.3-1.3C5 2.3 3.2 4.2 3.2 7.2c0 2 .5 3.7 1 5.5.5 1.7.8 3.4 1 5.1.2 1.7.9 2.6 1.9 2.6 1.1 0 1.6-1 1.9-2.7l.5-3c.2-1.1.7-1.7 1.5-1.7s1.3.6 1.5 1.7l.5 3c.3 1.7.8 2.7 1.9 2.7 1 0 1.7-.9 1.9-2.6.2-1.7.5-3.4 1-5.1.5-1.8 1-3.5 1-5.5 0-3-1.8-4.9-4.5-4.9-1.3 0-2.8.4-4.3 1.3Z"
+                          stroke="currentColor" stroke-width="1.6"
+                          stroke-linejoin="round"/>
+                </svg>
+                Sunrise Dental Clinic
+            </p>
+
+            <h2>Patient Bill</h2>
+
+            <p class="receipt-address">Colombo, Sri Lanka</p>
+        </div>
+
+        <dl class="receipt-information">
+            <div>
+                <dt>Invoice number</dt>
+                <dd id="detailInvoiceNumber">-</dd>
+            </div>
+
+            <div>
+                <dt>Appointment number</dt>
+                <dd id="detailBillAppointment">-</dd>
+            </div>
+
+            <div>
+                <dt>Patient</dt>
+                <dd id="detailBillPatient">-</dd>
+            </div>
+
+            <div>
+                <dt>Created at</dt>
+                <dd id="detailBillCreatedAt">-</dd>
+            </div>
+        </dl>
+
+        <table class="receipt-table">
+            <tbody>
+            <tr>
+                <th>Consultation fee</th>
+                <td id="detailConsultationFee">LKR 0.00</td>
+            </tr>
+
+            <tr>
+                <th>Treatment fee</th>
+                <td id="detailTreatmentFee">LKR 0.00</td>
+            </tr>
+
+            <tr>
+                <th>Discount</th>
+                <td id="detailDiscountAmount">LKR 0.00</td>
+            </tr>
+
+            <tr>
+                <th>Tax</th>
+                <td id="detailTaxAmount">LKR 0.00</td>
+            </tr>
+
+            <tr class="receipt-total">
+                <th>Total amount</th>
+                <td id="detailTotalAmount">LKR 0.00</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="receipt-footer">
+            <p>
+                Payment status:
+                <strong id="detailPaymentStatus">-</strong>
+            </p>
+
+            <p>
+                Discount reason:
+                <span id="detailDiscountReason">Not provided</span>
+            </p>
+
+            <p class="receipt-thank-you">
+                Thank you for choosing Sunrise Dental Clinic.
+            </p>
+        </div>
+    </div>
+
+    <div class="dialog-actions no-print">
+        <button id="printBillButton"
+                type="button"
+                class="button">
+            Print Bill
+        </button>
+
+        <button id="closeBillDialog"
+                type="button"
+                class="button button-secondary">
+            Close
+        </button>
+    </div>
+</dialog>
+
+<!-- ===================================================== payment dialog == -->
+<dialog id="paymentDialog" class="app-dialog">
+
+    <div class="dialog-header">
+        <div>
+            <h2>Record Payment</h2>
+            <p class="panel-sub">
+                Fields marked
+                <span class="required-mark">*</span>
+                are required
+            </p>
+        </div>
+
+        <button id="closePaymentDialog"
+                type="button"
+                class="icon-button"
+                aria-label="Close">
+            &times;
+        </button>
+    </div>
+
+    <form id="paymentForm" class="dialog-form">
+        <input id="paymentBillId"
+               name="billId"
+               type="hidden">
+
+        <dl class="money-list">
+            <div>
+                <dt>Invoice</dt>
+                <dd id="paymentInvoiceNumber">-</dd>
+            </div>
+
+            <div>
+                <dt>Patient</dt>
+                <dd id="paymentPatientName">-</dd>
+            </div>
+
+            <div>
+                <dt>Bill total</dt>
+                <dd id="paymentBillTotal">LKR 0.00</dd>
+            </div>
+
+            <div>
+                <dt>Already paid</dt>
+                <dd id="paymentAlreadyPaid">LKR 0.00</dd>
+            </div>
+
+            <div class="total-row">
+                <dt>Remaining balance</dt>
+                <dd id="paymentRemaining">LKR 0.00</dd>
+            </div>
+        </dl>
+
+        <div class="field">
+            <label for="paymentAmount">
+                Payment amount <span class="required-mark">*</span>
+            </label>
+            <input id="paymentAmount"
+                   name="amount"
+                   type="number"
+                   min="0.01"
+                   step="0.01"
+                   autofocus
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="paymentMethod">
+                Payment method <span class="required-mark">*</span>
+            </label>
+            <select id="paymentMethod" name="paymentMethod" required>
+                <option value="CASH">Cash</option>
+                <option value="CARD">Card</option>
+                <option value="BANK_TRANSFER">Bank transfer</option>
+                <option value="ONLINE">Online</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="paymentReferenceNumber">Reference number</label>
+            <input id="paymentReferenceNumber"
+                   name="referenceNumber"
+                   type="text"
+                   maxlength="100"
+                   placeholder="Required for non-cash payments">
+        </div>
+
+        <p id="paymentMessage"
+           class="ui-message"
+           role="status"></p>
+
+        <div class="form-actions">
+            <button id="recordPaymentButton"
+                    type="submit"
+                    class="button">
+                Record Payment
+            </button>
+
+            <button id="cancelPaymentButton"
+                    type="button"
+                    class="button button-secondary">
+                Cancel
+            </button>
+        </div>
+    </form>
+
+    <section class="payment-history">
+        <h3>Payment history</h3>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>Receipt</th>
+                    <th>Method</th>
+                    <th class="amount-column">Amount</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+
+                <tbody id="paymentHistoryRows">
+                <tr>
+                    <td colspan="4">No payments recorded.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</dialog>
+
+<!-- ==================================================== payment receipt == -->
+<dialog id="paymentReceiptDialog" class="app-dialog receipt-dialog">
+
+    <div class="printable-bill">
+
+        <div class="receipt-header">
+            <p class="receipt-brand">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3.6c-1.5-.9-3-1.3-4.3-1.3C5 2.3 3.2 4.2 3.2 7.2c0 2 .5 3.7 1 5.5.5 1.7.8 3.4 1 5.1.2 1.7.9 2.6 1.9 2.6 1.1 0 1.6-1 1.9-2.7l.5-3c.2-1.1.7-1.7 1.5-1.7s1.3.6 1.5 1.7l.5 3c.3 1.7.8 2.7 1.9 2.7 1 0 1.7-.9 1.9-2.6.2-1.7.5-3.4 1-5.1.5-1.8 1-3.5 1-5.5 0-3-1.8-4.9-4.5-4.9-1.3 0-2.8.4-4.3 1.3Z"
+                          stroke="currentColor" stroke-width="1.6"
+                          stroke-linejoin="round"/>
+                </svg>
+                Sunrise Dental Clinic
+            </p>
+
+            <h2>Payment Receipt</h2>
+
+            <p class="receipt-address">Colombo, Sri Lanka</p>
+        </div>
+
+        <dl class="receipt-information">
+            <div>
+                <dt>Receipt number</dt>
+                <dd id="receiptPaymentNumber">-</dd>
+            </div>
+
+            <div>
+                <dt>Invoice number</dt>
+                <dd id="receiptInvoiceNumber">-</dd>
+            </div>
+
+            <div>
+                <dt>Patient</dt>
+                <dd id="receiptPatientName">-</dd>
+            </div>
+
+            <div>
+                <dt>Paid at</dt>
+                <dd id="receiptPaidAt">-</dd>
+            </div>
+
+            <div>
+                <dt>Payment method</dt>
+                <dd id="receiptPaymentMethod">-</dd>
+            </div>
+
+            <div>
+                <dt>Reference</dt>
+                <dd id="receiptReferenceNumber">-</dd>
+            </div>
+        </dl>
+
+        <table class="receipt-table">
+            <tbody>
+            <tr class="receipt-total">
+                <th>Amount received</th>
+                <td id="receiptPaymentAmount">LKR 0.00</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="receipt-footer">
+            <p class="receipt-thank-you">
+                Thank you for your payment.
+            </p>
+        </div>
+    </div>
+
+    <div class="dialog-actions no-print">
+        <button id="printPaymentReceipt"
+                type="button"
+                class="button">
+            Print Receipt
+        </button>
+
+        <button id="closePaymentReceipt"
+                type="button"
+                class="button button-secondary">
+            Close
+        </button>
+    </div>
+</dialog>
+
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/billing.js"></script>
+</body>
+</html>

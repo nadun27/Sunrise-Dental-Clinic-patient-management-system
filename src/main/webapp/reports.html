@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | Sunrise Dental Clinic</title>
+
+    <link rel="stylesheet"
+          href="assets/css/reports.css">
+</head>
+
+<body>
+
+<aside id="appSidebar" class="sidebar"></aside>
+
+<main class="main-area">
+
+    <header class="page-head no-print">
+        <div>
+            <h1>Reports</h1>
+            <p class="subtitle">
+                Review appointments, patients, treatments and revenue
+                for any period.
+            </p>
+        </div>
+
+        <div class="head-actions">
+            <button id="printReportButton"
+                    type="button"
+                    class="button button-secondary">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 9V3h10v6" stroke="currentColor"
+                          stroke-width="1.7" stroke-linejoin="round"/>
+                    <path d="M7 18H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"
+                          stroke="currentColor" stroke-width="1.7"/>
+                    <path d="M7 14h10v7H7v-7Z" stroke="currentColor"
+                          stroke-width="1.7" stroke-linejoin="round"/>
+                </svg>
+                Print Report
+            </button>
+
+            <div class="head-chip">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 19V9m5 10V5m5 14v-7m5 7V8"
+                          stroke="currentColor" stroke-width="1.9"
+                          stroke-linecap="round"/>
+                </svg>
+                <span>Management reports</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="report-workspace">
+
+        <!-- =============================================== filter panel == -->
+        <section class="panel no-print">
+
+            <div class="panel-head">
+                <div class="panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="16" rx="2.5"
+                              stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor"
+                              stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Report Period</h2>
+                    <p class="panel-sub">
+                        Choose the dates the report should cover
+                    </p>
+                </div>
+            </div>
+
+            <form id="reportForm" class="report-filter">
+                <div class="field">
+                    <label for="fromDate">
+                        From date <span class="required-mark">*</span>
+                    </label>
+                    <input id="fromDate"
+                           name="from"
+                           type="date"
+                           required>
+                </div>
+
+                <div class="field">
+                    <label for="toDate">
+                        To date <span class="required-mark">*</span>
+                    </label>
+                    <input id="toDate"
+                           name="to"
+                           type="date"
+                           required>
+                </div>
+
+                <button id="generateReportButton"
+                        type="submit"
+                        class="button">
+                    Generate Report
+                </button>
+            </form>
+
+            <div class="table-footer">
+                <span></span>
+
+                <p id="reportMessage"
+                   class="ui-message"
+                   role="status"></p>
+            </div>
+        </section>
+
+        <!-- ============================================ report document == -->
+        <section id="printableReport" class="panel report-document">
+
+            <div class="report-document-header">
+                <p class="report-brand">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 3.6c-1.5-.9-3-1.3-4.3-1.3C5 2.3 3.2 4.2 3.2 7.2c0 2 .5 3.7 1 5.5.5 1.7.8 3.4 1 5.1.2 1.7.9 2.6 1.9 2.6 1.1 0 1.6-1 1.9-2.7l.5-3c.2-1.1.7-1.7 1.5-1.7s1.3.6 1.5 1.7l.5 3c.3 1.7.8 2.7 1.9 2.7 1 0 1.7-.9 1.9-2.6.2-1.7.5-3.4 1-5.1.5-1.8 1-3.5 1-5.5 0-3-1.8-4.9-4.5-4.9-1.3 0-2.8.4-4.3 1.3Z"
+                              stroke="currentColor" stroke-width="1.6"
+                              stroke-linejoin="round"/>
+                    </svg>
+                    Sunrise Dental Clinic
+                </p>
+
+                <h2>Clinic Management Report</h2>
+
+                <p class="report-address">Colombo, Sri Lanka</p>
+
+                <p id="reportPeriod" class="report-period">
+                    Select a report period
+                </p>
+            </div>
+
+            <!-- Headline figures: appointments on the first row, money on
+                 the second -->
+            <dl class="stat-grid">
+                <div class="stat-tile">
+                    <dt>Total appointments</dt>
+                    <dd id="totalAppointments">0</dd>
+                </div>
+
+                <div class="stat-tile">
+                    <dt>Completed</dt>
+                    <dd id="completedAppointments">0</dd>
+                </div>
+
+                <div class="stat-tile">
+                    <dt>Cancelled</dt>
+                    <dd id="cancelledAppointments">0</dd>
+                </div>
+
+                <div class="stat-tile">
+                    <dt>New patients</dt>
+                    <dd id="newPatients">0</dd>
+                </div>
+
+                <div class="stat-tile">
+                    <dt>Bills generated</dt>
+                    <dd id="generatedBills">0</dd>
+                </div>
+
+                <div class="stat-tile stat-money">
+                    <dt>Amount billed</dt>
+                    <dd id="billedAmount">LKR 0.00</dd>
+                </div>
+
+                <div class="stat-tile stat-money">
+                    <dt>Payments received</dt>
+                    <dd id="collectedAmount">LKR 0.00</dd>
+                </div>
+
+                <div class="stat-tile stat-money">
+                    <dt>Outstanding on period bills</dt>
+                    <dd id="outstandingAmount">LKR 0.00</dd>
+                </div>
+            </dl>
+
+            <div class="report-grid">
+
+                <section class="report-section">
+                    <h3>Appointment status summary</h3>
+
+                    <div class="table-container">
+                        <table class="data-table report-table">
+                            <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th class="figure-column">Appointments</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="appointmentStatusRows">
+                            <tr>
+                                <td colspan="2">Loading report...</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="report-section">
+                    <h3>Dentist workload</h3>
+
+                    <div class="table-container">
+                        <table class="data-table report-table">
+                            <thead>
+                            <tr>
+                                <th>Dentist</th>
+                                <th class="figure-column">Appointments</th>
+                                <th class="figure-column">Completed</th>
+                                <th class="figure-column">Rate</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="dentistRows">
+                            <tr>
+                                <td colspan="4">Loading report...</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+
+            <section class="report-section">
+                <h3>Treatment performance</h3>
+
+                <div class="table-container">
+                    <table class="data-table report-table">
+                        <thead>
+                        <tr>
+                            <th>Treatment</th>
+                            <th class="figure-column">Appointments</th>
+                            <th class="figure-column">Amount billed</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="treatmentRows">
+                        <tr>
+                            <td colspan="3">Loading report...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="report-document-footer">
+                <p>
+                    Generated by Sunrise Dental Clinic
+                    Patient Management System
+                </p>
+
+                <p id="reportGeneratedAt"></p>
+            </footer>
+
+        </section>
+
+    </div>
+</main>
+
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/reports.js"></script>
+</body>
+</html>

@@ -47,6 +47,32 @@ public class JdbcDentistDao implements DentistDao {
         }
     }
 
+    @Override
+    public Optional<Dentist> findByUserId(long userId)
+            throws SQLException {
+
+        String sql = SELECT +
+                " WHERE d.user_id = ? LIMIT 1";
+
+        try (
+                Connection connection =
+                        DatabaseConfig.getConnection();
+
+                PreparedStatement statement =
+                        connection.prepareStatement(sql)
+        ) {
+            statement.setLong(1, userId);
+
+            try (ResultSet resultSet =
+                         statement.executeQuery()) {
+
+                return resultSet.next()
+                        ? Optional.of(map(resultSet))
+                        : Optional.empty();
+            }
+        }
+    }
+
     private Dentist map(ResultSet resultSet) throws SQLException {
         return new Dentist(
                 resultSet.getLong("dentist_id"),

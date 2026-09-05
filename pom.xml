@@ -45,6 +45,13 @@
             <version>5.1.0</version>
         </dependency>
 
+        <!-- JSON payloads stored in the notification outbox -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
         <!-- Logging implementation used by HikariCP -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -58,6 +65,13 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- SMTP email delivery using Jakarta Mail -->
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>2.0.3</version>
         </dependency>
 
         <!-- Automated testing -->
