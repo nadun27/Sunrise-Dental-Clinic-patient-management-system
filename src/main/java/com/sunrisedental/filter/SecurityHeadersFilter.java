@@ -122,6 +122,7 @@ public class SecurityHeadersFilter implements Filter {
                 || path.equals("/billing.html")
                 || path.equals("/treatments.html")
                 || path.equals("/reports.html")
+                || path.equals("/staff.html")
                 || path.equals("/help.html");
     }
 

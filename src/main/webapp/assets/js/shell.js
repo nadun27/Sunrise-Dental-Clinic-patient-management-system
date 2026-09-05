@@ -3,7 +3,7 @@
 
    Renders the sidebar (brand, navigation, profile, sign-out) into
    <aside id="appSidebar"> on every signed-in page, so the markup lives in one
-   place instead of being duplicated across eight HTML files.
+   place instead of being duplicated across the signed-in HTML pages.
 
    Page scripts should await window.clinicShell.session rather than calling
    api/v1/auth/session themselves:
@@ -23,6 +23,7 @@
          BillingController / PaymentController     -> ADMIN, CASHIER
          TreatmentRecordController                 -> ADMIN, DENTIST
          ReportController                          -> ADMIN
+         StaffController                           -> ADMIN
        Dashboard and Help are available to every signed-in user.
     */
     const NAV = [
@@ -31,6 +32,12 @@
             label: "Dashboard",
             roles: null,
             icon: '<rect x="3" y="3" width="7.5" height="8.5" rx="2" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3" width="7.5" height="5" rx="2" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="10.5" width="7.5" height="10.5" rx="2" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="14" width="7.5" height="7" rx="2" stroke="currentColor" stroke-width="1.7"/>'
+        },
+        {
+            href: "staff.html",
+            label: "Staff",
+            roles: ["ADMIN"],
+            icon: '<circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 20c0-3.1 2.4-5 5.5-5s5.5 1.9 5.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="9" r="2.6" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5c3.3-.6 6 1.2 6 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
         },
         {
             href: "patients.html",

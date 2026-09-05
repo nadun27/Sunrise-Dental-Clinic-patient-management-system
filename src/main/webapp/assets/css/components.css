@@ -113,6 +113,7 @@ input[type="email"],
 input[type="date"],
 input[type="datetime-local"],
 input[type="number"],
+input[type="password"],
 input[type="search"],
 select,
 textarea {
@@ -137,6 +138,7 @@ input[type="email"],
 input[type="date"],
 input[type="datetime-local"],
 input[type="number"],
+input[type="password"],
 input[type="search"],
 select {
     min-height: 46px;

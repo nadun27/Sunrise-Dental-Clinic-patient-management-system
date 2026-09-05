@@ -10,6 +10,7 @@ const todayDate = document.getElementById("todayDate");
 
 /* Same permission matrix the shell uses, applied to the cards. */
 const CARD_ACCESS = {
+    Staff: ["ADMIN"],
     Patients: ["ADMIN", "RECEPTIONIST"],
     Appointments: ["ADMIN", "RECEPTIONIST"],
     Treatments: ["ADMIN", "DENTIST"],
